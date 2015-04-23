@@ -3,7 +3,7 @@
 namespace Moya.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-     class RunTimesAttribute : Attribute
+    public class RunTimesAttribute : Attribute
     {
         int _times;
 
