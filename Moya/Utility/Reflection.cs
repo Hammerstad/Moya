@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using Moya.Attributes;
-
-namespace Moya.Utility
+﻿namespace Moya.Utility
 {
+    using System;
+    using System.Reflection;
+    using Attributes;
+
     public class Reflection
     {
         public static bool TypeHasMoyaAttribute(MethodInfo type)

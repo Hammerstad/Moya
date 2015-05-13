@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Moya.Attributes
+﻿namespace Moya.Attributes
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class DurationShouldBeAttribute : Attribute, IMoyaAttribute
     {
