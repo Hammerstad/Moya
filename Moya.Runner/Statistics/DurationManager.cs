@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Concurrent;
-
-namespace Moya.Statistics
+﻿namespace Moya.Runner.Statistics
 {
+    using System;
+    using System.Collections.Concurrent;
+
     public class DurationManager : IDurationManager
     {
         private static readonly Lazy<IDurationManager> defaultInstance;
 
-        private readonly ConcurrentDictionary<int, long> methodDurationMapping; 
+        private ConcurrentDictionary<int, long> methodDurationMapping;
 
-		static DurationManager() {
+        public ConcurrentDictionary<int, long> MethodDurationMapping
+        {
+            get { return methodDurationMapping; }
+            private set { methodDurationMapping = value; }
+        }
+
+        static DurationManager() {
             defaultInstance = new Lazy<IDurationManager>(() => new DurationManager());
 		}
 
         private DurationManager()
         {
-            methodDurationMapping = new ConcurrentDictionary<int, long>();
+            MethodDurationMapping = new ConcurrentDictionary<int, long>();
 		}
 
         public static IDurationManager DefaultInstance { get { return defaultInstance.Value; } }
@@ -28,9 +34,8 @@ namespace Moya.Statistics
             return returnvalue;
         }
 
-        public void RegisterDuration(int hashcode, long duration)
+        public void AddOrUpdateDuration(int hashcode, long duration)
         {
-            Console.WriteLine("{0} {1}",hashcode,duration);
             methodDurationMapping.AddOrUpdate(hashcode, duration, (k, v) => v);
         }
     }

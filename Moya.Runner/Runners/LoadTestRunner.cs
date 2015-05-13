@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading;
-
-namespace Moya.Runners
+﻿namespace Moya.Runner.Runners
 {
+    using System;
+    using System.Reflection;
+    using System.Threading;
+
     public class LoadTestRunner : ILoadTestRunner
     {
         private int m_times = 1;
@@ -50,6 +51,26 @@ namespace Moya.Runners
                     for (var j = 0; j < Times; j++)
                     {
                         action();
+                    }
+                    countdownEvent.Signal();
+                }).Start();
+            }
+
+            countdownEvent.Wait();
+        }
+
+        public void Execute(MethodInfo methodInfo, Type type)
+        {
+            var countdownEvent = new CountdownEvent(Runners);
+
+            for (var i = 0; i < Runners; i++)
+            {
+                new Thread(delegate()
+                {
+                    var instance = Activator.CreateInstance(type);
+                    for (var j = 0; j < Times; j++)
+                    {
+                        methodInfo.Invoke(instance, null);
                     }
                     countdownEvent.Signal();
                 }).Start();

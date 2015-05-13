@@ -1,37 +1,24 @@
 ﻿using System;
-using Moya.Runners;
-using Moya.Statistics;
+using Moya.Runner;
 
 namespace ConsoleApplication1
 {
     class Program
     {
-        public static int Add(int a, int b)
-        {
-            return a + b;
-        }
-
-        public static void Add(int a, int b, int c)
-        {
-        }
-
         public static void Main()
         {
-            var decoratedLoadTestRunner = new TimerDecorator(new LoadTestRunner
-            {
-                Runners = 100,
-                Times = 100
-            });
-
-            Action action = () => Add(2, 3, 4);
-            Func<int> function = () => Add(2, 3);
-            decoratedLoadTestRunner.Execute(action);
-            decoratedLoadTestRunner.Execute(function);
-
-            Console.WriteLine(DurationManager.DefaultInstance.GetDurationFromHashcode(action.GetHashCode()));
-            Console.WriteLine(DurationManager.DefaultInstance.GetDurationFromHashcode(function.GetHashCode()));
-
-            Console.Read();
-        } 
+            //OldITestMetadataContainer container = new OldTestMetadataContainer();
+            //IAttributeDiscoverer discoverer = new AttributeDiscoverer(container);
+            //discoverer.DiscoverAttributesForClass(typeof(TestClass));
+            //OldIAttributeExecuter executer = new OldAttributeExecuter(container);
+            //executer.RunAll();
+            //Console.Read();
+            //Console.Clear();
+            //foreach (var method in DurationManager.DefaultInstance.MethodDurationMapping)
+            //{
+            //    Console.WriteLine(method.Key + "\t" + method.Value);
+            //}
+            //Console.Read();
+        }
     }
 }
