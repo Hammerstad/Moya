@@ -11,7 +11,7 @@ namespace Moya.Runner.Console
             ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
             testCaseExecuter.RunTest(new TestCase
             {
-                ClassName = "TestClass",
+                ClassName = "ConsoleApplication1.TestClass",
                 FilePath = @"C:\Users\emh\cygwin64\home\emh\workspace\Moya\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe",
                 Id = Guid.NewGuid(),
                 MethodName = "AMethod"
