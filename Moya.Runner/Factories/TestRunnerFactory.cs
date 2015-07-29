@@ -24,7 +24,8 @@
 
             Type typeOfTestRunner = attributeTestRunnerMapping[type];
             ITestRunner instance = (ITestRunner)Activator.CreateInstance(typeOfTestRunner);
-            return instance;
+            ITestRunner timerDecoratedInstance = new TimerDecorator(instance);
+            return timerDecoratedInstance;
         }
     }
 }
