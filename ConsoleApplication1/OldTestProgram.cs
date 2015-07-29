@@ -18,7 +18,7 @@ namespace ConsoleApplication1
         {
         }
 
-        [LoadTest(Runners = 2, Times = 5)]
+        [LoadTest(Threads = 2, Times = 5)]
         public void Test123()
         {
 
@@ -37,7 +37,7 @@ namespace ConsoleApplication1
                 {
                     LoadTestAttribute a = (LoadTestAttribute)attr;
                     System.Console.WriteLine("Author information for {0}", t);
-                    System.Console.WriteLine("Times: {0} \t::\t Runners: {1}", a.Times, a.Runners);
+                    System.Console.WriteLine("Times: {0} \t::\t Runners: {1}", a.Times, a.Threads);
                 }
             }
         }

@@ -15,6 +15,11 @@
 
         public void AddTestCaseAndMethod(TestCase testCase, MethodInfo methodInfo)
         {
+            if (methodsWithMoyaAttributes.ContainsKey(testCase))
+            {
+                return;
+            }
+
             methodsWithMoyaAttributes.Add(testCase, methodInfo);
         }
 

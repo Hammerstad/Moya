@@ -1,4 +1,4 @@
-﻿namespace Moya.Runner.Datamodels
+﻿namespace Moya.Runner.Models
 {
     public enum TestOutcome
     {

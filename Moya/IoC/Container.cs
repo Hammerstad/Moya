@@ -1,7 +1,8 @@
-﻿namespace Moya
+﻿namespace Moya.IoC
 {
     using System;
     using System.Collections.Generic;
+    using Exceptions;
 
     public class Container : IContainer
     {
@@ -35,6 +36,11 @@
 
         public TClass Register<TInterface, TClass>(TClass element) where TClass : class, TInterface 
         {
+            if (Contains<TInterface>())
+            {
+                throw new ContainerException(String.Format("Container already contains {0}", typeof(TInterface).FullName));
+            }
+
 			services.Add(typeof(TInterface), element);
             return element;
         }
@@ -49,15 +55,15 @@
             return services.ContainsKey(typeof(TInterface));
         }
 
-        public TInterface RegisterAndResolve<TInterface, TClass>(TClass element) where TClass : class, TInterface
+        public TClass TryRegister<TInterface, TClass>(TClass element) where TClass : class, TInterface
         {
             if (Contains<TInterface>())
             {
-                return Resolve<TInterface>();
+                return (TClass)Resolve<TInterface>();
             }
 
             Register<TInterface, TClass>(element);
-            return Resolve<TInterface>();
+            return (TClass)Resolve<TInterface>();
         }
     }
 }

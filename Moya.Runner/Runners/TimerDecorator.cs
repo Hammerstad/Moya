@@ -5,20 +5,17 @@
     using System.Reflection;
     using Statistics;
 
-    public class TimerDecorator
+    public class TimerDecorator : ITestRunner
     {
-        public TimerDecorator()
-        {
-            duration = DurationManager.DefaultInstance;
-        }
+        private readonly IDurationManager duration;
 
-        public TimerDecorator(ITestRunner testRunner) : this()
+        public ITestRunner DecoratedTestRunner { get; set; }
+        
+        public TimerDecorator(ITestRunner testRunner)
         {
             DecoratedTestRunner = testRunner;
+            duration = DurationManager.DefaultInstance;
         }
-
-        private readonly IDurationManager duration;
-        public ITestRunner DecoratedTestRunner { get; set; }
 
         public void Execute<T>(Func<T> function)
         {

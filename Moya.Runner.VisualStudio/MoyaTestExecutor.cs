@@ -1,84 +1,90 @@
-﻿namespace Moya.Runner.VisualStudio
-{
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
+﻿//using System.Diagnostics;
 
-    [ExtensionUri(Constants.ExecutorUriString)]
-    public class MoyaTestExecutor : ITestExecutor
-    {
-        private bool _cancelled;
-        private readonly IAttributeExecuter _attributeExecuter;
-        private readonly IContainer container;
-        private readonly ITestContainer testContainer;
+//namespace Moya.Runner.VisualStudio
+//{
+//    using System.Collections.Generic;
+//    using System.Reflection;
+//    using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+//    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
+
+//    [ExtensionUri(Constants.ExecutorUriString)]
+//    public class MoyaTestExecutor : ITestExecutor
+//    {
+//        private bool cancelled;
+//        private readonly ITestCaseExecuter attributeExecuter;
+//        private readonly ITestContainer testContainer;
         
-        public MoyaTestExecutor()
-        {
-            _attributeExecuter = new AttributeExecuter();
-            container = Container.DefaultInstance;
-            testContainer = container.Resolve<ITestContainer>();
-        }
+//        public MoyaTestExecutor()
+//        {
+//            attributeExecuter = new TestCaseExecuter();
+//            testContainer = new TestContainer();
+//        }
 
-        public void RunTests(IEnumerable<TestCase> tests, IRunContext runContext, IFrameworkHandle frameworkHandle)
-        {
-            _cancelled = false;
+//        public void RunTests(IEnumerable<TestCase> tests, IRunContext runContext, IFrameworkHandle frameworkHandle)
+//        {
+//            Debugger.Launch();
+//            cancelled = false;
 
-            foreach (var testCase in tests)
-            {
-                if (_cancelled)
-                {
-                    break;
-                }
+//            foreach (var testCase in tests)
+//            {
+//                if (cancelled)
+//                {
+//                    break;
+//                }
 
-                MethodInfo methodInfo = testContainer.GetMethodInfoFromTestCase(testCase);
-                var moyaTestResult = _attributeExecuter.RunTest(methodInfo);
-                TestResult testResult = ConvertToTestResult(testCase, moyaTestResult);
-                frameworkHandle.RecordResult(testResult);
-            }
-        }
+//                MethodInfo methodInfo = GetMethodInfoFromTestCase(testCase);
+//                var moyaTestResult = attributeExecuter.RunTest(methodInfo);
+//                TestResult testResult = ConvertToTestResult(testCase, moyaTestResult);
+//                frameworkHandle.RecordResult(testResult);
+//            }
+//        }
 
-        public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
-        {
-            IList<TestCase> tests = container.Resolve<IList<TestCase>>();
+//        public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
+//        {
+//            IList<TestCase> tests = MoyaTestDiscoverer.GetTests(sources, null, testContainer);
 
-            if (tests == null)
-            {
-                return;
-            }
+//            if (tests == null)
+//            {
+//                return;
+//            }
 
-            RunTests(tests, runContext, frameworkHandle);
-        }
+//            RunTests(tests, runContext, frameworkHandle);
+//        }
 
-        public void Cancel()
-        {
-            _cancelled = true;
-        }
+//        public void Cancel()
+//        {
+//            cancelled = true;
+//        }
 
-        private static TestResult ConvertToTestResult(TestCase testResult, Datamodels.TestResult moyaTestResult)
-        {
-            return new TestResult(testResult)
-            {
-                ErrorMessage = moyaTestResult.ErrorMessage,
-                Outcome = ConvertToOutcome(moyaTestResult.TestOutcome)
-            };
-        }
+//        private static TestResult ConvertToTestResult(TestCase testResult, Models.TestResult moyaTestResult)
+//        {
+//            return new TestResult(testResult)
+//            {
+//                ErrorMessage = moyaTestResult.ErrorMessage,
+//                Outcome = ConvertToOutcome(moyaTestResult.TestOutcome)
+//            };
+//        }
 
-        private static TestOutcome ConvertToOutcome(Datamodels.TestOutcome testOutcome)
-        {
-            switch (testOutcome)
-            {
-                case Datamodels.TestOutcome.Failure:
-                    return TestOutcome.Failed;
-                case Datamodels.TestOutcome.Ignored:
-                    return TestOutcome.Skipped;
-                case Datamodels.TestOutcome.Success:
-                    return TestOutcome.Passed;
-                case Datamodels.TestOutcome.NotFound:
-                    return TestOutcome.NotFound;
-                default:
-                    return TestOutcome.None;
-            }
-        }
-    }
-}
+//        private static TestOutcome ConvertToOutcome(Models.TestOutcome testOutcome)
+//        {
+//            switch (testOutcome)
+//            {
+//                case Models.TestOutcome.Failure:
+//                    return TestOutcome.Failed;
+//                case Models.TestOutcome.Ignored:
+//                    return TestOutcome.Skipped;
+//                case Models.TestOutcome.Success:
+//                    return TestOutcome.Passed;
+//                case Models.TestOutcome.NotFound:
+//                    return TestOutcome.NotFound;
+//                default:
+//                    return TestOutcome.None;
+//            }
+//        }
+
+//        private MethodInfo GetMethodInfoFromTestCase(TestCase testCase)
+//        {
+//            return testContainer.GetMethodInfoFromTestCase(testCase);
+//        }
+//    }
+//}

@@ -1,26 +1,27 @@
-﻿using System;
-using Moya.Attributes;
-
-namespace ConsoleApplication1
+﻿namespace ConsoleApplication1
 {
+    using System;
+    using Moya.Attributes;
+
     public class TestClass
     {
-        [LoadTest(Runners = 15)]
-        [DurationShouldBe(GreaterThanOrEqualTo = 1)]
+        [LoadTest(Threads = 15)]
+        [Result(SlowerThan = 1)]
         public void AMethod()
         {
             Console.WriteLine("A");
         }
 
-        [LoadTest(Runners = 6, Times = 1000)]
-        [DurationShouldBe(LessThanOrEqualTo = 100)]
+        [LoadTest(Threads = 6, Times = 1000)]
+        [Result(QuickerThan = 100)]
         public void BMethod()
         {
             Console.WriteLine("B");
         }
 
-        [LoadTest(Runners = 13, Times = 500)]
-        [DurationShouldBe(GreaterThanOrEqualTo = 1, LessThanOrEqualTo = 100)]
+        [Warmup(Duration = 10)]
+        [LoadTest(Threads = 13, Times = 500)]
+        [Result(SlowerThan = 1, QuickerThan = 100)]
         public void CMethod()
         {
             Console.WriteLine("C");

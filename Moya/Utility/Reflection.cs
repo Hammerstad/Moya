@@ -1,20 +1,13 @@
 ﻿namespace Moya.Utility
 {
-    using System;
     using System.Reflection;
     using Attributes;
 
     public class Reflection
     {
-        public static bool TypeHasMoyaAttribute(MethodInfo type)
+        public static bool MethodInfoHasMoyaAttribute(MethodInfo methodInfo)
         {
-            return MethodInfoHasAttribute(type, typeof(LoadTestAttribute))
-                    || MethodInfoHasAttribute(type, typeof(DurationShouldBeAttribute));
+            return methodInfo.GetCustomAttributes(typeof(MoyaAttribute), false).Length > 0;
         }
-
-        public static bool MethodInfoHasAttribute(MethodInfo info, Type type)
-        {
-            return info.GetCustomAttributes(type, false).Length > 0;
-        } 
     }
 }

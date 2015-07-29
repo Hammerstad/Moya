@@ -1,4 +1,4 @@
-﻿namespace Moya
+﻿namespace Moya.IoC
 {
     public interface IContainer
     {
@@ -10,6 +10,6 @@
 
         bool Contains<TInterface>();
 
-        TInterface RegisterAndResolve<TInterface, TClass>(TClass element) where TClass : class, TInterface;
+        TClass TryRegister<TInterface, TClass>(TClass element) where TClass : class, TInterface;
     }
 }
