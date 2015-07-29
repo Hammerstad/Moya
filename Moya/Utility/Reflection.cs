@@ -13,7 +13,7 @@
 
         public static bool TypeIsMoyaAttribute(Type type)
         {
-            return type.IsAssignableFrom(typeof(MoyaAttribute));
+            return typeof(MoyaAttribute).IsAssignableFrom(type);
         }
     }
 }
