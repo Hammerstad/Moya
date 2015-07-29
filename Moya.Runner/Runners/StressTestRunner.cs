@@ -61,6 +61,8 @@
 
         public void Execute(MethodInfo methodInfo, Type type)
         {
+            type = type ?? methodInfo.DeclaringType;
+
             var countdownEvent = new CountdownEvent(Runners);
 
             for (var i = 0; i < Runners; i++)
