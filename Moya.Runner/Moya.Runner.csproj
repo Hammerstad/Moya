@@ -48,9 +48,9 @@
     <Compile Include="Utility\AssemblyHelper.cs" />
     <Compile Include="ITestCaseExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runners\ILoadTestRunner.cs" />
+    <Compile Include="Runners\IStressTestRunner.cs" />
     <Compile Include="Runners\ITestRunner.cs" />
-    <Compile Include="Runners\LoadTestRunner.cs" />
+    <Compile Include="Runners\StressTestRunner.cs" />
     <Compile Include="Runners\TimerDecorator.cs" />
     <Compile Include="Statistics\DurationManager.cs" />
     <Compile Include="Statistics\IDurationManager.cs" />

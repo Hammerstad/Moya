@@ -1,6 +1,6 @@
 ﻿namespace Moya.Runner.Runners
 {
-    public interface ILoadTestRunner : ITestRunner
+    public interface IStressTestRunner : ITestRunner
     {
         int Runners { get; set; }
         int Times { get; set; }

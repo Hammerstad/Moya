@@ -1,11 +1,10 @@
-﻿using Moya.Extensions;
-
-namespace Moya.Runner.Factories
+﻿namespace Moya.Runner.Factories
 {
     using System;
     using System.Collections.Generic;
     using Attributes;
     using Exceptions;
+    using Extensions;
     using Runners;
 
     public class TestRunnerFactory : ITestRunnerFactory
@@ -21,7 +20,7 @@ namespace Moya.Runner.Factories
         {
             attributeTestRunnerMapping = new Dictionary<Type, Type>
             {
-                { typeof(StressAttribute), typeof(LoadTestRunner) }
+                { typeof(StressAttribute), typeof(StressTestRunner) }
             };
         }
 

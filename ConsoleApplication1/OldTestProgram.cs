@@ -44,7 +44,7 @@ namespace ConsoleApplication1
 
         public static void TestMethod1()
         {
-            var decoratedLoadTestRunner = new TimerDecorator(new LoadTestRunner
+            var decoratedLoadTestRunner = new TimerDecorator(new StressTestRunner
             {
                 Runners = 100,
                 Times = 100

@@ -4,7 +4,7 @@
     using System.Reflection;
     using System.Threading;
 
-    public class LoadTestRunner : ILoadTestRunner
+    public class StressTestRunner : IStressTestRunner
     {
         private int m_times = 1;
         private int m_runners = 1;
