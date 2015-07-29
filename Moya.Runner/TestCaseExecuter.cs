@@ -1,5 +1,6 @@
 ﻿namespace Moya.Runner
 {
+    using System.Collections.Generic;
     using System.Reflection;
     using Attributes;
     using Factories;
@@ -9,19 +10,15 @@
 
     public class TestCaseExecuter : ITestCaseExecuter
     {
-        private readonly ITestRunnerFactory testRunnerFactory;
+        private readonly ITestRunnerFactory testRunnerFactory= new TestRunnerFactory();
+        private readonly ICollection<ITestResult> testResults = new List<ITestResult>();
 
-        public TestCaseExecuter()
-        {
-            testRunnerFactory = new TestRunnerFactory();
-        }
-
-        public TestResult RunTest(TestCase testCase)
+        public ICollection<ITestResult> RunTest(TestCase testCase)
         {
             RunPreTestAttributes(testCase);
             RunTestAttributes(testCase);
             RunPostTestAttributes(testCase);
-            return new TestResult();
+            return testResults;
         }
 
         private void RunPreTestAttributes(TestCase testCase)
@@ -34,7 +31,7 @@
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
             ITestRunner loadTestRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
-            var result = loadTestRunner.Execute(methodInfo);
+            testResults.Add(loadTestRunner.Execute(methodInfo));
         }
 
         private void RunPostTestAttributes(TestCase testCase)

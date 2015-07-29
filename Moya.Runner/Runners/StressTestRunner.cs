@@ -1,4 +1,9 @@
-﻿namespace Moya.Runner.Runners
+﻿using System.Linq;
+using Moya.Attributes;
+using Moya.Exceptions;
+using Moya.Extensions;
+
+namespace Moya.Runner.Runners
 {
     using System;
     using System.Reflection;
@@ -8,71 +13,27 @@
     public class StressTestRunner : IStressTestRunner
     {
         private int m_times = 1;
-        private int m_runners = 1;
+        private int m_users = 1;
 
         public int Times
         {
             get { return m_times; }
-            set { m_times = value; }
+            private set { m_times = value; }
         }
 
-        public int Runners
+        public int Users
         {
-            get { return m_runners; }
-            set { m_runners = value; }
+            get { return m_users; }
+            private set { m_users = value; }
         }
 
-        public ITestResult Execute<T>(Func<T> function)
+        public ITestResult Execute(MethodInfo methodInfo)
         {
-            var countdownEvent = new CountdownEvent(Runners);
+            var type = methodInfo.DeclaringType;
+            SetUsersAndTimes(methodInfo);
+            var countdownEvent = new CountdownEvent(Users);
 
-            for (var i = 0; i < Runners; i++)
-            {
-                new Thread(delegate()
-                {
-                    for (var j = 0; j < Times; j++)
-                    {
-                        function();
-                    }
-                    countdownEvent.Signal();
-                }).Start();
-            }
-
-            countdownEvent.Wait();
-
-            //TODO: Implement
-            return null;
-        }
-
-        public ITestResult Execute(Action action)
-        {
-            var countdownEvent = new CountdownEvent(Runners);
-
-            for (var i = 0; i < Runners; i++)
-            {
-                new Thread(delegate()
-                {
-                    for (var j = 0; j < Times; j++)
-                    {
-                        action();
-                    }
-                    countdownEvent.Signal();
-                }).Start();
-            }
-
-            countdownEvent.Wait();
-
-            //TODO: Implement
-            return null;
-        }
-
-        public ITestResult Execute(MethodInfo methodInfo, Type type)
-        {
-            type = type ?? methodInfo.DeclaringType;
-
-            var countdownEvent = new CountdownEvent(Runners);
-
-            for (var i = 0; i < Runners; i++)
+            for (var i = 0; i < Users; i++)
             {
                 new Thread(delegate()
                 {
@@ -91,6 +52,21 @@
             {
                 TestOutcome = TestOutcome.Success
             };
+        }
+
+        private void SetUsersAndTimes(MethodInfo methodInfo)
+        {
+            StressAttribute stressAttribute = methodInfo
+                .GetCustomAttributes(typeof(MoyaAttribute), true)
+                .First(x => x.GetType() == typeof(StressAttribute)) as StressAttribute;
+            
+            if (stressAttribute == null)
+            {
+                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(StressAttribute), methodInfo));
+            }
+
+            Users = stressAttribute.Users;
+            Times = stressAttribute.Times;
         }
     }
 }

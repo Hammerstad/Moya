@@ -1,9 +1,10 @@
-﻿using Moya.Models;
-
-namespace Moya.Runner
+﻿namespace Moya.Runner
 {
+    using System.Collections.Generic;
+    using Models;
+
     public interface ITestCaseExecuter
     {
-        TestResult RunTest(TestCase testCase);
+        ICollection<ITestResult> RunTest(TestCase testCase);
     }
 }
