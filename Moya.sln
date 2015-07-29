@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Runner.Console", "Moya
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Dummy.Test.Project", "Moya.Dummy.Test.Project\Moya.Dummy.Test.Project.csproj", "{0E547653-FE41-4C48-AF2B-7946A83E5741}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runners", "Runners", "{D16A358C-738C-43FA-9C46-ECD9BBAD02BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dummy", "Dummy", "{BC02CEB9-AD96-4DAF-9288-BF11D0EE0475}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB17D203-705A-4507-B5C3-00FAB85DCCAC} = {D16A358C-738C-43FA-9C46-ECD9BBAD02BE}
+		{FB5A01F8-352D-4C83-A5EE-91534BD160EC} = {D16A358C-738C-43FA-9C46-ECD9BBAD02BE}
+		{512FE46C-614B-43E2-8FC7-8BB42BD70931} = {D16A358C-738C-43FA-9C46-ECD9BBAD02BE}
+		{0E547653-FE41-4C48-AF2B-7946A83E5741} = {BC02CEB9-AD96-4DAF-9288-BF11D0EE0475}
 	EndGlobalSection
 EndGlobal
