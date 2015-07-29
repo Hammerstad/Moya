@@ -1,7 +1,7 @@
-﻿namespace ConsoleApplication1
+﻿namespace Moya.Dummy.Test.Project
 {
     using System;
-    using Moya.Attributes;
+    using Attributes;
 
     public class TestClass
     {

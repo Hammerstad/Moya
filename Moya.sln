@@ -5,13 +5,13 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya", "Moya\Moya.csproj", "{1D9B9EB8-E233-46B6-90E0-6612D6275542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{5EE76057-E376-4277-A3D0-A1365DBE33B1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Runner", "Moya.Runner\Moya.Runner.csproj", "{FB17D203-705A-4507-B5C3-00FAB85DCCAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Runner.VisualStudio", "Moya.Runner.VisualStudio\Moya.Runner.VisualStudio.csproj", "{512FE46C-614B-43E2-8FC7-8BB42BD70931}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Runner.Console", "Moya.Runner.Console\Moya.Runner.Console.csproj", "{FB5A01F8-352D-4C83-A5EE-91534BD160EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moya.Dummy.Test.Project", "Moya.Dummy.Test.Project\Moya.Dummy.Test.Project.csproj", "{0E547653-FE41-4C48-AF2B-7946A83E5741}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{1D9B9EB8-E233-46B6-90E0-6612D6275542}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D9B9EB8-E233-46B6-90E0-6612D6275542}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D9B9EB8-E233-46B6-90E0-6612D6275542}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5EE76057-E376-4277-A3D0-A1365DBE33B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EE76057-E376-4277-A3D0-A1365DBE33B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EE76057-E376-4277-A3D0-A1365DBE33B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EE76057-E376-4277-A3D0-A1365DBE33B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB17D203-705A-4507-B5C3-00FAB85DCCAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB17D203-705A-4507-B5C3-00FAB85DCCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB17D203-705A-4507-B5C3-00FAB85DCCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{FB5A01F8-352D-4C83-A5EE-91534BD160EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB5A01F8-352D-4C83-A5EE-91534BD160EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB5A01F8-352D-4C83-A5EE-91534BD160EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E547653-FE41-4C48-AF2B-7946A83E5741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E547653-FE41-4C48-AF2B-7946A83E5741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E547653-FE41-4C48-AF2B-7946A83E5741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E547653-FE41-4C48-AF2B-7946A83E5741}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

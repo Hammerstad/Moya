@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5EE76057-E376-4277-A3D0-A1365DBE33B1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{0E547653-FE41-4C48-AF2B-7946A83E5741}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>Moya.Dummy.Test.Project</RootNamespace>
+    <AssemblyName>Moya.Dummy.Test.Project</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,29 +37,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit.assert">
-      <HintPath>..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OldTestProgram.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Moya.Runner.VisualStudio\Moya.Runner.VisualStudio.csproj">
-      <Project>{512fe46c-614b-43e2-8fc7-8bb42bd70931}</Project>
-      <Name>Moya.Runner.VisualStudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Moya.Runner\Moya.Runner.csproj">
-      <Project>{FB17D203-705A-4507-B5C3-00FAB85DCCAC}</Project>
-      <Name>Moya.Runner</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Moya\Moya.csproj">
       <Project>{1D9B9EB8-E233-46B6-90E0-6612D6275542}</Project>
       <Name>Moya</Name>
