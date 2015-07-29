@@ -5,7 +5,7 @@
     using Attributes;
     using Exceptions;
     using Extensions;
-    using Moya.Utility;
+    using Utility;
     using Runners;
 
     public class TestRunnerFactory : ITestRunnerFactory

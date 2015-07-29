@@ -51,6 +51,7 @@
     <Compile Include="Models\TestResult.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\AssemblyHelper.cs" />
     <Compile Include="Utility\Reflection.cs" />
     <Compile Include="Utility\SerializationHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

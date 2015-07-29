@@ -1,4 +1,4 @@
-﻿namespace Moya.Runner.Utility
+﻿namespace Moya.Utility
 {
     using System;
     using System.Reflection;
