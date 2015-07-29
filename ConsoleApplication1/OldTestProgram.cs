@@ -18,7 +18,7 @@ namespace ConsoleApplication1
         {
         }
 
-        [LoadTest(Threads = 2, Times = 5)]
+        [Stress(Users = 2, Times = 5)]
         public void Test123()
         {
 
@@ -33,11 +33,11 @@ namespace ConsoleApplication1
             // Displaying output. 
             foreach (System.Attribute attr in attrs)
             {
-                if (attr is LoadTestAttribute)
+                if (attr is StressAttribute)
                 {
-                    LoadTestAttribute a = (LoadTestAttribute)attr;
+                    StressAttribute a = (StressAttribute)attr;
                     System.Console.WriteLine("Author information for {0}", t);
-                    System.Console.WriteLine("Times: {0} \t::\t Runners: {1}", a.Times, a.Threads);
+                    System.Console.WriteLine("Times: {0} \t::\t Runners: {1}", a.Times, a.Users);
                 }
             }
         }

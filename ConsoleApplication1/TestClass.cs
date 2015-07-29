@@ -5,14 +5,14 @@
 
     public class TestClass
     {
-        [LoadTest(Threads = 15)]
+        [Stress(Users = 15)]
         [Result(SlowerThan = 1)]
         public void AMethod()
         {
             Console.WriteLine("A");
         }
 
-        [LoadTest(Threads = 6, Times = 1000)]
+        [Stress(Users = 6, Times = 1000)]
         [Result(QuickerThan = 100)]
         public void BMethod()
         {
@@ -20,7 +20,7 @@
         }
 
         [Warmup(Duration = 10)]
-        [LoadTest(Threads = 13, Times = 500)]
+        [Stress(Users = 13, Times = 500)]
         [Result(SlowerThan = 1, QuickerThan = 100)]
         public void CMethod()
         {

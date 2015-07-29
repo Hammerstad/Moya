@@ -1,6 +1,7 @@
 ﻿namespace Moya.Attributes
 {
     using System;
+    using Models;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class ResultAttribute : MoyaAttribute

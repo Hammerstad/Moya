@@ -3,15 +3,15 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class LoadTestAttribute : MoyaAttribute
+    public class StressAttribute : MoyaAttribute
     {
-        private int threads = 1;
+        private int users = 1;
         private int times = 1;
 
-        public int Threads
+        public int Users
         {
-            get { return threads; }
-            set { threads = value; }
+            get { return users; }
+            set { users = value; }
         }
 
         public int Times

@@ -34,7 +34,7 @@ namespace Moya.Runner
         {
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
-            ITestRunner loadTestRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LoadTestAttribute));
+            ITestRunner loadTestRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
             loadTestRunner.Execute(methodInfo);
         }
 

@@ -39,8 +39,8 @@
   <ItemGroup>
     <Compile Include="Attributes\ResultAttribute.cs" />
     <Compile Include="Attributes\MoyaAttribute.cs" />
-    <Compile Include="Attributes\LoadTestAttribute.cs" />
-    <Compile Include="Attributes\Scalability.cs" />
+    <Compile Include="Attributes\StressAttribute.cs" />
+    <Compile Include="Models\Scalability.cs" />
     <Compile Include="Attributes\WarmupAttribute.cs" />
     <Compile Include="IoC\Container.cs" />
     <Compile Include="Exceptions\ContainerException.cs" />

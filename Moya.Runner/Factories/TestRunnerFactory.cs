@@ -21,7 +21,7 @@ namespace Moya.Runner.Factories
         {
             attributeTestRunnerMapping = new Dictionary<Type, Type>
             {
-                { typeof(LoadTestAttribute), typeof(LoadTestRunner) }
+                { typeof(StressAttribute), typeof(LoadTestRunner) }
             };
         }
 

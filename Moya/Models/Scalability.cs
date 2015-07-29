@@ -1,4 +1,4 @@
-﻿namespace Moya.Attributes
+﻿namespace Moya.Models
 {
     public enum Scalability
     {

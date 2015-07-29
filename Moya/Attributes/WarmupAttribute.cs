@@ -1,7 +1,5 @@
 ﻿namespace Moya.Attributes
 {
-    using System;
-
     public class WarmupAttribute : MoyaAttribute
     {
         private int times = 1;
