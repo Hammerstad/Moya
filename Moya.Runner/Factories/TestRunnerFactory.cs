@@ -5,6 +5,7 @@
     using Attributes;
     using Exceptions;
     using Extensions;
+    using Moya.Utility;
     using Runners;
 
     public class TestRunnerFactory : ITestRunnerFactory
@@ -26,7 +27,7 @@
 
         public ITestRunner GetTestRunnerForAttribute(Type type)
         {
-            if (AttributeIsNotMoyaAttribute(type))
+            if (!Reflection.TypeIsMoyaAttribute(type))
             {
                 throw new MoyaException("Unable to provide moya test runner for type {0}".FormatWith(type));
             }
@@ -34,11 +35,6 @@
             Type typeOfTestRunner = attributeTestRunnerMapping[type];
             ITestRunner instance = (ITestRunner)Activator.CreateInstance(typeOfTestRunner);
             return instance;
-        }
-
-        private static bool AttributeIsNotMoyaAttribute(Type type)
-        {
-            return !type.IsAssignableFrom(typeof(MoyaAttribute));
         }
     }
 }
