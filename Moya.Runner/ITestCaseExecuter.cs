@@ -1,7 +1,7 @@
-﻿namespace Moya.Runner
-{
-    using Moya.Runner.Models;
+﻿using Moya.Models;
 
+namespace Moya.Runner
+{
     public interface ITestCaseExecuter
     {
         TestResult RunTest(TestCase testCase);

@@ -45,12 +45,9 @@
     <Compile Include="Factories\ITestRunnerFactory.cs" />
     <Compile Include="Factories\TestRunnerFactory.cs" />
     <Compile Include="TestCaseExecuter.cs" />
-    <Compile Include="Models\TestCase.cs" />
     <Compile Include="Utility\AssemblyHelper.cs" />
     <Compile Include="ITestCaseExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\TestOutcome.cs" />
-    <Compile Include="Models\TestResult.cs" />
     <Compile Include="Runners\ILoadTestRunner.cs" />
     <Compile Include="Runners\ITestRunner.cs" />
     <Compile Include="Runners\LoadTestRunner.cs" />

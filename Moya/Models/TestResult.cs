@@ -1,4 +1,4 @@
-﻿namespace Moya.Runner.Models
+﻿namespace Moya.Models
 {
     public class TestResult
     {
