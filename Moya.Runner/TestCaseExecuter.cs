@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using Moya.Models;
-using Moya.Runner.Utility;
-
-namespace Moya.Runner
+﻿namespace Moya.Runner
 {
+    using System.Reflection;
     using Attributes;
     using Factories;
+    using Models;
     using Runners;
+    using Utility;
 
     public class TestCaseExecuter : ITestCaseExecuter
     {
