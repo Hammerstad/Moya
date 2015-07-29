@@ -10,20 +10,10 @@
 
     public class TestRunnerFactory : ITestRunnerFactory
     {
-        private IDictionary<Type, Type> attributeTestRunnerMapping;
-
-        public TestRunnerFactory()
+        private readonly IDictionary<Type, Type> attributeTestRunnerMapping = new Dictionary<Type, Type>
         {
-            MapAttributesToTestRunners();
-        }
-
-        private void MapAttributesToTestRunners()
-        {
-            attributeTestRunnerMapping = new Dictionary<Type, Type>
-            {
-                { typeof(StressAttribute), typeof(StressTestRunner) }
-            };
-        }
+            { typeof(StressAttribute), typeof(StressTestRunner) }
+        };
 
         public ITestRunner GetTestRunnerForAttribute(Type type)
         {
