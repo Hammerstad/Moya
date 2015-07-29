@@ -34,7 +34,7 @@
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
             ITestRunner loadTestRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
-            loadTestRunner.Execute(methodInfo);
+            var result = loadTestRunner.Execute(methodInfo);
         }
 
         private void RunPostTestAttributes(TestCase testCase)

@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
     using System.Threading;
+    using Models;
 
     public class StressTestRunner : IStressTestRunner
     {
@@ -21,7 +22,7 @@
             set { m_runners = value; }
         }
 
-        public void Execute<T>(Func<T> function)
+        public ITestResult Execute<T>(Func<T> function)
         {
             var countdownEvent = new CountdownEvent(Runners);
 
@@ -38,9 +39,12 @@
             }
 
             countdownEvent.Wait();
+
+            //TODO: Implement
+            return null;
         }
 
-        public void Execute(Action action)
+        public ITestResult Execute(Action action)
         {
             var countdownEvent = new CountdownEvent(Runners);
 
@@ -57,9 +61,12 @@
             }
 
             countdownEvent.Wait();
+
+            //TODO: Implement
+            return null;
         }
 
-        public void Execute(MethodInfo methodInfo, Type type)
+        public ITestResult Execute(MethodInfo methodInfo, Type type)
         {
             type = type ?? methodInfo.DeclaringType;
 
@@ -79,6 +86,11 @@
             }
 
             countdownEvent.Wait();
+
+            return new TestResult
+            {
+                TestOutcome = TestOutcome.Success
+            };
         }
     }
 }

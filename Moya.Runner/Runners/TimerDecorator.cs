@@ -1,4 +1,6 @@
-﻿namespace Moya.Runner.Runners
+﻿using Moya.Models;
+
+namespace Moya.Runner.Runners
 {
     using System;
     using System.Diagnostics;
@@ -17,37 +19,46 @@
             duration = DurationManager.DefaultInstance;
         }
 
-        public void Execute<T>(Func<T> function)
+        public ITestResult Execute<T>(Func<T> function)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            DecoratedTestRunner.Execute(function);
+            var result = DecoratedTestRunner.Execute(function);
 
             stopwatch.Stop();
             duration.AddOrUpdateDuration(function.GetHashCode(), stopwatch.ElapsedMilliseconds);
+
+            result.Duration = stopwatch.ElapsedMilliseconds;
+            return result;
         }
 
-        public void Execute(Action action)
+        public ITestResult Execute(Action action)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            DecoratedTestRunner.Execute(action);
+            var result = DecoratedTestRunner.Execute(action);
 
             stopwatch.Stop();
             duration.AddOrUpdateDuration(action.GetHashCode(), stopwatch.ElapsedMilliseconds);
+
+            result.Duration = stopwatch.ElapsedMilliseconds;
+            return result;
         }
 
-        public void Execute(MethodInfo methodInfo, Type type = null)
+        public ITestResult Execute(MethodInfo methodInfo, Type type = null)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            DecoratedTestRunner.Execute(methodInfo, type);
+            var result = DecoratedTestRunner.Execute(methodInfo, type);
 
             stopwatch.Stop();
             duration.AddOrUpdateDuration(methodInfo.GetHashCode(), stopwatch.ElapsedMilliseconds);
+
+            result.Duration = stopwatch.ElapsedMilliseconds;
+            return result;
         }
     }
 }

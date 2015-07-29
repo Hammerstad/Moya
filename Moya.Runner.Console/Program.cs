@@ -14,7 +14,7 @@ namespace Moya.Runner.Console
                 ClassName = "ConsoleApplication1.TestClass",
                 FilePath = @"C:\Users\emh\cygwin64\home\emh\workspace\Moya\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe",
                 Id = Guid.NewGuid(),
-                MethodName = "AMethod"
+                MethodName = "CMethod"
             });
         }
     }

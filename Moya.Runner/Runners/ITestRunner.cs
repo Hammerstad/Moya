@@ -2,11 +2,12 @@
 {
     using System;
     using System.Reflection;
+    using Models;
 
     public interface ITestRunner
     {
-        void Execute<T>(Func<T> function);
-        void Execute(Action action);
-        void Execute(MethodInfo methodInfo, Type type = null);
+        ITestResult Execute<T>(Func<T> function);
+        ITestResult Execute(Action action);
+        ITestResult Execute(MethodInfo methodInfo, Type type = null);
     }
 }
