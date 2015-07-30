@@ -41,10 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeDiscoverer.cs" />
-    <Compile Include="AttributeMetaData.cs" />
-    <Compile Include="DataStructures\MultiMap.cs" />
-    <Compile Include="IAttributeDiscoverer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
