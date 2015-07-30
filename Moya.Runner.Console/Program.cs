@@ -1,20 +1,21 @@
 ﻿namespace Moya.Runner.Console
 {
     using System;
-    using Models;
+    using Extensions;
 
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
-            testCaseExecuter.RunTest(new TestCase
+            try
             {
-                ClassName = "Moya.Dummy.Test.Project.TestClass",
-                FilePath = @"C:\Users\emh\cygwin64\home\emh\workspace\Moya\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe",
-                Id = Guid.NewGuid(),
-                MethodName = "CMethod"
-            });
+                new Startup().Run(args);
+            }
+            catch(Exception e)
+            {
+                Console.Error.WriteLine("Error: {0}".FormatWith(e.Message));
+                Environment.Exit(1);
+            }
         }
     }
 }
