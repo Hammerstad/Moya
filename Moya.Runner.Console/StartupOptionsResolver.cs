@@ -1,8 +1,6 @@
 ﻿namespace Moya.Runner.Console
 {
-    using System;
     using System.Collections.Generic;
-    using Extensions;
 
     public class StartupOptionsResolver
     {
@@ -18,7 +16,7 @@
         {
             if (!OptionIsValid(option))
             {
-                throw new ArgumentException("{0} is not a valid option. ".FormatWith(option));
+                return option;
             }
 
             return option.Length > 1 ? option : optionToOptionMapping[option];
