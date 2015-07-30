@@ -7,13 +7,24 @@
 
         public void Run(string[] args)
         {
+            AddStartupArguments(args);
+            //TODO: REMOVE
+            startupArgumentsContainer.Print();
+        }
+
+        private void AddStartupArguments(string[] args)
+        {
             foreach (var arg in args)
             {
-                ArgumentValuePair argumentValuePair = ArgumentValuePair.Create(arg);
-                string longArgumentName = startupArgumentsResolver.GetLongArgumentName(argumentValuePair.Argument);
-                startupArgumentsContainer.AddStartupArgument(longArgumentName, argumentValuePair.Value);
+                AddStartupArgument(arg);
             }
-            startupArgumentsContainer.Print();
-        } 
+        }
+
+        private void AddStartupArgument(string arg)
+        {
+            ArgumentValuePair argumentValuePair = ArgumentValuePair.Create(arg);
+            string longArgumentName = startupArgumentsResolver.GetLongArgumentName(argumentValuePair.Argument);
+            startupArgumentsContainer.AddStartupArgument(longArgumentName, argumentValuePair.Value);
+        }
     }
 }
