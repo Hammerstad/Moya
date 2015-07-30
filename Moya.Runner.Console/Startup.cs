@@ -8,8 +8,7 @@
         public void Run(string[] args)
         {
             AddStartupArguments(args);
-            //TODO: REMOVE
-            startupArgumentsContainer.Print();
+            HandleArguments();
         }
 
         private void AddStartupArguments(string[] args)
@@ -24,7 +23,13 @@
         {
             ArgumentValuePair argumentValuePair = ArgumentValuePair.Create(arg);
             string longArgumentName = startupArgumentsResolver.GetLongArgumentName(argumentValuePair.Argument);
-            startupArgumentsContainer.AddStartupArgument(longArgumentName, argumentValuePair.Value);
+            startupArgumentsContainer.Arguments[longArgumentName] = argumentValuePair.Value;
+        }
+
+        private void HandleArguments()
+        {
+            var startupArgumentHandler = new StartupArgumentHandler(startupArgumentsContainer);
+            startupArgumentHandler.HandleArguments();
         }
     }
 }
