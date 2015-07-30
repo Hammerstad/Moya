@@ -1,35 +1,37 @@
 ﻿namespace Moya.Runner.Console
 {
+    using System.Collections.Generic;
+
     public class Startup
     {
-        private readonly StartupArgumentsResolver startupArgumentsResolver = new StartupArgumentsResolver();
-        private readonly StartupArgumentsContainer startupArgumentsContainer = new StartupArgumentsContainer();
+        private readonly StartupOptionsResolver startupOptionsResolver = new StartupOptionsResolver();
+        private readonly StartupOptionsContainer startupOptionsContainer = new StartupOptionsContainer();
 
-        public void Run(string[] args)
+        public void Run(string[] options)
         {
-            AddStartupArguments(args);
-            HandleArguments();
+            AddStartupOptionsToContainer(options);
+            HandleOptions();
         }
 
-        private void AddStartupArguments(string[] args)
+        private void AddStartupOptionsToContainer(IEnumerable<string> options)
         {
-            foreach (var arg in args)
+            foreach (var option in options)
             {
-                AddStartupArgument(arg);
+                AddStartupOption(option);
             }
         }
 
-        private void AddStartupArgument(string arg)
+        private void AddStartupOption(string option)
         {
-            ArgumentValuePair argumentValuePair = ArgumentValuePair.Create(arg);
-            string longArgumentName = startupArgumentsResolver.GetLongArgumentName(argumentValuePair.Argument);
-            startupArgumentsContainer.Arguments[longArgumentName] = argumentValuePair.Value;
+            OptionArgumentPair optionArgumentPair = OptionArgumentPair.Create(option);
+            string longOptionName = startupOptionsResolver.GetLongOptionName(optionArgumentPair.Option);
+            startupOptionsContainer.Options[longOptionName] = optionArgumentPair.Argument;
         }
 
-        private void HandleArguments()
+        private void HandleOptions()
         {
-            var startupArgumentHandler = new StartupArgumentHandler(startupArgumentsContainer);
-            startupArgumentHandler.HandleArguments();
+            var startupOptionsHandler = new StartupOptionsHandler(startupOptionsContainer);
+            startupOptionsHandler.HandleOptions();
         }
     }
 }
