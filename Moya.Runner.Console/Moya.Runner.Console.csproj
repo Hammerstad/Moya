@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITestFileExecuter.cs" />
     <Compile Include="OptionArgumentPair.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,6 +49,8 @@
     <Compile Include="StartupOptionsHandler.cs" />
     <Compile Include="StartupOptionsResolver.cs" />
     <Compile Include="StartupOptionsContainer.cs" />
+    <Compile Include="TestFileExecuter.cs" />
+    <Compile Include="Utility\AssemblyScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
