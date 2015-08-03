@@ -5,14 +5,7 @@
 
     public class StartupOptionsHandler
     {
-        private readonly StartupOptionsContainer optionsContainer;
-
-        public StartupOptionsHandler(StartupOptionsContainer optionsContainer)
-        {
-            this.optionsContainer = optionsContainer;
-        }
-
-        public void HandleOptions()
+        public void HandleOptions(StartupOptionsContainer optionsContainer)
         {
             foreach (var optionKey in optionsContainer.Options.Keys)
             {

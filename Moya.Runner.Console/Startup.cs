@@ -30,8 +30,8 @@
 
         private void HandleOptions()
         {
-            var startupOptionsHandler = new StartupOptionsHandler(startupOptionsContainer);
-            startupOptionsHandler.HandleOptions();
+            var startupOptionsHandler = new StartupOptionsHandler();
+            startupOptionsHandler.HandleOptions(startupOptionsContainer);
         }
     }
 }
