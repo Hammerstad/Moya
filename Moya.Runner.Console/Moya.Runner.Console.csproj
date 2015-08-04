@@ -54,9 +54,6 @@
     <Compile Include="Utility\AssemblyScanner.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Moya.Runner\Moya.Runner.csproj">
       <Project>{FB17D203-705A-4507-B5C3-00FAB85DCCAC}</Project>
       <Name>Moya.Runner</Name>

@@ -1,5 +1,4 @@
-﻿
-namespace Moya.Runner.Console.Startup
+﻿namespace Moya.Runner.Console.Startup
 {
     using System.Collections.Generic;
     using Extensions;
