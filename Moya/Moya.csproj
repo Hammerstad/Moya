@@ -45,10 +45,8 @@
     <Compile Include="Models\ITestResult.cs" />
     <Compile Include="Models\Scalability.cs" />
     <Compile Include="Attributes\WarmupAttribute.cs" />
-    <Compile Include="IoC\Container.cs" />
     <Compile Include="Exceptions\ContainerException.cs" />
     <Compile Include="Exceptions\MoyaException.cs" />
-    <Compile Include="IoC\IContainer.cs" />
     <Compile Include="Models\TestCase.cs" />
     <Compile Include="Models\TestOutcome.cs" />
     <Compile Include="Models\TestResult.cs" />
