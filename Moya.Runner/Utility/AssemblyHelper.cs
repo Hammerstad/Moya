@@ -5,13 +5,11 @@
 
     public class AssemblyHelper
     {
-        private readonly string assemblyPath;
         private readonly Assembly assembly;
 
         public AssemblyHelper(string assemblyPath)
         {
-            this.assemblyPath = assemblyPath;
-            assembly = Assembly.LoadFile(this.assemblyPath);
+            assembly = Assembly.LoadFile(assemblyPath);
         }
 
         public MethodInfo GetMethodFromAssembly(string className, string methodName)
