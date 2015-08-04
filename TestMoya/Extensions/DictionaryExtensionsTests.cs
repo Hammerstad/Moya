@@ -31,19 +31,14 @@
             Assert.Equal("value4", otherDictionary["key4"]);
         }
 
-       /* [Fact]
-        public void AddingSeveralEqualElementsWithAddRangeThrowsArgumentException()
+        [Fact]
+        public void TryingToAddRangeWithNullShouldThrowArgumentException()
         {
-            var otherDictionary = new Dictionary<string, string>
-            {
-                { "key1", "value3" },
-            };
+            var exception = Record.Exception(() => originalDictionary.AddRange(null));
 
-            var exception = Record.Exception(() => otherDictionary.AddRange(originalDictionary));
-
-            Assert.Equal(typeof(ArgumentException), exception.GetType());
-            Assert.Equal("An item with the same key has already been added.", exception.Message);
-        }*/
+            Assert.Equal(typeof(ArgumentNullException), exception.GetType());
+            Assert.Equal("Value cannot be null.\r\nParameter name: collection", exception.Message);
+        }
 
         [Fact]
         public void AddingSeveralEqualElementsWithAddRangeIgnoresDuplicates()
