@@ -1,7 +1,7 @@
 ﻿namespace Moya.Runner.Console
 {
     using System;
-    using Extensions;
+    using Moya.Extensions;
 
     class Program
     {

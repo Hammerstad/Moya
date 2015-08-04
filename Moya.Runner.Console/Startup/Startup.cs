@@ -1,7 +1,7 @@
 ﻿namespace Moya.Runner.Console.Startup
 {
     using System.Collections.Generic;
-    using Extensions;
+    using Moya.Extensions;
 
     public class Startup
     {
