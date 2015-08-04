@@ -1,6 +1,6 @@
 ﻿namespace Moya.Dummy.Test.Project
 {
-    using System;
+    using System.Threading;
     using Attributes;
 
     public class TestClass
@@ -9,14 +9,14 @@
         [Result(SlowerThan = 1)]
         public void AMethod()
         {
-            Console.WriteLine("A");
+            Thread.Sleep(1);
         }
 
         [Stress(Users = 6, Times = 1000)]
         [Result(QuickerThan = 100)]
         public void BMethod()
         {
-            Console.WriteLine("B");
+            Thread.Sleep(1);
         }
 
         [Warmup(Duration = 10)]
@@ -24,7 +24,7 @@
         [Result(SlowerThan = 1, QuickerThan = 100)]
         public void CMethod()
         {
-            Console.WriteLine("C");
+            Thread.Sleep(1);
         }
     }
 }
