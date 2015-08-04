@@ -16,9 +16,11 @@
                 switch (optionKey)
                 {
                     case "--help":
+                    case "-h":
                         PrintUsage();
                         break;
                     case "--files":
+                    case"-f":
                         var filenamesWithSeparator = optionsContainer.Options["--files"];
                         foreach (var filename in filenamesWithSeparator.Split(FilenameSeparator))
                         {

@@ -47,7 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StartupOptionsHandler.cs" />
-    <Compile Include="StartupOptionsResolver.cs" />
     <Compile Include="StartupOptionsContainer.cs" />
     <Compile Include="TestFileExecuter.cs" />
     <Compile Include="Utility\AssemblyScanner.cs" />
