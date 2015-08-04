@@ -41,6 +41,7 @@
     <Compile Include="Attributes\MoyaAttribute.cs" />
     <Compile Include="Attributes\StressAttribute.cs" />
     <Compile Include="Exceptions\MoyaAttributeNotFoundException.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Models\ITestResult.cs" />
     <Compile Include="Models\Scalability.cs" />
     <Compile Include="Attributes\WarmupAttribute.cs" />
