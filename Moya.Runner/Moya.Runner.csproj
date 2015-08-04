@@ -51,6 +51,7 @@
     <Compile Include="Runners\ITestRunner.cs" />
     <Compile Include="Runners\StressTestRunner.cs" />
     <Compile Include="Runners\TimerDecorator.cs" />
+    <Compile Include="Utility\AssemblyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moya\Moya.csproj">
