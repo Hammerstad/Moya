@@ -56,7 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AssemblyHelper.cs" />
     <Compile Include="Utility\Reflection.cs" />
-    <Compile Include="Utility\SerializationHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
