@@ -63,10 +63,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Factories\TestRunnerFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Moya.Runner\Moya.Runner.csproj">
+      <Project>{FB17D203-705A-4507-B5C3-00FAB85DCCAC}</Project>
+      <Name>Moya.Runner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moya\Moya.csproj">
+      <Project>{1D9B9EB8-E233-46B6-90E0-6612D6275542}</Project>
+      <Name>Moya</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
