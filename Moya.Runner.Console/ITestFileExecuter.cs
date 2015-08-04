@@ -5,7 +5,7 @@
 
     public interface ITestFileExecuter
     {
-        ICollection<ITestResult> TestResults { get; set; }
+        List<ITestResult> TestResults { get; set; }
 
         void RunAllTests();
     }
