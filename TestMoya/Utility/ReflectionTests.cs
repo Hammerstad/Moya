@@ -32,6 +32,14 @@
         }
 
         [Fact]
+        public void MoyaAttributeIsNotMoyaAttribute()
+        {
+            var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(MoyaAttribute));
+
+            Assert.False(isMoyaAttribute);
+        }
+
+        [Fact]
         public void TestClassHasMembersWithMoyaAttribute()
         {
             var MethodWithMoyaAttribute = ((Action)TestClass.MethodWithMoyaAttribute).Method;
