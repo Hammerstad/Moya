@@ -39,8 +39,8 @@
         {
             foreach (var file in files)
             {
-                ITestFileExecuter testFileExecuter = new TestFileExecuter();
-                testFileExecuter.RunMoyaOnFile(file);
+                ITestFileExecuter testFileExecuter = new TestFileExecuter(file);
+                testFileExecuter.RunAllTests();
             }
         }
 

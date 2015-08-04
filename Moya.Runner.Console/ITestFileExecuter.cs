@@ -7,6 +7,6 @@
     {
         ICollection<ITestResult> TestResults { get; set; }
 
-        void RunMoyaOnFile(string filePath);
+        void RunAllTests();
     }
 }

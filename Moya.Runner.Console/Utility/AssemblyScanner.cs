@@ -1,24 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Moya.Attributes;
-
-namespace Moya.Runner.Console.Utility
+﻿namespace Moya.Runner.Console.Utility
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using Attributes;
+
     public class AssemblyScanner
     {
-        private readonly IDictionary<string, string> typeAndMethodnames = new Dictionary<string, string>();
+        private readonly Assembly assembly;
 
-        public IDictionary<string, string> GetTypenameAndMethodnameWithMoyaAttribute(Assembly assembly)
+        public AssemblyScanner(string assemblyFilePath)
         {
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (type.GetCustomAttributes(typeof(MoyaAttribute), true).Length > 0)
-                {
-                    //typeAndMethodnames.Add(type.Name, );
-                }
-            }
-            return null;
+            assembly = Assembly.LoadFile(assemblyFilePath);
+        }
+
+        public IEnumerable<Type> GetTypes()
+        {
+            return assembly.GetTypes();
+        }
+
+        public IEnumerable<MemberInfo> GetMembersWithMoyaAttribute(Type type)
+        {
+            return type.GetMembers()
+                        .Where(x => x.GetCustomAttributes(typeof(MoyaAttribute), true).Length > 0)
+                        .ToArray();
         } 
     }
 }
