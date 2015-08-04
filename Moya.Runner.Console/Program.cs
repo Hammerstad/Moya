@@ -9,7 +9,7 @@
         {
             try
             {
-                new Startup().Run(args);
+                new Startup.Startup().Run(args);
             }
             catch(Exception e)
             {
