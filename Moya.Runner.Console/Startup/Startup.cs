@@ -36,10 +36,11 @@
         private static IDictionary<OptionType, string> ParseStartupOption(string stringFromCommandLine)
         {
             string[] optionAndArgument = stringFromCommandLine.Split('=');
+            string argument = optionAndArgument.Length > 1 ? optionAndArgument[1] : optionAndArgument[0];
 
-            return new Dictionary<OptionType, string>()
+            return new Dictionary<OptionType, string>
             {
-                { optionAndArgument[0].ToOptionType(), optionAndArgument[1] ?? string.Empty}
+                { optionAndArgument[0].ToOptionType(), argument}
             };
         }
     }

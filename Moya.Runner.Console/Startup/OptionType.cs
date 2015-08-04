@@ -3,6 +3,7 @@
     public enum OptionType
     {
         Help,
-        Files
+        Files,
+        InvalidArgument
     }
 }

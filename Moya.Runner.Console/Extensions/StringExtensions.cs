@@ -1,6 +1,5 @@
 ﻿namespace Moya.Runner.Console.Extensions
 {
-    using System;
     using Startup;
 
     public static class StringExtensions
@@ -16,7 +15,7 @@
                 case "--help":
                     return OptionType.Help;
                 default:
-                    throw new ArgumentException(optionTypeName);
+                    return OptionType.InvalidArgument;
             }
         }
     }

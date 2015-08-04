@@ -26,7 +26,7 @@
                         }
                         break;
                     default:
-                        System.Console.WriteLine("Error: {0} is not a valid argument.".FormatWith(optionKey));
+                        Console.WriteLine("Error: {0} is not a valid argument.".FormatWith(optionsContainer.Options[optionKey]));
                         PrintUsage();
                         Environment.Exit(1);
                         break;
