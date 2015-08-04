@@ -1,4 +1,4 @@
-﻿namespace Moya.Runner.Console
+﻿namespace Moya.Runner.Console.Startup
 {
     using System.Linq;
 

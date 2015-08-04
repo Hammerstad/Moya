@@ -1,10 +1,9 @@
-﻿using Moya.Extensions;
-
-namespace Moya.Runner.Console
+﻿namespace Moya.Runner.Console
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Extensions;
     using Models;
     using Utility;
 
