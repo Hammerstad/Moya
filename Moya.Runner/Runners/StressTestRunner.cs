@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Moya.Attributes;
-using Moya.Exceptions;
-using Moya.Extensions;
-
-namespace Moya.Runner.Runners
+﻿namespace Moya.Runner.Runners
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
+    using Attributes;
+    using Exceptions;
+    using Extensions;
     using Models;
 
     public class StressTestRunner : IStressTestRunner
