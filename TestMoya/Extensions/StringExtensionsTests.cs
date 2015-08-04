@@ -1,8 +1,8 @@
-﻿using Moya.Extensions;
-using Xunit;
-
-namespace TestMoya.Extensions
+﻿namespace TestMoya.Extensions
 {
+    using Moya.Extensions;
+    using Xunit;
+
     public class StringExtensionsTests
     {
         [Fact]
