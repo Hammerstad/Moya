@@ -15,13 +15,11 @@
             {
                 switch (optionKey)
                 {
-                    case "--help":
-                    case "-h":
+                    case OptionType.Help:
                         PrintUsage();
                         break;
-                    case "--files":
-                    case"-f":
-                        var filenamesWithSeparator = optionsContainer.Options["--files"];
+                    case OptionType.Files:
+                        var filenamesWithSeparator = optionsContainer.Options[OptionType.Files];
                         foreach (var filename in filenamesWithSeparator.Split(FilenameSeparator))
                         {
                             files.Add(filename);

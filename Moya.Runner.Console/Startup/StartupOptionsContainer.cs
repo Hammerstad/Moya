@@ -4,9 +4,9 @@
 
     public class StartupOptionsContainer
     {
-        private readonly IDictionary<string, string> options = new Dictionary<string, string>();
+        private readonly IDictionary<OptionType, string> options = new Dictionary<OptionType, string>();
 
-        public IDictionary<string, string> Options
+        public IDictionary<OptionType, string> Options
         {
             get { return options; }
         }
