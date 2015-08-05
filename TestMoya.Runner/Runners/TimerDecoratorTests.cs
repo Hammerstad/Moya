@@ -1,4 +1,6 @@
-﻿namespace TestMoya.Runner.Runners
+﻿using System.Threading;
+
+namespace TestMoya.Runner.Runners
 {
     using System;
     using System.Reflection;
@@ -50,7 +52,7 @@
             [Stress]
             public static void MethodWithMoyaAttribute()
             {
-
+                Thread.Sleep(1);
             }
         }
     }
