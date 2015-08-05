@@ -37,7 +37,7 @@
             var exception = Record.Exception(() => originalDictionary.AddRange(null));
 
             Assert.Equal(typeof(ArgumentNullException), exception.GetType());
-            Assert.Equal("Value cannot be null.\r\nParameter name: collection", exception.Message);
+            Assert.Equal("Argument cannot be null.\r\nParameter name: collection", exception.Message);
         }
 
         [Fact]
