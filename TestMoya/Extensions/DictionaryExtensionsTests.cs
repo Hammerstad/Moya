@@ -1,4 +1,6 @@
-﻿namespace TestMoya.Extensions
+﻿using Shouldly;
+
+namespace TestMoya.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +39,8 @@
             var exception = Record.Exception(() => originalDictionary.AddRange(null));
 
             Assert.Equal(typeof(ArgumentNullException), exception.GetType());
-            Assert.Equal("Argument cannot be null.\r\nParameter name: collection", exception.Message);
+            exception.Message.ShouldStartWith("Argument cannot be null.");
+            exception.Message.ShouldEndWith("Parameter name: collection");
         }
 
         [Fact]
