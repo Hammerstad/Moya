@@ -26,11 +26,10 @@ script:
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
           # Coveralls.net
           - export LD_LIBRARY_PATH=/usr/local/lib
-          - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[Moya],-[TestMoya] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll /noshadow
-          - monocov --export-xml=monocovCoverage monocovCoverage.cov
-          - find ./monocovCoverage/
-          - cat ./monocovCoverage/project.xml
-          - cat ./monocovCoverage/style.xsl
+          - mono --debug --profile=monocov:outfile=moya.cov,+[Moya],-[TestMoya] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll /noshadow
+          - monocov --export-xml=cov.moya moya.cov
+          - mono --debug --profile=monocov:outfile=moya.runner.cov,+[Moya.Runner],-[TestMoya.Runner] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll /noshadow
+          - monocov --export-xml=cov.moya.runner moya.runner.cov
           - REPO_COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
           - REPO_COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
           - REPO_COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
@@ -41,7 +40,8 @@ script:
           - echo $REPO_COMMIT_MESSAGE
           - echo $TRAVIS_JOB_ID
           - echo $COVERALLS_REPO_TOKEN
-          - mono ./packages/coveralls.net.0.6.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
+          - mono ./packages/coveralls.net.0.6.0/tools/csmacnz.Coveralls.exe --monocov -i ./cov.moya --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
+          - mono ./packages/coveralls.net.0.6.0/tools/csmacnz.Coveralls.exe --monocov -i ./cov.moya.runner --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
 
 after_success:
           - bash <(curl -s https://codecov.io/bash)
