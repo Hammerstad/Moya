@@ -26,7 +26,7 @@ script:
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
           # Coveralls.net
           - export LD_LIBRARY_PATH=/usr/local/lib
-          - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[TestMoya] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll /noshadow
+          - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[Moya],-[TestMoya] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll /noshadow
           - monocov --export-xml=monocovCoverage monocovCoverage.cov
           - find ./monocovCoverage/
           - cat ./monocovCoverage/project.xml
