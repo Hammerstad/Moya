@@ -7,3 +7,5 @@ script:
           - xbuild /p:Configuration=Release Moya.sln
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
+after_success:
+          - bash <(curl -s https://codecov.io/bash)
