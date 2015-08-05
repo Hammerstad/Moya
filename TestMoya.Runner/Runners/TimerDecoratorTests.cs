@@ -2,8 +2,8 @@
 {
     using System;
     using System.Reflection;
-    using System.Threading;
     using Moq;
+    using Moya.Attributes;
     using Moya.Models;
     using Moya.Runner.Runners;
     using Xunit;
@@ -11,17 +11,17 @@
     public class TimerDecoratorTests
     {
         private readonly Mock<ITestRunner> testRunnerMock;
-        private readonly TimerDecorator timerDecorator;
+        private TimerDecorator timerDecorator;
 
         public TimerDecoratorTests()
         {
             testRunnerMock = new Mock<ITestRunner>();
-            timerDecorator = new TimerDecorator(testRunnerMock.Object);
         }
 
         [Fact]
         public void TimerDecoratorExecuteRunsMethod()
         {
+            timerDecorator = new TimerDecorator(testRunnerMock.Object);
             bool methodRun = false;
             MethodInfo method = ((Action)(() => methodRun = true)).Method;
             testRunnerMock
@@ -37,16 +37,21 @@
         [Fact]
         public void TimerDecoratorExecuteAddsDurationToResult()
         {
-            bool methodRun = false;
-            MethodInfo method = ((Action)(() => Thread.Sleep(1))).Method;
-            testRunnerMock
-                .Setup(x => x.Execute(method))
-                .Callback(() => methodRun = true)
-                .Returns(new TestResult());
+            MethodInfo method = ((Action)TestClass.MethodWithMoyaAttribute).Method;
+            timerDecorator = new TimerDecorator(new StressTestRunner());
 
             var result = timerDecorator.Execute(method);
 
             Assert.True(result.Duration > 0);
+        }
+
+        public class TestClass
+        {
+            [Stress]
+            public static void MethodWithMoyaAttribute()
+            {
+
+            }
         }
     }
 }
