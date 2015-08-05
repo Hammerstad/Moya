@@ -55,9 +55,14 @@
 
         private void SetUsersAndTimes(MethodInfo methodInfo)
         {
-            StressAttribute stressAttribute = methodInfo
-                .GetCustomAttributes(typeof(MoyaAttribute), true)
-                .First(x => x.GetType() == typeof(StressAttribute)) as StressAttribute;
+            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(MoyaAttribute), true);
+
+            if (moyaAttributes.Length == 0)
+            {
+                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(StressAttribute), methodInfo));
+            }
+
+            StressAttribute stressAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(StressAttribute)) as StressAttribute;
             
             if (stressAttribute == null)
             {
