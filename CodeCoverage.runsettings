@@ -9,8 +9,11 @@
 
             <ModulePaths>
               <Include>
-                <ModulePath>.*\\TestMoya*dll$</ModulePath>
+                <ModulePath>.*\\Moya.*dll$</ModulePath>
               </Include>
+              <Exclude>
+                <ModulePath>.*\\TestMoya.*dll$</ModulePath>
+              </Exclude>
             </ModulePaths>
 
           </CodeCoverage>
