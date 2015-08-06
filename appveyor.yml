@@ -11,4 +11,7 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    echo "test script"
+    $testFiles = @(
+        "TestMoya/bin/Release/TestMoya.dll",
+        "TestMoya.Runner/bin/Release/TestMoya.Runner.dll"
+    )
