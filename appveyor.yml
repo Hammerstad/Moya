@@ -18,37 +18,23 @@ test_script:
 
     $xUnitAdapterPath = ".\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
 
-    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
+    $VsTestExecutable = "${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+
+    Remove-Item -Force -Recurse .\TestResults
+
+    & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
 
     $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
 
-    echo $coverageFilePath
-
-    cat $coverageFilePath
-
     if(Test-Path .\MoyaCoverage.coveragexml){ rm .\MoyaCoverage.coveragexml }
 
-    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.coveragexml "$coverageFilePath"
+    $CodeCoverageExecutable ="${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe"
+
+    & $CodeCoverageExecutable analyze /output:MoyaCoverage.coveragexml "$coverageFilePath"
     
     Push-AppveyorArtifact MoyaCoverage.coveragexml
 
     $coveralls = (Resolve-Path "packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-    
-    echo $env:COVERALLS_REPO_TOKEN
-    
-    echo $env:APPVEYOR_REPO_COMMIT
-    
-    echo $env:APPVEYOR_REPO_BRANCH
-    
-    echo $env:APPVEYOR_REPO_COMMIT_AUTHOR
-    
-    echo $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL
-    
-    echo $env:APPVEYOR_REPO_COMMIT_MESSAGE
-    
-    echo $env:APPVEYOR_JOB_ID
-
-    cat MoyaCoverage.coveragexml
 
     & $coveralls --dynamiccodecoverage `
                  -i MoyaCoverage.coveragexml `
