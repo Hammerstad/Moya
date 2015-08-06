@@ -1,47 +1,9 @@
 language: csharp
 solution: Moya.sln
 install:
-          # nuget restore
           - nuget restore Moya.sln
-          # xUnit
           - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
-          # Coveralls.net
-          - sudo apt-get install gtk-sharp2
-          - curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
-          - unzip /tmp/mono.cecil.0.9.5.4.nupkg.zip -d /tmp/cecil
-          - cp /tmp/cecil/lib/net40/Mono.Cecil.dll .
-          - cp /tmp/cecil/lib/net40/Mono.Cecil.dll /tmp/cecil/
-          - git clone --depth=5 git://github.com/csMACnz/monocov.git ../../csMACnz/monocov
-          - cd ../../csMACnz/monocov
-          - cp /tmp/cecil/Mono.Cecil.dll .
-          - ./configure
-          - make
-          - sudo make install
-          - cd ../../Hammerstad/Moya
 script:
-          # Compile
           - xbuild /p:Configuration=Release Moya.sln
-          # xUnit
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
-          # Coveralls.net
-          - export LD_LIBRARY_PATH=/usr/local/lib
-          - mono --debug --profile=monocov:outfile=moya.cov,+[Moya],-[TestMoya] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll /noshadow
-          - monocov --export-xml=cov.moya moya.cov
-          - mono --debug --profile=monocov:outfile=moya.runner.cov,+[Moya.Runner],-[TestMoya.Runner] ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll /noshadow
-          - monocov --export-xml=cov.moya.runner moya.runner.cov
-          - REPO_COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
-          - REPO_COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
-          - REPO_COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
-          - echo $TRAVIS_COMMIT
-          - echo $TRAVIS_BRANCH
-          - echo $REPO_COMMIT_AUTHOR
-          - echo $REPO_COMMIT_AUTHOR_EMAIL
-          - echo $REPO_COMMIT_MESSAGE
-          - echo $TRAVIS_JOB_ID
-          - echo $COVERALLS_REPO_TOKEN
-          - mono ./packages/coveralls.net.0.6.0/tools/csmacnz.Coveralls.exe --monocov -i ./cov.moya --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
-          - mono ./packages/coveralls.net.0.6.0/tools/csmacnz.Coveralls.exe --monocov -i ./cov.moya.runner --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
-
-after_success:
-          - bash <(curl -s https://codecov.io/bash)
