@@ -2,6 +2,7 @@ language: csharp
 solution: Moya.sln
 install:
           - nuget restore Moya.sln
+          - nuget install xunit -Version 1.9.2 -OutputDirectory testrunner
           - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
           - find ./testrunner
           - cp ./testrunner/xunit.runners.1.9.2/tools/xunit.dll ./TestMoya/bin/Release
