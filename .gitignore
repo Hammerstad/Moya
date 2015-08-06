@@ -199,3 +199,4 @@ FakesAssemblies/
 
 # Other
 *.sln.DotSettings
+MoyaCoverage.coveragexml
