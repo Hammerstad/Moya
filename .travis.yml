@@ -2,11 +2,8 @@ language: csharp
 solution: Moya.sln
 install:
           - nuget restore Moya.sln
-          - nuget install xunit -Version 1.9.2 -OutputDirectory testrunner
-          - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+          - nuget install xunit.runner.console -Version 2.0.0 -OutputDirectory testrunner
 script:
           - xbuild /p:Configuration=Release Moya.sln
-          - cp ./testrunner/xunit.1.9.2/lib/net20/xunit.dll ./TestMoya/bin/Release/xunit.dll
-          - cp ./testrunner/xunit.1.9.2/lib/net20/xunit.dll ./TestMoya.Runner/bin/Release/xunit.dll
-          - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll
-          - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
+          - mono ./testrunner/xunit.runner.console.2.0.0/tools/xunit.console.exe ./TestMoya/bin/Release/TestMoya.dll
+          - mono ./testrunner/xunit.runner.console.2.0.0/tools/xunit.console.exe ./TestMoya.Runner/bin/Release/TestMoya.Runner.dll
