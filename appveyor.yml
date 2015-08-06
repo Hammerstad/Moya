@@ -5,36 +5,7 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: T0CN6Rhd2CAhg368vxiH+RHgJgRzce4xmPu9lH6huFVq3/B58CG1Jl6bOxxk6CI6
 before_build:
-  - nuget restore Moya.sln
+  - nuget restore ".\Moya.sln"
 build:
-  project: Moya.sln
+  project: .\Moya.sln
   verbosity: minimal
-test_script:
-- ps: >-
-	$testFiles = @(
-    	"TestMoya/bin/Release/TestMoya.dll",
-    	"TestMoya.Runner/bin/Release/TestMoya.Runner.dll"
-	)
-	$xUnitAdapterPath = ".\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
-    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
-
-    $coverageFilePath = (Resolve-Path -path "TestResults\*\*.coverage").ToString()
-    if(Test-Path .\MoyaCoverage.xml){ rm .\MoyaCoverage.xml }
-    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.xml "$coverageFilePath"
-    
-    Push-AppveyorArtifact MoyaCoverage.xml
-
-    $coveralls = (Resolve-Path "packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-    & $coveralls --dynamiccodecoverage `
-                 -i coverage.coveragexml `
-                 --repoToken $env:COVERALLS_REPO_TOKEN `
-                 --commitId $env:APPVEYOR_REPO_COMMIT `
-                 --commitBranch $env:APPVEYOR_REPO_BRANCH `
-                 --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR `
-                 --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL `
-                 --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE `
-                 --jobId $env:APPVEYOR_JOB_ID `
-                 --useRelativePaths `
-                 -o coverage.json
-
-    Push-AppveyorArtifact coverage.json
