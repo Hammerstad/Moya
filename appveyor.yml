@@ -15,3 +15,4 @@ test_script:
         "TestMoya/bin/Release/TestMoya.dll",
         "TestMoya.Runner/bin/Release/TestMoya.Runner.dll"
     )
+    $xUnitAdapterPath = ".\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
