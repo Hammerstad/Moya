@@ -1,6 +1,6 @@
 # Moya
 
-**Moya* is a work-in-progress load tester for C#. 
+**Moya** is a work-in-progress load tester for C#. 
 
 ## Build status
 
