@@ -3,6 +3,8 @@ solution: Moya.sln
 install:
           - nuget restore Moya.sln
           - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+          - cp ./testrunner/xunit.runners.1.9.2/tools/xunit.dll ./TestMoya/bin/Release
+          - cp ./testrunner/xunit.runners.1.9.2/tools/xunit.dll ./TestMoya.Runner/bin/Release
 script:
           - xbuild /p:Configuration=Release Moya.sln
           - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TestMoya/bin/Release/TestMoya.dll
