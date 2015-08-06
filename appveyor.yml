@@ -11,9 +11,4 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-	$testFiles = @(
-    	"TestMoya/bin/Release/TestMoya.dll",
-    	"TestMoya.Runner/bin/Release/TestMoya.Runner.dll"
-	)
-	$xUnitAdapterPath = ".\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
-    vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
+    echo "test script"
