@@ -20,13 +20,13 @@ test_script:
 
     $VsTestExecutable = "${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
 
-    Remove-Item -Force -Recurse .\TestResults
+    Remove-Item -Force -Recurse .\TestResults -ErrorAction SilentlyContinue
 
     & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
 
     $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
 
-    if(Test-Path .\MoyaCoverage.coveragexml){ rm .\MoyaCoverage.coveragexml }
+    Remove-Item .\MoyaCoverage.coveragexml -ErrorAction SilentlyContinue
 
     $CodeCoverageExecutable ="${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe"
 
