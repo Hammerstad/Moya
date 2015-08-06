@@ -24,13 +24,13 @@ test_script:
 
     echo $coverageFilePath
 
-    echo [String]::Join(' ', $coverageFilePath)
+    echo "([String]::Join(' ', $coverageFilePath))"
 
-    if(Test-Path .\MoyaCoverage.xml){ rm .\MoyaCoverage.xml }
+    if(Test-Path .\MoyaCoverage.coveragexml){ rm .\MoyaCoverage.coveragexml }
 
-    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.xml "[String]::Join(' ', $coverageFilePath)"
+    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.coveragexml "[String]::Join(' ', $coverageFilePath)"
     
-    Push-AppveyorArtifact MoyaCoverage.xml
+    Push-AppveyorArtifact MoyaCoverage.coveragexml
 
     $coveralls = (Resolve-Path "packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
     
@@ -48,10 +48,10 @@ test_script:
     
     echo $env:APPVEYOR_JOB_ID
 
-    cat MoyaCoverage.xml
+    cat MoyaCoverage.coveragexml
 
     & $coveralls --dynamiccodecoverage `
-                 -i MoyaCoverage.xml `
+                 -i MoyaCoverage.coveragexml `
                  --repoToken $env:COVERALLS_REPO_TOKEN `
                  --commitId $env:APPVEYOR_REPO_COMMIT `
                  --commitBranch $env:APPVEYOR_REPO_BRANCH `
