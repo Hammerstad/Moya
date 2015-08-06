@@ -20,11 +20,15 @@ test_script:
 
     vstest.console.exe /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
 
-    $coverageFilePath = (Resolve-Path -path "TestResults\*\*.coverage").ToString()
+    $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
+
+    echo $coverageFilePath
+
+    echo [String]::Join(' ', $coverageFilePath)
 
     if(Test-Path .\MoyaCoverage.xml){ rm .\MoyaCoverage.xml }
 
-    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.xml "$coverageFilePath"
+    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.xml "[String]::Join(' ', $coverageFilePath)"
     
     Push-AppveyorArtifact MoyaCoverage.xml
 
