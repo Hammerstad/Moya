@@ -39,7 +39,11 @@ namespace TestMoya.Extensions
             var exception = Record.Exception(() => originalDictionary.AddRange(null));
 
             Assert.Equal(typeof(ArgumentNullException), exception.GetType());
+#if __MonoCS__
             exception.Message.ShouldStartWith("Argument cannot be null.");
+#else
+            exception.Message.ShouldStartWith("Value cannot be null.");
+#endif
             exception.Message.ShouldEndWith("Parameter name: collection");
         }
 
