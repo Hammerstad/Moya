@@ -24,11 +24,11 @@ test_script:
 
     echo $coverageFilePath
 
-    echo "([String]::Join(' ', $coverageFilePath))"
+    cat $coverageFilePath
 
     if(Test-Path .\MoyaCoverage.coveragexml){ rm .\MoyaCoverage.coveragexml }
 
-    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.coveragexml "[String]::Join(' ', $coverageFilePath)"
+    ."C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe" analyze /output:MoyaCoverage.coveragexml "$coverageFilePath"
     
     Push-AppveyorArtifact MoyaCoverage.coveragexml
 
