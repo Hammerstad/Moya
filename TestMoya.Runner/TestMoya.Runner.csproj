@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runners\StressTestRunnerTests.cs" />
     <Compile Include="Runners\TimerDecoratorTests.cs" />
+    <Compile Include="TestCaseExecuterTests.cs" />
     <Compile Include="Utility\AssemblyHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
