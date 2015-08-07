@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Factories\ITestRunnerFactory.cs" />
     <Compile Include="Factories\TestRunnerFactory.cs" />
+    <Compile Include="Runners\WarmupTestRunner.cs" />
     <Compile Include="TestCaseExecuter.cs" />
     <Compile Include="ITestCaseExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

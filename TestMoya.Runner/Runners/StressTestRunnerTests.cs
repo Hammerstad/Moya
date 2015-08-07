@@ -15,7 +15,7 @@
         public StressTestRunnerTests()
         {
             stressTestRunner = new StressTestRunner();
-            TestClass.ResetState();
+            testClass.ResetState();
         }
 
         [Fact]
@@ -61,7 +61,7 @@
         [Fact]
         public void ExecuteMethodWithNoAttributeShouldThrowMoyaAttributeNotFoundException()
         {
-            MethodInfo method = ((Action)TestClass.ResetState).Method;
+            MethodInfo method = ((Action)testClass.ResetState).Method;
 
             var exception = Record.Exception(() => stressTestRunner.Execute(method));
 
@@ -72,22 +72,23 @@
         [Fact]
         public void ExecuteMethodWithWarmupAttributeShouldThrowMoyaAttributeNotFoundException()
         {
-            MethodInfo method = ((Action)TestClass.MethodWithWarmupAttribute).Method;
+            MethodInfo method = ((Action)testClass.MethodWithEmptyWarmupAttribute).Method;
 
             var exception = Record.Exception(() => stressTestRunner.Execute(method));
 
             Assert.Equal(typeof(MoyaAttributeNotFoundException), exception.GetType());
-            Assert.Equal("Unable to find Moya.Attributes.StressAttribute in Void MethodWithWarmupAttribute()", exception.Message);
+            Assert.Equal("Unable to find Moya.Attributes.StressAttribute in Void MethodWithEmptyWarmupAttribute()", exception.Message);
         }
 
-        public class TestClass
+        class TestClass
         {
             public static int MethodWithTwoUsersRun;
             public static int MethodWithTwoTimesRun;
             public static int MethodWithTwoTimesAndTwoUsersRun;
+
             private static readonly object MyLock = new object();
 
-            public static void ResetState()
+            public void ResetState()
             {
                 MethodWithTwoUsersRun = 0;
                 MethodWithTwoTimesRun = 0;
@@ -95,9 +96,8 @@
             }
 
             [Warmup]
-            public static void MethodWithWarmupAttribute()
+            public void MethodWithEmptyWarmupAttribute()
             {
-                
             }
 
             [Stress(Users = 2)]
