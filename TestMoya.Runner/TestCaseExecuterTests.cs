@@ -1,15 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Moya.Exceptions;
-using Moya.Models;
-using Moya.Runner;
-using Shouldly;
-using Xunit;
-
-namespace TestMoya.Runner
+﻿namespace TestMoya.Runner
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using Moya.Exceptions;
+    using Moya.Models;
+    using Moya.Runner;
+    using Shouldly;
+    using Xunit;
+
     public class TestCaseExecuterTests
     {
         private readonly ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
