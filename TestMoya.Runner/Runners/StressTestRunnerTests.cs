@@ -1,12 +1,12 @@
-﻿using System;
-using System.Reflection;
-using Moya.Attributes;
-using Moya.Exceptions;
-using Moya.Runner.Runners;
-using Xunit;
-
-namespace TestMoya.Runner.Runners
+﻿namespace TestMoya.Runner.Runners
 {
+    using System;
+    using System.Reflection;
+    using Moya.Attributes;
+    using Moya.Exceptions;
+    using Moya.Runner.Runners;
+    using Xunit;
+
     public class StressTestRunnerTests
     {
         private readonly StressTestRunner stressTestRunner;

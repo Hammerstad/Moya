@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Moya.Runner.Utility;
-using Shouldly;
-using Xunit;
-
-namespace TestMoya.Runner.Utility
+﻿namespace TestMoya.Runner.Utility
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using Moya.Runner.Utility;
+    using Shouldly;
+    using Xunit;
+
     public class AssemblyHelperTests
     {
         private AssemblyHelper assemblyHelper;
