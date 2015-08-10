@@ -6,6 +6,6 @@
 
 | Platform | Task          |  Status  |
 |----------|---------------|----------|
-| Linux    | Compile       | [![Travis](https://img.shields.io/travis/Hammerstad/Moya.svg)](https://travis-ci.org/Hammerstad/Moya) |
-| Windows  | Compile, Test | [![AppVeyor](https://img.shields.io/appveyor/ci/Hammerstad/Moya.svg)](https://ci.appveyor.com/project/Hammerstad/moya) |
-| Windows  | Testcoverage  | [![Coveralls](https://img.shields.io/coveralls/Hammerstad/Moya.svg)](https://coveralls.io/github/Hammerstad/Moya) |
+| Linux    | Compile       | [![Build Status](https://travis-ci.org/Hammerstad/Moya.svg?branch=master)](https://travis-ci.org/Hammerstad/Moya) |
+| Windows  | Compile, Test | [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/Hammerstad/moya?branch=master&svg=true)](https://ci.appveyor.com/project/Hammerstad/moya) |
+| Windows  | Testcoverage  | [![Coverage Status](https://coveralls.io/repos/Hammerstad/Moya/badge.svg?branch=master&service=github)](https://coveralls.io/github/Hammerstad/Moya?branch=master) |
