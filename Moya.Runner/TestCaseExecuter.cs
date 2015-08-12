@@ -17,34 +17,35 @@
 
         public ICollection<ITestResult> RunTest(TestCase testCase)
         {
-            RunPreTestAttributes(testCase);
-            RunTestAttributes(testCase);
-            RunPostTestAttributes(testCase);
-            return testResults;
-        }
-
-        private void RunPreTestAttributes(TestCase testCase)
-        {
-            
-        }
-
-        private void RunTestAttributes(TestCase testCase)
-        {
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
             if (methodInfo == null)
             {
                 throw new MoyaException(
                     "Unable to find method from assembly.Assembly file path: {0}\nClass name: {1}\nMethod name: {2}"
-                     .FormatWith(testCase.FilePath, testCase.ClassName, testCase.MethodName)  
+                     .FormatWith(testCase.FilePath, testCase.ClassName, testCase.MethodName)
                 );
             }
 
-            ITestRunner loadTestRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
-            testResults.Add(loadTestRunner.Execute(methodInfo));
+            RunPreTestAttributes(methodInfo);
+            RunTestAttributes(methodInfo);
+            RunPostTestAttributes(methodInfo);
+            return testResults;
         }
 
-        private void RunPostTestAttributes(TestCase testCase)
+        private void RunPreTestAttributes(MethodInfo methodInfo)
+        {
+            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
+            testResults.Add(testRunner.Execute(methodInfo));
+        }
+
+        private void RunTestAttributes(MethodInfo methodInfo)
+        {
+            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+            testResults.Add(testRunner.Execute(methodInfo));
+        }
+
+        private void RunPostTestAttributes(MethodInfo methodInfo)
         {
         }
 
