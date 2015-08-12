@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Moya.Runner.Runners
+﻿namespace Moya.Runner.Runners
 {
     using System;
     using System.Linq;
