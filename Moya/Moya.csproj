@@ -37,7 +37,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ResultAttribute.cs" />
     <Compile Include="Attributes\MoyaAttribute.cs" />
     <Compile Include="Attributes\StressAttribute.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />

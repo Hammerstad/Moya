@@ -8,14 +8,6 @@
     public class ReflectionTests
     {
         [Fact]
-        public void ResultAttributeIsMoyaAttribute()
-        {
-            var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(ResultAttribute));
-
-            Assert.True(isMoyaAttribute);
-        }
-
-        [Fact]
         public void StressAttributeIsMoyaAttribute()
         {
             var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(StressAttribute));
