@@ -19,10 +19,16 @@
             Thread.Sleep(1);
         }
 
-        [Warmup(Duration = 10)]
+        [Warmup(Duration = 1)]
         [Stress(Users = 13, Times = 500)]
         [Result(SlowerThan = 1, QuickerThan = 100)]
         public void CMethod()
+        {
+            Thread.Sleep(1);
+        }
+
+        [Warmup(Duration = 1)]
+        public void OnlyWarmupMethod()
         {
             Thread.Sleep(1);
         }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Reflection;
-using Moya.Attributes;
-using Moya.Exceptions;
-using Moya.Runner.Runners;
-using Shouldly;
-using Xunit;
-
-namespace TestMoya.Runner.Runners
+﻿namespace TestMoya.Runner.Runners
 {
+    using System;
+    using System.Reflection;
+    using Moya.Attributes;
+    using Moya.Models;
+    using Moya.Runner.Runners;
+    using Shouldly;
+    using Xunit;
+
     public class WarmupTestRunnerTests
     {
         private readonly WarmupTestRunner warmupTestRunner;
@@ -37,29 +37,27 @@ namespace TestMoya.Runner.Runners
 
             var testResult = testRunner.Execute(method);
 
-            testResult.Duration.ShouldBeGreaterThanOrEqualTo(100);
+            testResult.Duration.ShouldBeGreaterThanOrEqualTo(1000);
         }
 
         [Fact]
-        public void ExecuteMethodWithNoAttributeShouldThrowMoyaAttributeNotFoundException()
+        public void ExecuteMethodWithNoAttributeShouldReturnTestResultNotFound()
         {
             MethodInfo method = ((Action)testClass.ResetState).Method;
 
-            var exception = Record.Exception(() => warmupTestRunner.Execute(method));
+            var result = warmupTestRunner.Execute(method);
 
-            Assert.Equal(typeof(MoyaAttributeNotFoundException), exception.GetType());
-            Assert.Equal("Unable to find Moya.Attributes.WarmupAttribute in Void ResetState()", exception.Message);
+            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
         }
 
         [Fact]
-        public void ExecuteMethodWithStressAttributeShouldThrowMoyaAttributeNotFoundException()
+        public void ExecuteMethodWithStressAttributeShouldReturnTestResultNotFound()
         {
             MethodInfo method = ((Action)testClass.MethodWithStressAttribute).Method;
 
-            var exception = Record.Exception(() => warmupTestRunner.Execute(method));
+            var result = warmupTestRunner.Execute(method);
 
-            Assert.Equal(typeof(MoyaAttributeNotFoundException), exception.GetType());
-            Assert.Equal("Unable to find Moya.Attributes.WarmupAttribute in Void MethodWithStressAttribute()", exception.Message);
+            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
         }
 
         class TestClass
@@ -77,7 +75,7 @@ namespace TestMoya.Runner.Runners
                 MethodWithEmptyWarmupAttributeRun++;
             }
 
-            [Warmup(Duration = 100)]
+            [Warmup(Duration = 1)]
             public void MethodWithDurationWarmupAttribute()
             {
             }

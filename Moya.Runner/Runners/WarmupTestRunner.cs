@@ -5,8 +5,6 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using Attributes;
-    using Exceptions;
-    using Extensions;
     using Models;
 
     public class WarmupTestRunner : ITestRunner
@@ -16,6 +14,14 @@
         public ITestResult Execute(MethodInfo methodInfo)
         {
             var type = methodInfo.DeclaringType;
+
+            if (!MethodHasWarmupAttribute(methodInfo))
+            {
+                return new TestResult
+                {
+                    TestOutcome = TestOutcome.NotFound
+                };
+            }
 
             DetectDurationFromMethod(methodInfo);
 
@@ -36,21 +42,18 @@
             };
         }
 
+        private static bool MethodHasWarmupAttribute(MethodInfo methodInfo)
+        {
+            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(WarmupAttribute), true);
+
+            return moyaAttributes.Length != 0;
+        }
+
         private void DetectDurationFromMethod(MethodInfo methodInfo)
         {
-            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(MoyaAttribute), true);
-
-            if (moyaAttributes.Length == 0)
-            {
-                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(WarmupAttribute), methodInfo));
-            }
-
+            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(WarmupAttribute), true);
+            
             WarmupAttribute warmupAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(WarmupAttribute)) as WarmupAttribute;
-
-            if (warmupAttribute == null)
-            {
-                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(WarmupAttribute), methodInfo));
-            }
 
             Duration = warmupAttribute.Duration;
         }
@@ -63,7 +66,7 @@
             }
             else
             {
-                ExecuteWithTimeLimit(TimeSpan.FromMilliseconds(Duration), codeBlock);
+                ExecuteWithTimeLimit(TimeSpan.FromSeconds(Duration), codeBlock);
             }
         }
 

@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
     using Moya.Attributes;
-    using Moya.Exceptions;
+    using Moya.Models;
     using Moya.Runner.Runners;
     using Xunit;
 
@@ -63,10 +63,9 @@
         {
             MethodInfo method = ((Action)testClass.ResetState).Method;
 
-            var exception = Record.Exception(() => stressTestRunner.Execute(method));
+            var result = stressTestRunner.Execute(method);
 
-            Assert.Equal(typeof(MoyaAttributeNotFoundException), exception.GetType());
-            Assert.Equal("Unable to find Moya.Attributes.StressAttribute in Void ResetState()", exception.Message);
+            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
         }
 
         [Fact]
@@ -74,10 +73,9 @@
         {
             MethodInfo method = ((Action)testClass.MethodWithEmptyWarmupAttribute).Method;
 
-            var exception = Record.Exception(() => stressTestRunner.Execute(method));
+            var result = stressTestRunner.Execute(method);
 
-            Assert.Equal(typeof(MoyaAttributeNotFoundException), exception.GetType());
-            Assert.Equal("Unable to find Moya.Attributes.StressAttribute in Void MethodWithEmptyWarmupAttribute()", exception.Message);
+            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
         }
 
         class TestClass

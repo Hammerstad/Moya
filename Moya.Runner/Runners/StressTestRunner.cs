@@ -29,6 +29,15 @@
         public ITestResult Execute(MethodInfo methodInfo)
         {
             var type = methodInfo.DeclaringType;
+
+            if (!MethodHasStressAttribute(methodInfo))
+            {
+                return new TestResult
+                {
+                    TestOutcome = TestOutcome.NotFound
+                };
+            }
+
             SetUsersAndTimes(methodInfo);
             var countdownEvent = new CountdownEvent(Users);
 
@@ -36,6 +45,7 @@
             {
                 new Thread(delegate()
                 {
+                    // ReSharper disable once AssignNullToNotNullAttribute
                     var instance = Activator.CreateInstance(type);
                     for (var j = 0; j < Times; j++)
                     {
@@ -53,21 +63,18 @@
             };
         }
 
+        private static bool MethodHasStressAttribute(MethodInfo methodInfo)
+        {
+            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(StressAttribute), true);
+
+            return moyaAttributes.Length != 0;
+        }
+
         private void SetUsersAndTimes(MethodInfo methodInfo)
         {
-            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(MoyaAttribute), true);
-
-            if (moyaAttributes.Length == 0)
-            {
-                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(StressAttribute), methodInfo));
-            }
+            object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(StressAttribute), true);
 
             StressAttribute stressAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(StressAttribute)) as StressAttribute;
-            
-            if (stressAttribute == null)
-            {
-                throw new MoyaAttributeNotFoundException("Unable to find {0} in {1}".FormatWith(typeof(StressAttribute), methodInfo));
-            }
 
             Users = stressAttribute.Users;
             Times = stressAttribute.Times;

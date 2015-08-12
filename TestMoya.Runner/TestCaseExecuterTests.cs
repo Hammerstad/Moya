@@ -21,13 +21,13 @@
             {
                 ClassName = "Moya.Dummy.Test.Project.TestClass",
                 Id = Guid.NewGuid(),
-                MethodName = "AMethod",
+                MethodName = "OnlyWarmupMethod",
                 FilePath = GetMoyaDummyTestProjectDllPath()
             };
 
             var testResult = testCaseExecuter.RunTest(testCase);
 
-            Assert.Equal(1, testResult.Count);
+            Assert.Equal(1, testResult.Count(x => x.TestOutcome == TestOutcome.Success));
             Assert.Equal(TestOutcome.Success, testResult.First().TestOutcome);
         }
 
