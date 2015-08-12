@@ -1,4 +1,6 @@
-﻿namespace Moya.Runner.Runners
+﻿using System.Diagnostics;
+
+namespace Moya.Runner.Runners
 {
     using System;
     using System.Linq;
@@ -17,7 +19,7 @@
         {
             var type = methodInfo.DeclaringType;
 
-            DetectDurationAndTimesFromMethod(methodInfo);
+            DetectDurationFromMethod(methodInfo);
 
             ExecuteWarmup(() =>
             {
@@ -36,7 +38,7 @@
             };
         }
 
-        private void DetectDurationAndTimesFromMethod(MethodInfo methodInfo)
+        private void DetectDurationFromMethod(MethodInfo methodInfo)
         {
             object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(MoyaAttribute), true);
 
