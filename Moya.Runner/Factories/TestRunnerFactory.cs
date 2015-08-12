@@ -12,7 +12,8 @@
     {
         private readonly IDictionary<Type, Type> attributeTestRunnerMapping = new Dictionary<Type, Type>
         {
-            { typeof(StressAttribute), typeof(StressTestRunner) }
+            { typeof(StressAttribute), typeof(StressTestRunner) },
+            { typeof(WarmupAttribute), typeof(WarmupTestRunner) },
         };
 
         public ITestRunner GetTestRunnerForAttribute(Type type)
