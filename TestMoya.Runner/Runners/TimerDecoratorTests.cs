@@ -52,7 +52,7 @@ namespace TestMoya.Runner.Runners
             [Stress]
             public static void MethodWithMoyaAttribute()
             {
-                Thread.Sleep(1);
+                Thread.Sleep(5);
             }
         }
     }
