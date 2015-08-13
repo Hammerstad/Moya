@@ -5,6 +5,6 @@
 
     public interface ITestRunnerFactory
     {
-        ITestRunner GetTestRunnerForAttribute(Type type);
+        IMoyaTestRunner GetTestRunnerForAttribute(Type type);
     }
 }

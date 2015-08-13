@@ -2,6 +2,8 @@
 {
     public interface ITestResult
     {
+        TestType TestType { get; set; }
+
         TestOutcome TestOutcome { get; set; }
 
         string ErrorMessage { get; set; }

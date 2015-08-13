@@ -7,7 +7,7 @@
     using Attributes;
     using Models;
 
-    public class WarmupTestRunner : ITestRunner
+    public class WarmupTestRunner : IWarmupTestRunner
     {
         public int Duration { get; set; }
 
@@ -19,7 +19,8 @@
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.NotFound
+                    TestOutcome = TestOutcome.NotFound,
+                    TestType = TestType.PreTest
                 };
             }
 
@@ -38,7 +39,8 @@
 
             return new TestResult
             {
-                TestOutcome = TestOutcome.Success
+                TestOutcome = TestOutcome.Success,
+                TestType = TestType.PreTest
             };
         }
 

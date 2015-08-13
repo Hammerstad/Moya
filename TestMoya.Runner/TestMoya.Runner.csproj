@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Factories\TestRunnerFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runners\LongerThanTestRunnerTests.cs" />
     <Compile Include="Runners\StressTestRunnerTests.cs" />
     <Compile Include="Runners\TimerDecoratorTests.cs" />
     <Compile Include="Runners\WarmupTestRunnerTests.cs" />

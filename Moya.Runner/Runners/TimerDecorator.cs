@@ -4,11 +4,11 @@
     using System.Reflection;
     using Models;
 
-    public class TimerDecorator : ITestRunner
+    public class TimerDecorator : ITimerDecorator
     {
-        public ITestRunner DecoratedTestRunner { get; set; }
+        public IMoyaTestRunner DecoratedTestRunner { get; set; }
         
-        public TimerDecorator(ITestRunner testRunner)
+        public TimerDecorator(IMoyaTestRunner testRunner)
         {
             DecoratedTestRunner = testRunner;
         }

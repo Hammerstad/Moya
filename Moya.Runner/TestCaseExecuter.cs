@@ -35,13 +35,13 @@
 
         private void RunPreTestAttributes(MethodInfo methodInfo)
         {
-            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
+            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
             testResults.Add(testRunner.Execute(methodInfo));
         }
 
         private void RunTestAttributes(MethodInfo methodInfo)
         {
-            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
             testResults.Add(testRunner.Execute(methodInfo));
         }
 

@@ -16,7 +16,7 @@
             { typeof(WarmupAttribute), typeof(WarmupTestRunner) },
         };
 
-        public ITestRunner GetTestRunnerForAttribute(Type type)
+        public IMoyaTestRunner GetTestRunnerForAttribute(Type type)
         {
             if (!Reflection.TypeIsMoyaAttribute(type))
             {
@@ -24,8 +24,8 @@
             }
 
             Type typeOfTestRunner = attributeTestRunnerMapping[type];
-            ITestRunner instance = (ITestRunner)Activator.CreateInstance(typeOfTestRunner);
-            ITestRunner timerDecoratedInstance = new TimerDecorator(instance);
+            IMoyaTestRunner instance = (IMoyaTestRunner)Activator.CreateInstance(typeOfTestRunner);
+            IMoyaTestRunner timerDecoratedInstance = new TimerDecorator(instance);
             return timerDecoratedInstance;
         }
     }

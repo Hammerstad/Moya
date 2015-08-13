@@ -32,7 +32,7 @@
         [Fact]
         public void ExecuteTimerDecoratedWarmupWithDurationAttributeRunsForAtLeastDuration()
         {
-            ITestRunner testRunner = new TimerDecorator(warmupTestRunner);
+            IMoyaTestRunner testRunner = new TimerDecorator(warmupTestRunner);
             MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
 
             var testResult = testRunner.Execute(method);

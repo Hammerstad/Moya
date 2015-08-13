@@ -1,9 +1,8 @@
-﻿using System.Threading;
-
-namespace TestMoya.Runner.Runners
+﻿namespace TestMoya.Runner.Runners
 {
     using System;
     using System.Reflection;
+    using System.Threading;
     using Moq;
     using Moya.Attributes;
     using Moya.Models;
@@ -12,12 +11,12 @@ namespace TestMoya.Runner.Runners
 
     public class TimerDecoratorTests
     {
-        private readonly Mock<ITestRunner> testRunnerMock;
+        private readonly Mock<IMoyaTestRunner> testRunnerMock;
         private TimerDecorator timerDecorator;
 
         public TimerDecoratorTests()
         {
-            testRunnerMock = new Mock<ITestRunner>();
+            testRunnerMock = new Mock<IMoyaTestRunner>();
         }
 
         [Fact]

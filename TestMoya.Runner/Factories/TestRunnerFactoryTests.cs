@@ -13,7 +13,7 @@
         [Fact]
         public void GetTestRunnerForStressAttributeReturnsTimerDecorator()
         {
-            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
 
             Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
         }
@@ -21,7 +21,7 @@
         [Fact]
         public void GetTestRunnerForStressAttributeReturnsTimerDecoratorContainingStressTestRunner()
         {
-            ITestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
 
             Assert.Equal(typeof(StressTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
         }
@@ -29,7 +29,7 @@
         [Fact]
         public void GetTestRunnerForInvalidAttributeThrowsMoyaException()
         {
-            ITestRunner testRunner;
+            IMoyaTestRunner testRunner;
             
             var exception = Record.Exception(() => testRunnerFactory.GetTestRunnerForAttribute(typeof(MoyaAttribute)));
 

@@ -5,8 +5,6 @@
     using System.Reflection;
     using System.Threading;
     using Attributes;
-    using Exceptions;
-    using Extensions;
     using Models;
 
     public class StressTestRunner : IStressTestRunner
@@ -34,7 +32,8 @@
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.NotFound
+                    TestOutcome = TestOutcome.NotFound,
+                    TestType = TestType.Test
                 };
             }
 
@@ -59,7 +58,8 @@
 
             return new TestResult
             {
-                TestOutcome = TestOutcome.Success
+                TestOutcome = TestOutcome.Success,
+                TestType = TestType.Test
             };
         }
 

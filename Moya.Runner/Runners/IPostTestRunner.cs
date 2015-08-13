@@ -1,6 +1,6 @@
 ﻿namespace Moya.Runner.Runners
 {
-    public interface ITestRunner: IMoyaTestRunner
+    public interface IPostTestRunner: IMoyaTestRunner
     {
          
     }
