@@ -1,4 +1,6 @@
-﻿namespace Moya.Runner.Runners
+﻿using System.Diagnostics;
+
+namespace Moya.Runner.Runners
 {
     using System;
     using System.Linq;
@@ -57,6 +59,7 @@
             
             WarmupAttribute warmupAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(WarmupAttribute)) as WarmupAttribute;
 
+            // ReSharper disable once PossibleNullReferenceException
             Duration = warmupAttribute.Duration;
         }
 
@@ -68,14 +71,25 @@
             }
             else
             {
-                ExecuteWithTimeLimit(TimeSpan.FromSeconds(Duration), codeBlock);
+                ExecuteWithTimeLimit(Duration * 1000, codeBlock);
             }
         }
 
-        private static void ExecuteWithTimeLimit(TimeSpan timeSpan, Action codeBlock)
+        private static void ExecuteWithTimeLimit(int milliseconds, Action codeBlock)
         {
-            Task task = Task.Factory.StartNew(codeBlock);
-            task.Wait(timeSpan);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            bool done = false;
+            while (!done)
+            {
+                Task task = Task.Factory.StartNew(codeBlock);
+                done = task.Wait(milliseconds);
+                
+                milliseconds -= (int)stopwatch.ElapsedMilliseconds;
+                if (milliseconds <= 0)
+                {
+                    done = true;
+                }
+            }
         }
     }
 }
