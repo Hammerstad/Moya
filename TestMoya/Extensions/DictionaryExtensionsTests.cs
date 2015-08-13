@@ -1,7 +1,6 @@
-﻿using Shouldly;
-
-namespace TestMoya.Extensions
+﻿namespace TestMoya.Extensions
 {
+    using Shouldly;
     using System;
     using System.Collections.Generic;
     using Xunit;
