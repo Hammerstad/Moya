@@ -14,6 +14,8 @@
         {
             { typeof(StressAttribute), typeof(StressTestRunner) },
             { typeof(WarmupAttribute), typeof(WarmupTestRunner) },
+            { typeof(LongerThanAttribute), typeof(LongerThanTestRunner) },
+            { typeof(LessThanAttribute), typeof(LessThanTestRunner) },
         };
 
         public IMoyaTestRunner GetTestRunnerForAttribute(Type type)
