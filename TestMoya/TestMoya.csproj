@@ -72,6 +72,7 @@
     <Compile Include="Extensions\StringExtensionsTests.cs" />
     <Compile Include="Factories\TestRunnerFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runners\LessThanTestRunnerTests.cs" />
     <Compile Include="Runners\LongerThanTestRunnerTests.cs" />
     <Compile Include="Runners\StressTestRunnerTests.cs" />
     <Compile Include="Runners\TimerDecoratorTests.cs" />

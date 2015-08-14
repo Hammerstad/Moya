@@ -17,6 +17,7 @@
         {
             longerThanTestRunner = new LongerThanTestRunner();
             testClass = new TestClass();
+            TestClass.ResetState();
         }
 
         [Fact]
@@ -60,7 +61,7 @@
         }
 
         [Fact]
-        public void ExecuteMethodWithLongerThanAttributeWhichHasBeenRunReturnsSuccess()
+        public void ExecuteAfterOtherTestWhichRanOnTimeShouldReturnSuccess()
         {
             longerThanTestRunner.previousTestResults = new Collection<ITestResult>
             {
@@ -73,13 +74,74 @@
             Assert.Equal(result.TestOutcome, TestOutcome.Success);
         }
 
+        [Fact]
+        public void ExecuteAfterOtherTestWhichRanOnLessTimeShouldReturnFailure()
+        {
+            longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+            {
+                new TestResult{Duration = 8, TestType = TestType.Test}
+            };
+            MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
+
+            var result = longerThanTestRunner.Execute(method);
+
+            Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+        }
+
+        [Fact]
+        public void ExecuteAfterOtherTestWhichRanOnLongerTimeShouldReturnSuccess()
+        {
+            longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+            {
+                new TestResult{Duration = 12, TestType = TestType.Test}
+            };
+            MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
+
+            var result = longerThanTestRunner.Execute(method);
+
+            Assert.Equal(result.TestOutcome, TestOutcome.Success);
+        }
+
+        [Fact]
+        public void TestResultsWhichAreNotTestTypeTestShouldBeIgnored()
+        {
+            longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+            {
+                new TestResult{Duration = 8, TestType = TestType.Test},
+                new TestResult{Duration = 8, TestType = TestType.PostTest},
+                new TestResult{Duration = 8, TestType = TestType.PreTest},
+                new TestResult{Duration = 8, TestType = TestType.PostTest},
+                new TestResult{Duration = 8, TestType = TestType.PreTest},
+            };
+            MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
+
+            var result = longerThanTestRunner.Execute(method);
+
+            Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+        }
+
+        [Fact]
+        public void ExecuteAfterMultipleTestsWhichHasRunForTooLongShouldReturnSuccess()
+        {
+            longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+            {
+                new TestResult{Duration = 2, TestType = TestType.Test},
+                new TestResult{Duration = 3, TestType = TestType.Test},
+                new TestResult{Duration = 4, TestType = TestType.Test},
+                new TestResult{Duration = 5, TestType = TestType.Test},
+            };
+            MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
+
+            var result = longerThanTestRunner.Execute(method);
+
+            Assert.Equal(result.TestOutcome, TestOutcome.Success);
+        }
+
         class TestClass
         {
             public static int MethodWithLongerThanTenSecondsAttributeRun;
 
-            private static readonly object MyLock = new object();
-
-            public void ResetState()
+            public static void ResetState()
             {
                 MethodWithLongerThanTenSecondsAttributeRun = 0;
             }

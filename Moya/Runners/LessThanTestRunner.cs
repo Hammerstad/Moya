@@ -43,7 +43,7 @@
 
             var usedTime = previousTestResults.Where(x => x.TestType == TestType.Test).Sum(x => x.Duration);
 
-            return usedTime >= Seconds;
+            return usedTime <= Seconds;
         }
 
         private static bool MethodHasLessThanAttribute(MethodInfo methodInfo)
