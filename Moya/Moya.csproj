@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\LessThanAttribute.cs" />
     <Compile Include="Attributes\LongerThanAttribute.cs" />
     <Compile Include="Attributes\MoyaAttribute.cs" />
     <Compile Include="Attributes\StressAttribute.cs" />
