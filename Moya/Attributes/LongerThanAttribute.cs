@@ -15,7 +15,6 @@
             
         }
 
-        public bool Strict { get; set; }
         public int Seconds { get; set; }
     }
 }
