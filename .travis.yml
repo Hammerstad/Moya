@@ -4,3 +4,4 @@ install:
           - nuget restore Moya.sln
 script:
           - xbuild /p:Configuration=Release Moya.sln
+          - mono ./packages/xunit.runner.console.2.0.0/tools/xunit.console.exe ./TestMoya/bin/Release/TestMoya.dll
