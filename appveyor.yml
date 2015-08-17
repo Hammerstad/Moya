@@ -35,15 +35,7 @@ test_script:
 
     $coverallsPath = Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
 
-    echo $coverallsPath
-
-    pwd
-
-    Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
-
-    ls
-
-    ls .\packages
+    nuget
 
     $coveralls = $coverallsPath.ToString()
 
