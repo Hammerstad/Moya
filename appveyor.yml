@@ -33,7 +33,7 @@ test_script:
     
     Push-AppveyorArtifact MoyaCoverage.coveragexml
 
-    $coverallsPath = Resolve-Path "packages/coveralls.net.*/tools/csmacnz.coveralls.exe"
+    $coverallsPath = Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
 
     $coveralls = $coverallsPath.ToString()
 
