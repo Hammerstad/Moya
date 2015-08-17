@@ -6,7 +6,7 @@ environment:
     secure: T0CN6Rhd2CAhg368vxiH+RHgJgRzce4xmPu9lH6huFVq3/B58CG1Jl6bOxxk6CI6
 before_build:
   - nuget restore ".\Moya.sln"
-  - nuget install ".\.nuget\packages.config"
+  - nuget install ".\.nuget\packages.config" -OutputDirectory packages
 build:
   project: .\Moya.sln
   verbosity: minimal
