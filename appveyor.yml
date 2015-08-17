@@ -41,6 +41,10 @@ test_script:
 
     Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
 
+    ls
+
+    ls .\packages
+
     $coveralls = $coverallsPath.ToString()
 
     & $coveralls --dynamiccodecoverage `
