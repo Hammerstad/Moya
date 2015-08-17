@@ -6,6 +6,7 @@ environment:
     secure: T0CN6Rhd2CAhg368vxiH+RHgJgRzce4xmPu9lH6huFVq3/B58CG1Jl6bOxxk6CI6
 before_build:
   - nuget restore ".\Moya.sln"
+  - nuget install ".\.nuget\packages.config"
 build:
   project: .\Moya.sln
   verbosity: minimal
@@ -34,8 +35,6 @@ test_script:
     Push-AppveyorArtifact MoyaCoverage.coveragexml
 
     $coverallsPath = Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
-
-    nuget
 
     $coveralls = $coverallsPath.ToString()
 
