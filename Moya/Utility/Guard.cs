@@ -17,7 +17,7 @@
 
         public static void IsMoyaTestRunner(Type type)
         {
-            if (!typeof(ITestRunner).IsAssignableFrom(type))
+            if (!typeof(IMoyaTestRunner).IsAssignableFrom(type))
             {
                 throw new MoyaException("{0} is not a Moya Test Runner.".FormatWith(type));
             }
