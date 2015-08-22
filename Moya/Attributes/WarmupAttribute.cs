@@ -7,17 +7,17 @@
     /// have a warmup phase before other tests are run.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class WarmupAttribute : MoyaAttribute
+    public sealed class WarmupAttribute : MoyaAttribute
     {
         /// <summary>
-        /// Sets the duration of the warmup phase. Value represents minutes.
+        /// The duration of the warmup phase. Value represents minutes.
         /// </summary>
         /// <example>
         /// This sample shows a method warming up for 60 seconds.
         /// <code>
         /// class TestClass 
         /// { 
-        ///     [Warmup(Duration = 60)]
+        ///     [Warmup(60)]
         ///     static void MyMethod()  
         ///     { 
         ///         ...
@@ -25,6 +25,16 @@
         /// } 
         /// </code>
         /// </example>
-        public int Duration { get; set; }
+        public int Duration { get; private set; }
+
+        /// <summary>
+        /// Attribute that is applied to a method indicating that it should 
+        /// have a warmup phase before other tests are run.
+        /// </summary>
+        /// <param name="duration">The duration of the warmup phase. Value represents minutes.</param>
+        public WarmupAttribute(int duration)
+        {
+            Duration = duration;
+        }
     }
 }

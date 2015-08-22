@@ -22,11 +22,11 @@
         [Fact]
         public void ExecuteRunsMethod()
         {
-            MethodInfo method = ((Action)testClass.MethodWithEmptyWarmupAttribute).Method;
+            MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
 
             warmupTestRunner.Execute(method);
 
-            Assert.True(TestClass.MethodWithEmptyWarmupAttributeRun > 0);
+            Assert.True(TestClass.MethodWithDurationWarmupAttributeRun > 0);
         }
 
         [Fact]
@@ -38,6 +38,16 @@
             var testResult = testRunner.Execute(method);
 
             testResult.Duration.ShouldBeGreaterThanOrEqualTo(1000);
+        }
+
+        [Fact]
+        public void ExecuteMethodWithWarmupAttributeSetToZeroRunsMethod()
+        {
+            MethodInfo method = ((Action)testClass.MethodWithZeroWarmupAttribute).Method;
+
+            var testResult = warmupTestRunner.Execute(method);
+
+            Assert.True(TestClass.MethodWithZeroWarmupAttributeRun > 0);
         }
 
         [Fact]
@@ -62,22 +72,25 @@
 
         class TestClass
         {
-            public static int MethodWithEmptyWarmupAttributeRun;
+            public static int MethodWithDurationWarmupAttributeRun;
+            public static int MethodWithZeroWarmupAttributeRun;
 
             public void ResetState()
             {
-                MethodWithEmptyWarmupAttributeRun = 0;
+                MethodWithDurationWarmupAttributeRun = 0;
+                MethodWithZeroWarmupAttributeRun = 0;
             }
 
-            [Warmup]
-            public void MethodWithEmptyWarmupAttribute()
-            {
-                MethodWithEmptyWarmupAttributeRun++;
-            }
-
-            [Warmup(Duration = 1)]
+            [Warmup(1)]
             public void MethodWithDurationWarmupAttribute()
             {
+                MethodWithDurationWarmupAttributeRun++;
+            }
+
+            [Warmup(0)]
+            public void MethodWithZeroWarmupAttribute()
+            {
+                MethodWithZeroWarmupAttributeRun++;
             }
 
             [Stress]

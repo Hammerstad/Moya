@@ -8,7 +8,7 @@
     /// The attributed method can also be executed in parallel.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class StressAttribute : MoyaAttribute
+    public sealed class StressAttribute : MoyaAttribute
     {
         /// <summary>
         /// The amount of times the attributed method will be run in parrallel.

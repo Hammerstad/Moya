@@ -43,7 +43,7 @@
 
         static class TestClass
         {
-            [Warmup]
+            [Warmup(1)]
             public static void MethodWithMoyaAttribute()
             {
                 

@@ -43,7 +43,7 @@
         [Fact]
         public void ExecuteMethodWithNoLessThanAttributeReturnsNotFound()
         {
-            MethodInfo method = ((Action)testClass.MethodWithEmptyWarmupAttribute).Method;
+            MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
 
             var result = lessThanTestRunner.Execute(method);
 
@@ -148,12 +148,12 @@
                 MethodWithLessThanTenSecondsAttributeRun = 0;
             }
 
-            [Warmup]
-            public void MethodWithEmptyWarmupAttribute()
+            [Warmup(1)]
+            public void MethodWithWarmupAttribute()
             {
             }
 
-            [LessThan(Seconds = 10)]
+            [LessThan(10)]
             public void MethodWithLessThanTenSecondsAttribute()
             {
                 MethodWithLessThanTenSecondsAttributeRun++;

@@ -8,7 +8,7 @@
     /// This check is applied after the main test phase. 
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class LessThanAttribute : MoyaAttribute
+    public sealed class LessThanAttribute : MoyaAttribute
     {
         /// <summary>
         /// Attribute that is applied to a method indicating that it should 
@@ -19,16 +19,6 @@
         public LessThanAttribute(int seconds)
         {
             Seconds = seconds;
-        }
-
-        /// <summary>
-        /// Attribute that is applied to a method indicating that it should 
-        /// check if execution took less time than a specified value.
-        /// This check is applied after the main test phase. 
-        /// </summary>
-        public LessThanAttribute()
-        {
-
         }
 
         /// <summary>
@@ -51,6 +41,6 @@
         /// } 
         /// </code>
         /// </example>
-        public int Seconds { get; set; }
+        public int Seconds { get; private set; }
     }
 }

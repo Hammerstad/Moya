@@ -17,14 +17,14 @@
             Thread.Sleep(1);
         }
 
-        [Warmup(Duration = 1)]
+        [Warmup(1)]
         [Stress(Users = 13, Times = 500)]
         public void CMethod()
         {
             Thread.Sleep(1);
         }
 
-        [Warmup(Duration = 1)]
+        [Warmup(2)]
         public void OnlyWarmupMethod()
         {
             Thread.Sleep(1);

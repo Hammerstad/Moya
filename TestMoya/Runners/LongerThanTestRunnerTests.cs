@@ -43,7 +43,7 @@
         [Fact]
         public void ExecuteMethodWithNoLongerThanAttributeReturnsNotFound()
         {
-            MethodInfo method = ((Action)testClass.MethodWithEmptyWarmupAttribute).Method;
+            MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
 
             var result = longerThanTestRunner.Execute(method);
 
@@ -146,12 +146,12 @@
                 MethodWithLongerThanTenSecondsAttributeRun = 0;
             }
 
-            [Warmup]
-            public void MethodWithEmptyWarmupAttribute()
+            [Warmup(1)]
+            public void MethodWithWarmupAttribute()
             {
             }
 
-            [LongerThan(Seconds = 10)]
+            [LongerThan(10)]
             public void MethodWithLongerThanTenSecondsAttribute()
             {
                 MethodWithLongerThanTenSecondsAttributeRun++;
