@@ -30,5 +30,25 @@
             IMoyaTestRunner timerDecoratedInstance = new TimerDecorator(instance);
             return timerDecoratedInstance;
         }
+
+        public void AddTestRunnerForAttribute(Type testRunner, Type attribute)
+        {
+            Guard.IsMoyaTestRunner(testRunner);
+            Guard.IsMoyaAttribute(attribute);
+
+            EnsureMappingDoesNotExist(testRunner, attribute);
+            
+
+            attributeTestRunnerMapping.Add(attribute, testRunner);
+        }
+
+        private void EnsureMappingDoesNotExist(Type testRunner, Type attribute)
+        {
+            Type existingTestRunner;
+            if (attributeTestRunnerMapping.TryGetValue(attribute, out existingTestRunner) && existingTestRunner == testRunner)
+            {
+                throw new MoyaException("There already exists an entry for {0} - {1}.".FormatWith(testRunner, attribute));
+            }
+        }
     }
 }

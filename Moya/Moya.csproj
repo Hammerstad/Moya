@@ -70,6 +70,7 @@
     <Compile Include="Runners\WarmupTestRunner.cs" />
     <Compile Include="TestCaseExecuter.cs" />
     <Compile Include="Utility\AssemblyHelper.cs" />
+    <Compile Include="Utility\Guard.cs" />
     <Compile Include="Utility\Reflection.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
   </ItemGroup>

@@ -79,6 +79,7 @@
     <Compile Include="Runners\WarmupTestRunnerTests.cs" />
     <Compile Include="TestCaseExecuterTests.cs" />
     <Compile Include="Utility\AssemblyHelperTests.cs" />
+    <Compile Include="Utility\GuardTests.cs" />
     <Compile Include="Utility\ReflectionTests.cs" />
   </ItemGroup>
   <ItemGroup>
