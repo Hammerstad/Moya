@@ -12,7 +12,7 @@
 
     public class TestCaseExecuter : ITestCaseExecuter
     {
-        private readonly ITestRunnerFactory testRunnerFactory = new TestRunnerFactory();
+        private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
         private readonly ICollection<ITestResult> testResults = new List<ITestResult>();
 
         public ICollection<ITestResult> RunTest(TestCase testCase)

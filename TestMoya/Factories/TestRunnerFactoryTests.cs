@@ -11,7 +11,7 @@
 
     public class TestRunnerFactoryTests
     {
-        private readonly ITestRunnerFactory testRunnerFactory = new TestRunnerFactory();
+        private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
         
         [Fact]
         public void GetTestRunnerForStressAttributeReturnsTimerDecoratorContainingStressTestRunner()
