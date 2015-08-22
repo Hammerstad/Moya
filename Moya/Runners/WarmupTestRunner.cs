@@ -8,7 +8,7 @@
     using Attributes;
     using Models;
 
-    public class WarmupTestRunner : IWarmupTestRunner
+    internal class WarmupTestRunner : IWarmupTestRunner
     {
         public int Duration { get; set; }
 

@@ -3,11 +3,11 @@
     using System;
     using System.Reflection;
 
-    public class AssemblyHelper
+    internal class AssemblyHelper
     {
         private readonly Assembly assembly;
 
-        public AssemblyHelper(string assemblyPath)
+        internal AssemblyHelper(string assemblyPath)
         {
             assembly = Assembly.LoadFile(assemblyPath);
         }

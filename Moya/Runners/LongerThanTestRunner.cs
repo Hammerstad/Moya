@@ -6,7 +6,7 @@
     using Attributes;
     using Models;
 
-    public class LongerThanTestRunner : ILongerThanTestRunner
+    internal class LongerThanTestRunner : ILongerThanTestRunner
     {
         public int Seconds { get; private set; }
 

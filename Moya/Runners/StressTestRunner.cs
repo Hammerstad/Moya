@@ -7,7 +7,7 @@
     using Attributes;
     using Models;
 
-    public class StressTestRunner : IStressTestRunner
+    internal class StressTestRunner : IStressTestRunner
     {
         private int m_times = 1;
         private int m_users = 1;
