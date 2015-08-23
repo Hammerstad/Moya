@@ -1,6 +1,7 @@
 ﻿namespace Moya.Runners
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -9,6 +10,8 @@
 
     internal class StressTestRunner : IStressTestRunner
     {
+        private readonly IList<Thread> threadPool = new List<Thread>(); 
+
         private int m_times = 1;
         private int m_users = 1;
 
@@ -42,7 +45,7 @@
 
             for (var i = 0; i < Users; i++)
             {
-                new Thread(delegate()
+                var thread = new Thread(delegate()
                 {
                     // ReSharper disable once AssignNullToNotNullAttribute
                     var instance = Activator.CreateInstance(type);
@@ -51,16 +54,27 @@
                         methodInfo.Invoke(instance, null);
                     }
                     countdownEvent.Signal();
-                }).Start();
+                });
+                thread.Start();
+                threadPool.Add(thread);
             }
 
             countdownEvent.Wait();
+            WaitForThreadsToEnd();
 
             return new TestResult
             {
                 TestOutcome = TestOutcome.Success,
                 TestType = TestType.Test
             };
+        }
+
+        private void WaitForThreadsToEnd()
+        {
+            foreach (var thread in threadPool)
+            {
+                thread.Join();
+            }
         }
 
         private static bool MethodHasStressAttribute(MethodInfo methodInfo)
@@ -74,8 +88,9 @@
         {
             object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(StressAttribute), true);
 
-            StressAttribute stressAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(StressAttribute)) as StressAttribute;
+            StressAttribute stressAttribute = moyaAttributes.FirstOrDefault(x => x is StressAttribute) as StressAttribute;
 
+            // ReSharper disable once PossibleNullReferenceException
             Users = stressAttribute.Users;
             Times = stressAttribute.Times;
         }
