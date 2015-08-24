@@ -121,6 +121,23 @@
             Assert.Equal(ExpectedExceptionMessage, exception.Message);
         }
 
+        [Fact]
+        public void GetInstanceReturnsAValidTestRunnerFactory()
+        {
+            IMoyaTestRunnerFactory defaultFactory = MoyaTestRunnerFactory.DefaultInstance;
+
+            Assert.IsType(typeof(MoyaTestRunnerFactory), defaultFactory);
+        }
+
+        [Fact]
+        public void GetInstanceReturnsTheSameObjectTwice()
+        {
+            IMoyaTestRunnerFactory firstInstance = MoyaTestRunnerFactory.DefaultInstance;
+            IMoyaTestRunnerFactory secondInstance = MoyaTestRunnerFactory.DefaultInstance;
+
+            Assert.Same(firstInstance,secondInstance);
+        }
+
         class DummyAttribute : MoyaAttribute
         {
             

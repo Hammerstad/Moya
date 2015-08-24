@@ -12,8 +12,29 @@
     /// A factory containing mappings between children of <see cref="MoyaAttribute"/> and
     /// implementations of <see cref="IMoyaTestRunner"/>.
     /// </summary>
-    public class MoyaTestRunnerFactory : IMoyaTestRunnerFactory
+    internal class MoyaTestRunnerFactory : IMoyaTestRunnerFactory
     {
+        /// <summary>
+        /// The default MoyaTestRunnerFactory. Simplifies registring of custom test runners, as
+        /// well as fetching them.
+        /// </summary>
+        private static readonly Lazy<IMoyaTestRunnerFactory> defaultInstance;
+
+        /// <summary>
+        /// The default MoyaTestRunnerFactory. Simplifies registring of custom test runners, as
+        /// well as fetching them.
+        /// </summary>
+        internal static IMoyaTestRunnerFactory DefaultInstance { get { return defaultInstance.Value; } }
+
+        static MoyaTestRunnerFactory()
+        {
+            defaultInstance = new Lazy<IMoyaTestRunnerFactory>(() => new MoyaTestRunnerFactory());
+        }
+
+        /// <summary>
+        /// A mapping between attributes and test runner for that attribute. There is a one-to-one relationship
+        /// between them. The key of the dictionary is the attribute, the value is the test runner.
+        /// </summary>
         private readonly IDictionary<Type, Type> attributeTestRunnerMapping = new Dictionary<Type, Type>
         {
             { typeof(StressAttribute), typeof(StressTestRunner) },
