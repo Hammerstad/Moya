@@ -41,6 +41,7 @@
             { typeof(WarmupAttribute), typeof(WarmupTestRunner) },
             { typeof(LongerThanAttribute), typeof(LongerThanTestRunner) },
             { typeof(LessThanAttribute), typeof(LessThanTestRunner) },
+            { typeof(MoyaConfigurationAttribute), typeof(MoyaConfigurationTestRunner) },
         };
 
         /// <summary>
