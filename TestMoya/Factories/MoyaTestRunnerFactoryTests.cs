@@ -9,7 +9,7 @@
     using Moya.Runners;
     using Xunit;
 
-    public class TestRunnerFactoryTests
+    public class MoyaTestRunnerFactoryTests
     {
         private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
         
