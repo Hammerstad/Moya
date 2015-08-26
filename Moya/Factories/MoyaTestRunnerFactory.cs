@@ -47,21 +47,35 @@
 
         /// <summary>
         /// Gets a <see cref="IMoyaTestRunner"/> implementation for a subclass of <see cref="MoyaAttribute"/>.
-        /// Throws a <see cref="MoyaException"/> if <paramref name="type"/> is not a subclass of <see cref="MoyaAttribute"/>.
+        /// Throws a <see cref="MoyaException"/> if <paramref name="attribute"/> is not a subclass of <see cref="MoyaAttribute"/>.
         /// </summary>
-        /// <param name="type">A <see cref="Type"/> which is a subclass of <see cref="MoyaAttribute"/>.</param>
-        /// <returns>An implementation of <see cref="IMoyaTestRunner"/> for <paramref name="type"/>.</returns>
-        public IMoyaTestRunner GetTestRunnerForAttribute(Type type)
+        /// <param name="attribute">A <see cref="Type"/> which is a subclass of <see cref="MoyaAttribute"/>.</param>
+        /// <returns>An implementation of <see cref="IMoyaTestRunner"/> for <paramref name="attribute"/>.</returns>
+        public IMoyaTestRunner GetTestRunnerForAttribute(Type attribute)
         {
-            if (!Reflection.TypeIsMoyaAttribute(type))
+            if (!Reflection.TypeIsMoyaAttribute(attribute))
             {
-                throw new MoyaException("Unable to provide moya test runner for type {0}".FormatWith(type));
+                throw new MoyaException("Unable to provide moya test runner for type {0}".FormatWith(attribute));
             }
 
-            Type typeOfTestRunner = attributeTestRunnerMapping[type];
+            Type typeOfTestRunner = attributeTestRunnerMapping[attribute];
             IMoyaTestRunner instance = (IMoyaTestRunner)Activator.CreateInstance(typeOfTestRunner);
             IMoyaTestRunner timerDecoratedInstance = new TimerDecorator(instance);
             return timerDecoratedInstance;
+        }
+
+        /// <summary>
+        /// Gets a <see cref="MoyaAttribute"/> which can be run by the supplied <see cref="IMoyaTestRunner"/>.
+        /// Throws a <see cref="MoyaException"/> if <paramref name="testRunner"/> is not an <see cref="IMoyaTestRunner"/>.
+        /// </summary>
+        /// <param name="testRunner">A <see cref="Type"/> which is an <see cref="IMoyaTestRunner"/>.</param>
+        /// <returns>An attribute which can be run by <paramref name="testRunner"/>.</returns>
+        public MoyaAttribute GetAttributeForTestRunner(Type testRunner)
+        {
+            Guard.IsMoyaTestRunner(testRunner);
+            
+            Type attributeType = attributeTestRunnerMapping.FirstOrDefault(x => x.Value == testRunner).Key;
+            return (MoyaAttribute)Activator.CreateInstance(attributeType);
         }
 
         /// <summary>

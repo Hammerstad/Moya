@@ -179,6 +179,40 @@
             Assert.True(testRunners.Count() == 1);
         }
 
+        [Fact]
+        public void GetAttributeForTestRunnerWithInvalidTypeThrowsException()
+        {
+            Type testRunnerType = typeof(Object);
+            const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
+
+            var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
+
+            exception.ShouldBeOfType<MoyaException>();
+            Assert.Equal(ExpectedExceptionMessage, exception.Message);
+        }
+
+        [Fact]
+        public void GetAttributeForTestRunnerWithUnregistredTestRunnerThrowsException()
+        {
+            Type testRunnerType = typeof(DummyTestRunner);
+
+            var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
+
+            exception.ShouldBeOfType<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void GetAttributeForTestRunnerWithRegisteredTestRunnerReturnsAttribute()
+        {
+            Type attributeType = typeof(DummyAttribute);
+            Type testRunnerType = typeof(DummyTestRunner);
+
+            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+            var attribute = testRunnerFactory.GetAttributeForTestRunner(testRunnerType);
+
+            attribute.ShouldBeOfType<DummyAttribute>();
+        }
+
         class DummyAttribute : MoyaAttribute
         {
             
