@@ -1,6 +1,5 @@
 ﻿namespace TestMoya.Runners
 {
-    using System;
     using System.Reflection;
     using Moya.Attributes;
     using Moya.Factories;
@@ -20,12 +19,11 @@
         [Fact]
         public void UseConfigurationToAddTestRunnerShouldWork()
         {
-            Runner.MoyaTestRunnerFactory = new MoyaTestRunnerFactory();
             MethodInfo method = typeof(TestClass).GetMethod("MyConfiguration");
 
             Runner.Execute(method);
 
-            Assert.NotNull(Runner.MoyaTestRunnerFactory.GetTestRunnerForAttribute(typeof(TestAttribute)));
+            Assert.NotNull(MoyaTestRunnerFactory.DefaultInstance.GetTestRunnerForAttribute(typeof(TestAttribute)));
         }
 
         [Fact]
@@ -42,7 +40,6 @@
         public void MoyaConfigurationTestsArePreTests()
         {
 
-            Runner.MoyaTestRunnerFactory = new MoyaTestRunnerFactory();
             MethodInfo method = typeof(TestClass).GetMethod("MyConfiguration");
 
             var result = Runner.Execute(method);

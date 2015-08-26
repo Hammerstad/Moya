@@ -7,7 +7,7 @@
 
     public class MoyaConfigurationTestRunner : IMoyaConfigurationTestRunner
     {
-        public IMoyaTestRunnerFactory MoyaTestRunnerFactory { get; set; }
+        private readonly IMoyaTestRunnerFactory testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
 
         public ITestResult Execute(MethodInfo methodInfo)
         {
@@ -15,7 +15,7 @@
             {
                 // ReSharper disable once AssignNullToNotNullAttribute
                 var instance = Activator.CreateInstance(methodInfo.DeclaringType);
-                methodInfo.Invoke(instance, new object[] { MoyaTestRunnerFactory });
+                methodInfo.Invoke(instance, new object[] { testRunnerFactory });
                 return new TestResult
                 {
                     TestOutcome = TestOutcome.Success,

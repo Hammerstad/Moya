@@ -1,7 +1,7 @@
 ﻿namespace Moya.Dummy.Test.Project
 {
     using System.Threading;
-    using Attributes;
+    using Moya.Attributes;
 
     public class TestClass
     {

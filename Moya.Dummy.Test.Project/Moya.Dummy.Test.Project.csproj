@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\CustomAttribute.cs" />
+    <Compile Include="Attributes\CustomPostAttribute.cs" />
+    <Compile Include="Attributes\CustomPreAttribute.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="CustomPostTestExample.cs" />
+    <Compile Include="CustomTestExample.cs" />
+    <Compile Include="CustomPreTestExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClass.cs" />
+    <Compile Include="TestRunners\CustomPostTestRunner.cs" />
+    <Compile Include="TestRunners\CustomPreTestRunner.cs" />
+    <Compile Include="TestRunners\CustomTestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moya\Moya.csproj">

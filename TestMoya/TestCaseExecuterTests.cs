@@ -51,12 +51,81 @@
             exception.Message.ShouldEndWith(ExpectedExceptionMessageEnd);
         }
 
+        [Fact]
+        public void RunTestWithCustomPreTestRunnerShouldRunTestRunner()
+        {
+            ConfigureTestProject();
+            TestCase testCase = new TestCase
+            {
+                ClassName = "Moya.Dummy.Test.Project.CustomPreTestExample",
+                Id = Guid.NewGuid(),
+                MethodName = "MyTestMethod",
+                FilePath = GetMoyaDummyTestProjectDllPath()
+            };
+
+            var result = testCaseExecuter.RunTest(testCase);
+
+            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+            result.First().TestType.ShouldBe(TestType.PreTest);
+            result.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void RunTestWithCustomTestRunnerShouldRunTestRunner()
+        {
+            ConfigureTestProject();
+            TestCase testCase = new TestCase
+            {
+                ClassName = "Moya.Dummy.Test.Project.CustomTestExample",
+                Id = Guid.NewGuid(),
+                MethodName = "MyTestMethod",
+                FilePath = GetMoyaDummyTestProjectDllPath()
+            };
+
+            var result = testCaseExecuter.RunTest(testCase);
+
+            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+            result.First().TestType.ShouldBe(TestType.Test);
+            result.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void RunTestWithCustomPostTestRunnerShouldRunTestRunner()
+        {
+            ConfigureTestProject();
+            TestCase testCase = new TestCase
+            {
+                ClassName = "Moya.Dummy.Test.Project.CustomPostTestExample",
+                Id = Guid.NewGuid(),
+                MethodName = "MyTestMethod",
+                FilePath = GetMoyaDummyTestProjectDllPath()
+            };
+
+            var result = testCaseExecuter.RunTest(testCase);
+
+            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+            result.First().TestType.ShouldBe(TestType.PostTest);
+            result.Count.ShouldBe(1);
+        }
+
         private static string GetCurrentAssemblyDirectory()
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
+        }
+
+        private void ConfigureTestProject()
+        {
+            TestCase testCase = new TestCase
+            {
+                ClassName = "Moya.Dummy.Test.Project.Configuration",
+                Id = Guid.NewGuid(),
+                MethodName = "Configure",
+                FilePath = GetMoyaDummyTestProjectDllPath()
+            };
+            testCaseExecuter.RunTest(testCase);
         }
 
         private static string GetMoyaDummyTestProjectDllPath()

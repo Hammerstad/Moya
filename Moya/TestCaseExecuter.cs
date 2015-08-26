@@ -14,10 +14,11 @@
     public class TestCaseExecuter : ITestCaseExecuter
     {
         private readonly IMoyaTestRunnerFactory testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
-        private readonly ICollection<ITestResult> testResults = new List<ITestResult>();
+        private ICollection<ITestResult> testResults;
 
         public ICollection<ITestResult> RunTest(TestCase testCase)
         {
+            testResults = new List<ITestResult>();
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
             if (methodInfo == null)
@@ -31,11 +32,14 @@
             // Pre test
             RunTest(methodInfo, typeof(MoyaConfigurationAttribute));
             RunTest(methodInfo, typeof(WarmupAttribute));
+            RunCustomPreTests(methodInfo);
             // Test
             RunTest(methodInfo, typeof(StressAttribute));
+            RunCustomTests(methodInfo);
             // Post test
             RunTest(methodInfo, typeof(LessThanAttribute));
             RunTest(methodInfo, typeof(LongerThanAttribute));
+            RunCustomPostTests(methodInfo);
             return testResults;
         }
 
@@ -59,6 +63,34 @@
             object[] moyaAttributes = methodInfo.GetCustomAttributes(attribute, true);
 
             return moyaAttributes.Length != 0;
+        }
+
+        private void RunCustomPreTests(MethodInfo methodInfo)
+        {
+            var customTestRunners = testRunnerFactory.GetCustomPreTestRunners();
+            RunCustomTestRunners(customTestRunners, methodInfo);
+        }
+        private void RunCustomTests(MethodInfo methodInfo)
+        {
+            var customTestRunners = testRunnerFactory.GetCustomTestRunners();
+            RunCustomTestRunners(customTestRunners, methodInfo);
+        }
+        private void RunCustomPostTests(MethodInfo methodInfo)
+        {
+            var customTestRunners = testRunnerFactory.GetCustomPostTestRunners();
+            RunCustomTestRunners(customTestRunners, methodInfo);
+        }
+
+        private void RunCustomTestRunners(IEnumerable<IMoyaTestRunner> testRunners, MethodInfo methodInfo)
+        {
+            foreach (var testRunner in testRunners)
+            {
+                var attributeType = testRunnerFactory.GetAttributeForTestRunner(testRunner.GetType());
+                if (MethodHasAttribute(methodInfo, attributeType.GetType()))
+                {
+                    testResults.Add(testRunner.Execute(methodInfo));
+                }
+            }
         }
     }
 }
