@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Attributes;
     using Exceptions;
     using Extensions;
@@ -78,6 +79,45 @@
             EnsureMappingDoesNotExist(testRunner, attribute);
 
             attributeTestRunnerMapping.Add(attribute, testRunner);
+        }
+
+        /// <summary>
+        /// Gets an <see cref="IEnumerable{T}"/> containing <see cref="ICustomPreTestRunner"/> which are custom made test runners 
+        /// added by the user. These runners run in the pre test phase, after the original moya pre test runners.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> with custom pre test runners which are made by the user.</returns>
+        public IEnumerable<ICustomPreTestRunner> GetCustomPreTestRunners()
+        {
+            return attributeTestRunnerMapping.Values
+                .Where(x => x.GetInterfaces()
+                    .Contains(typeof(ICustomPreTestRunner)))
+                .Select(x => (ICustomPreTestRunner)Activator.CreateInstance(x));
+        }
+
+        /// <summary>
+        /// Gets an <see cref="IEnumerable{T}"/> containing <see cref="ICustomTestRunner"/> which are custom made test runners 
+        /// added by the user. These runners run in the test phase, after the original moya test runners.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> with custom test runners which are made by the user.</returns>
+        public IEnumerable<ICustomTestRunner> GetCustomTestRunners()
+        {
+            return attributeTestRunnerMapping.Values
+                .Where(x => x.GetInterfaces()
+                    .Contains(typeof(ICustomTestRunner)))
+                .Select(x => (ICustomTestRunner)Activator.CreateInstance(x));
+        }
+
+        /// <summary>
+        /// Gets an <see cref="IEnumerable{T}"/> containing <see cref="ICustomPostTestRunner"/> which are custom made test runners 
+        /// added by the user. These runners run in the post test phase, after the original moya post test runners.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> with custom post test runners which are made by the user.</returns>
+        public IEnumerable<ICustomPostTestRunner> GetCustomPostTestRunners()
+        {
+            return attributeTestRunnerMapping.Values
+                .Where(x => x.GetInterfaces()
+                    .Contains(typeof(ICustomPostTestRunner)))
+                .Select(x => (ICustomPostTestRunner)Activator.CreateInstance(x));
         }
 
         /// <summary>

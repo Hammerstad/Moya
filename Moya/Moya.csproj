@@ -55,6 +55,9 @@
     <Compile Include="Models\TestResult.cs" />
     <Compile Include="Models\TestType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runners\ICustomPostTestRunner.cs" />
+    <Compile Include="Runners\ICustomPreTestRunner.cs" />
+    <Compile Include="Runners\ICustomTestRunner.cs" />
     <Compile Include="Runners\ILessThanTestRunner.cs" />
     <Compile Include="Runners\ILongerThanTestRunner.cs" />
     <Compile Include="Runners\IMoyaConfigurationTestRunner.cs" />

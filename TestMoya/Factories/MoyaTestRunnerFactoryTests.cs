@@ -1,12 +1,14 @@
 ﻿namespace TestMoya.Factories
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using Moya.Attributes;
     using Moya.Exceptions;
     using Moya.Factories;
     using Moya.Models;
     using Moya.Runners;
+    using Shouldly;
     using Xunit;
 
     public class MoyaTestRunnerFactoryTests
@@ -138,12 +140,75 @@
             Assert.Same(firstInstance,secondInstance);
         }
 
+        [Fact]
+        public void AddCustomPreTestRunnerShouldBeReturnedByGetCustomPreTestRunners()
+        {
+            Type attributeType = typeof(DummyAttribute);
+            Type testRunnerType = typeof(DummyPreTestRunner);
+
+            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+            var testRunners = testRunnerFactory.GetCustomPreTestRunners().ToList();
+
+            Assert.NotEmpty(testRunners);
+            Assert.True(testRunners.Count() == 1);
+        }
+
+        [Fact]
+        public void AddCustomTestRunnerShouldBeReturnedByGetCustomTestRunners()
+        {
+            Type attributeType = typeof(DummyAttribute);
+            Type testRunnerType = typeof(DummyCustomTestRunner);
+
+            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+            var testRunners = testRunnerFactory.GetCustomTestRunners().ToList();
+
+            Assert.NotEmpty(testRunners);
+            Assert.True(testRunners.Count() == 1);
+        }
+
+        [Fact]
+        public void AddCustomPostTestRunnerShouldBeReturnedByGetCustomPostTestRunners()
+        {
+            Type attributeType = typeof(DummyAttribute);
+            Type testRunnerType = typeof(DummyPostTestRunner);
+
+            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+            var testRunners = testRunnerFactory.GetCustomPostTestRunners().ToList();
+
+            Assert.NotEmpty(testRunners);
+            Assert.True(testRunners.Count() == 1);
+        }
+
         class DummyAttribute : MoyaAttribute
         {
             
         }
 
         class DummyTestRunner : ITestRunner
+        {
+            public ITestResult Execute(MethodInfo methodInfo)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DummyPreTestRunner : ICustomPreTestRunner
+        {
+            public ITestResult Execute(MethodInfo methodInfo)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DummyPostTestRunner : ICustomPostTestRunner
+        {
+            public ITestResult Execute(MethodInfo methodInfo)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DummyCustomTestRunner : ICustomTestRunner
         {
             public ITestResult Execute(MethodInfo methodInfo)
             {
