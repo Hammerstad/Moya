@@ -46,7 +46,6 @@
     <Compile Include="Factories\MoyaTestRunnerFactory.cs" />
     <Compile Include="ITestCaseExecuter.cs" />
     <Compile Include="Models\ITestResult.cs" />
-    <Compile Include="Models\Scalability.cs" />
     <Compile Include="Attributes\WarmupAttribute.cs" />
     <Compile Include="Exceptions\MoyaException.cs" />
     <Compile Include="Models\TestCase.cs" />
