@@ -1,6 +1,6 @@
 ﻿namespace Moya.Runners
 {
-    public interface IWarmupTestRunner : IPreTestRunner
+    internal interface IWarmupTestRunner : IPreTestRunner
     {
         int Duration { get; set; } 
     }

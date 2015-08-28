@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Models;
 
-    public interface ILongerThanTestRunner : IPostTestRunner
+    internal interface ILongerThanTestRunner : IPostTestRunner
     {
         ICollection<ITestResult> previousTestResults { get; set; }
 

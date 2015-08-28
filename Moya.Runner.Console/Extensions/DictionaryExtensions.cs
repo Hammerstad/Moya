@@ -1,13 +1,13 @@
-﻿namespace Moya.Extensions
+﻿namespace Moya.Runner.Console.Extensions
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Extends the <see cref="IDictionary{TKey,TValue}"/> class.
     /// </summary>
-    public static class DictionaryExtensions
+    internal static class DictionaryExtensions
     {
         /// <summary>
         /// Adds multiple entries from one <see cref="IDictionary{TKey,TValue}"/>

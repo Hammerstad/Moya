@@ -3,7 +3,7 @@
     /// <summary>
     /// Extends the <see cref="string"/> class.
     /// </summary>
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         /// <summary>
         /// Formats the <see cref="string"/> value using the given <paramref name="arguments"/>. 

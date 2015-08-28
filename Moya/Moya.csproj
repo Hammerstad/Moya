@@ -42,7 +42,6 @@
     <Compile Include="Attributes\MoyaAttribute.cs" />
     <Compile Include="Attributes\MoyaConfigurationAttribute.cs" />
     <Compile Include="Attributes\StressAttribute.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Factories\IMoyaTestRunnerFactory.cs" />
     <Compile Include="Factories\MoyaTestRunnerFactory.cs" />
     <Compile Include="ITestCaseExecuter.cs" />

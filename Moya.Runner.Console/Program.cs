@@ -1,7 +1,6 @@
 ﻿namespace Moya.Runner.Console
 {
     using System;
-    using Moya.Extensions;
 
     class Program
     {
@@ -13,7 +12,7 @@
             }
             catch(Exception e)
             {
-                Console.Error.WriteLine("Error: {0}".FormatWith(e.Message));
+                Console.Error.WriteLine("Error: {0}", e.Message);
                 Environment.Exit(1);
             }
         }

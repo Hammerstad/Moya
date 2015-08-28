@@ -5,7 +5,7 @@
     using Extensions;
     using Runners;
 
-    public class Guard
+    internal class Guard
     {
         public static void IsMoyaAttribute(Type type)
         {

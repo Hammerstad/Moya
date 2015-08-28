@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Moya.Extensions;
     using Models;
     using Utility;
 
@@ -36,7 +35,7 @@
 
             foreach (var testResult in TestResults)
             {
-                Console.WriteLine("{0}".FormatWith(testResult.Duration));
+                Console.WriteLine("{0}", (testResult.Duration));
             }
         }
 

@@ -4,7 +4,7 @@
     using System.Reflection;
     using Attributes;
 
-    public class Reflection
+    internal class Reflection
     {
         public static bool MethodInfoHasMoyaAttribute(MethodInfo methodInfo)
         {

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Moya.Extensions;
 
     public class StartupOptionsHandler
     {
@@ -26,7 +25,7 @@
                         }
                         break;
                     default:
-                        Console.WriteLine("Error: {0} is not a valid argument.".FormatWith(optionsContainer.Options[optionKey]));
+                        Console.WriteLine("Error: {0} is not a valid argument.", optionsContainer.Options[optionKey]);
                         PrintUsage();
                         Environment.Exit(1);
                         break;
