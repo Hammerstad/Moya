@@ -6,10 +6,21 @@
     using Attributes;
     using Models;
 
+    /// <summary>
+    /// Represents the test runner responsible for running tests marked with
+    /// the <see cref="LessThanAttribute"/> attribute.
+    /// </summary>
     internal class LessThanTestRunner : ILessThanTestRunner
     {
+        /// <summary>
+        /// How many seconds the tests are supposed to take less than.
+        /// </summary>
         public int Seconds { get; private set; }
 
+        /// <summary>
+        /// Contains a list of previous test results. Used to determine if the tests
+        /// in fact took less than a given time.
+        /// </summary>
         public ICollection<ITestResult> previousTestResults { get; set; }
 
         public ITestResult Execute(MethodInfo methodInfo)

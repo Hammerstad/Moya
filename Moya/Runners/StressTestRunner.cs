@@ -8,6 +8,10 @@
     using Attributes;
     using Models;
 
+    /// <summary>
+    /// A test runner for the <see cref="StressAttribute"/> attribute. Can run a method
+    /// multiple times, both in parallel and sequence.
+    /// </summary>
     internal class StressTestRunner : IStressTestRunner
     {
         private readonly IList<Thread> threadPool = new List<Thread>(); 

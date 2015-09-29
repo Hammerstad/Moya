@@ -56,7 +56,7 @@
         {
             object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(WarmupAttribute), true);
             
-            WarmupAttribute warmupAttribute = moyaAttributes.FirstOrDefault(x => x.GetType() == typeof(WarmupAttribute)) as WarmupAttribute;
+            WarmupAttribute warmupAttribute = moyaAttributes.FirstOrDefault(x => x is WarmupAttribute) as WarmupAttribute;
 
             // ReSharper disable once PossibleNullReferenceException
             Duration = warmupAttribute.Duration;
@@ -70,19 +70,20 @@
             }
             else
             {
-                ExecuteWithTimeLimit(Duration * 1000, codeBlock);
+                ExecuteWithTimeLimit(Duration, codeBlock);
             }
         }
 
-        private static void ExecuteWithTimeLimit(int milliseconds, Action codeBlock)
+        private static void ExecuteWithTimeLimit(int seconds, Action codeBlock)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
+            int milliseconds = seconds * 1000;
             bool done = false;
             while (!done)
             {
                 Task task = Task.Factory.StartNew(codeBlock);
                 done = task.Wait(milliseconds);
-                
+
                 milliseconds -= (int)stopwatch.ElapsedMilliseconds;
                 if (milliseconds <= 0)
                 {
