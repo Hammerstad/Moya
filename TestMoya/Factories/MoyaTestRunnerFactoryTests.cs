@@ -13,204 +13,227 @@
 
     public class MoyaTestRunnerFactoryTests
     {
-        private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
-        
-        [Fact]
-        public void GetTestRunnerForStressAttributeReturnsTimerDecoratorContainingStressTestRunner()
+        public class GetTestRunnerForAttribute
         {
-            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+            private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
 
-            Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-            Assert.Equal(typeof(StressTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+            [Fact]
+            public void ForStressAttributeReturnsTimerDecorator()
+            {
+                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+
+                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
+            }
+
+            [Fact]
+            public void ReturnedTimerDecoratorContainsExpectedTestRunner()
+            {
+                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
+
+                Assert.Equal(typeof(StressTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+            }
+
+            [Fact]
+            public void InvalidAttributeThrowsMoyaException()
+            {
+                var exception = Record.Exception(() => testRunnerFactory.GetTestRunnerForAttribute(typeof(MoyaAttribute)));
+
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal("Unable to provide moya test runner for type Moya.Attributes.MoyaAttribute", exception.Message);
+            }
+
+            [Fact]
+            public void WarmupAttributeReturnsTimerDecoratedWarmupTestRunner()
+            {
+                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
+
+                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
+                Assert.Equal(typeof(WarmupTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+            }
+
+            [Fact]
+            public void LongerThanAttributeReturnsTimerDecoratedLongerThanTestRunner()
+            {
+                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LongerThanAttribute));
+
+                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
+                Assert.Equal(typeof(LongerThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+            }
+
+            [Fact]
+            public void LessThanAttributeReturnsTimerDecoratedLessThanTestRunner()
+            {
+                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LessThanAttribute));
+
+                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
+                Assert.Equal(typeof(LessThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+            }
         }
 
-        [Fact]
-        public void GetTestRunnerForInvalidAttributeThrowsMoyaException()
+        public class AddTestRunnerForAttribute
         {
-            var exception = Record.Exception(() => testRunnerFactory.GetTestRunnerForAttribute(typeof(MoyaAttribute)));
+            private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
 
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal("Unable to provide moya test runner for type Moya.Attributes.MoyaAttribute", exception.Message);
+            [Fact]
+            public void ExistingTestRunnerShouldThrowMoyaException()
+            {
+                Type stressAttributeType = typeof(StressAttribute);
+                Type stressTestRunnerType = typeof(StressTestRunner);
+                const string ExpectedExceptionMessage = "There already exists an entry for Moya.Runners.StressTestRunner - Moya.Attributes.StressAttribute.";
+
+                var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(stressTestRunnerType, stressAttributeType));
+
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
+
+            [Fact]
+            public void NewTestRunnerShouldAddTimerDecoratedTestRunner()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyTestRunner);
+
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
+
+                Assert.Equal(typeof(TimerDecorator), actualTestRunner.GetType());
+            }
+
+            [Fact]
+            public void NewTestRunnerShouldAddMapping()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyTestRunner);
+
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
+
+                Assert.Equal(testRunnerType, ((ITimerDecorator)actualTestRunner).DecoratedTestRunner.GetType());
+            }
+
+            [Fact]
+            public void InvalidTestRunnerShouldThrowException()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(Object);
+                const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
+
+                var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType));
+
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
+
+            [Fact]
+            public void InvalidAttributeShouldThrowException()
+            {
+                Type attributeType = typeof(Object);
+                Type testRunnerType = typeof(DummyTestRunner);
+                const string ExpectedExceptionMessage = "System.Object is not a Moya Attribute.";
+
+                var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType));
+
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
+
+            [Fact]
+            public void CustomPreTestRunnerShouldBeReturnedByGetCustomPreTestRunners()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyPreTestRunner);
+
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var testRunners = testRunnerFactory.GetCustomPreTestRunners().ToList();
+
+                Assert.NotEmpty(testRunners);
+                Assert.True(testRunners.Count() == 1);
+            }
+
+            [Fact]
+            public void CustomTestRunnerShouldBeReturnedByGetCustomTestRunners()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyCustomTestRunner);
+
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var testRunners = testRunnerFactory.GetCustomTestRunners().ToList();
+
+                Assert.NotEmpty(testRunners);
+                Assert.True(testRunners.Count() == 1);
+            }
+
+            [Fact]
+            public void CustomPostTestRunnerShouldBeReturnedByGetCustomPostTestRunners()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyPostTestRunner);
+
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var testRunners = testRunnerFactory.GetCustomPostTestRunners().ToList();
+
+                Assert.NotEmpty(testRunners);
+                Assert.True(testRunners.Count() == 1);
+            }
         }
 
-        [Fact]
-        public void GetTestRunnerForWarmupAttributeReturnsTimerDecoratorContainingWarmupTestRunner()
+        public class DefaultInstance
         {
-            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
+            [Fact]
+            public void ReturnsAValidTestRunnerFactory()
+            {
+                IMoyaTestRunnerFactory defaultFactory = MoyaTestRunnerFactory.DefaultInstance;
 
-            Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-            Assert.Equal(typeof(WarmupTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
+                Assert.IsType(typeof(MoyaTestRunnerFactory), defaultFactory);
+            }
+
+            [Fact]
+            public void ReturnsTheSameObjectTwice()
+            {
+                IMoyaTestRunnerFactory firstInstance = MoyaTestRunnerFactory.DefaultInstance;
+                IMoyaTestRunnerFactory secondInstance = MoyaTestRunnerFactory.DefaultInstance;
+
+                Assert.Same(firstInstance, secondInstance);
+            }
         }
 
-        [Fact]
-        public void GetTestRunnerForLongerThanAttributeReturnsTimerDecoratorContainingLongerThanTestRunner()
+        public class GetAttributeForTestRunner
         {
-            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LongerThanAttribute));
+            private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
 
-            Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-            Assert.Equal(typeof(LongerThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
-        }
+            [Fact]
+            public void InvalidTypeThrowsException()
+            {
+                Type testRunnerType = typeof(Object);
+                const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
 
-        [Fact]
-        public void GetTestRunnerForLessThanAttributeReturnsTimerDecoratorContainingLessThanTestRunner()
-        {
-            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LessThanAttribute));
+                var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
 
-            Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-            Assert.Equal(typeof(LessThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
-        }
+                exception.ShouldBeOfType<MoyaException>();
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
 
-        [Fact]
-        public void AddExistingTestRunnerShouldThrowMoyaException()
-        {
-            Type stressAttributeType = typeof(StressAttribute);
-            Type stressTestRunnerType = typeof(StressTestRunner);
-            const string ExpectedExceptionMessage = "There already exists an entry for Moya.Runners.StressTestRunner - Moya.Attributes.StressAttribute.";
-            
-            var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(stressTestRunnerType, stressAttributeType));
+            [Fact]
+            public void UnregistredTestRunnerThrowsException()
+            {
+                Type testRunnerType = typeof(DummyTestRunner);
 
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
-        }
+                var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
 
-        [Fact]
-        public void AddNewTestRunnerForAttributeShouldAddTimerDecoratedTestRunner()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyTestRunner);
+                exception.ShouldBeOfType<ArgumentNullException>();
+            }
 
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
+            [Fact]
+            public void RegisteredTestRunnerReturnsAttribute()
+            {
+                Type attributeType = typeof(DummyAttribute);
+                Type testRunnerType = typeof(DummyTestRunner);
 
-            Assert.Equal(typeof(TimerDecorator), actualTestRunner.GetType());
-        }
+                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
+                var attribute = testRunnerFactory.GetAttributeForTestRunner(testRunnerType);
 
-        [Fact]
-        public void AddNewTestRunnerForAttributeShouldAddMapping()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyTestRunner);
-
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
-
-            Assert.Equal(testRunnerType, ((ITimerDecorator)actualTestRunner).DecoratedTestRunner.GetType());
-        }
-
-        [Fact]
-        public void AddInvalidTestRunnerShouldThrowException()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(Object);
-            const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
-
-            var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType));
-
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
-        }
-
-        [Fact]
-        public void AddInvalidAttributeShouldThrowException()
-        {
-            Type attributeType = typeof(Object);
-            Type testRunnerType = typeof(DummyTestRunner);
-            const string ExpectedExceptionMessage = "System.Object is not a Moya Attribute.";
-
-            var exception = Record.Exception(() => testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType));
-
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
-        }
-
-        [Fact]
-        public void GetInstanceReturnsAValidTestRunnerFactory()
-        {
-            IMoyaTestRunnerFactory defaultFactory = MoyaTestRunnerFactory.DefaultInstance;
-
-            Assert.IsType(typeof(MoyaTestRunnerFactory), defaultFactory);
-        }
-
-        [Fact]
-        public void GetInstanceReturnsTheSameObjectTwice()
-        {
-            IMoyaTestRunnerFactory firstInstance = MoyaTestRunnerFactory.DefaultInstance;
-            IMoyaTestRunnerFactory secondInstance = MoyaTestRunnerFactory.DefaultInstance;
-
-            Assert.Same(firstInstance,secondInstance);
-        }
-
-        [Fact]
-        public void AddCustomPreTestRunnerShouldBeReturnedByGetCustomPreTestRunners()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyPreTestRunner);
-
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var testRunners = testRunnerFactory.GetCustomPreTestRunners().ToList();
-
-            Assert.NotEmpty(testRunners);
-            Assert.True(testRunners.Count() == 1);
-        }
-
-        [Fact]
-        public void AddCustomTestRunnerShouldBeReturnedByGetCustomTestRunners()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyCustomTestRunner);
-
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var testRunners = testRunnerFactory.GetCustomTestRunners().ToList();
-
-            Assert.NotEmpty(testRunners);
-            Assert.True(testRunners.Count() == 1);
-        }
-
-        [Fact]
-        public void AddCustomPostTestRunnerShouldBeReturnedByGetCustomPostTestRunners()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyPostTestRunner);
-
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var testRunners = testRunnerFactory.GetCustomPostTestRunners().ToList();
-
-            Assert.NotEmpty(testRunners);
-            Assert.True(testRunners.Count() == 1);
-        }
-
-        [Fact]
-        public void GetAttributeForTestRunnerWithInvalidTypeThrowsException()
-        {
-            Type testRunnerType = typeof(Object);
-            const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
-
-            var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
-
-            exception.ShouldBeOfType<MoyaException>();
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
-        }
-
-        [Fact]
-        public void GetAttributeForTestRunnerWithUnregistredTestRunnerThrowsException()
-        {
-            Type testRunnerType = typeof(DummyTestRunner);
-
-            var exception = Record.Exception(() => testRunnerFactory.GetAttributeForTestRunner(testRunnerType));
-
-            exception.ShouldBeOfType<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void GetAttributeForTestRunnerWithRegisteredTestRunnerReturnsAttribute()
-        {
-            Type attributeType = typeof(DummyAttribute);
-            Type testRunnerType = typeof(DummyTestRunner);
-
-            testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-            var attribute = testRunnerFactory.GetAttributeForTestRunner(testRunnerType);
-
-            attribute.ShouldBeOfType<DummyAttribute>();
+                attribute.ShouldBeOfType<DummyAttribute>();
+            }
         }
 
         class DummyAttribute : MoyaAttribute

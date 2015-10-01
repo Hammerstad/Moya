@@ -9,43 +9,50 @@
 
     public class GuardTests
     {
-        [Fact]
-        public void IsMoyaAttributeWithStressAttributeThrowsNoException()
+        public class IsMoyaAttribute
         {
-            var exception = Record.Exception(() => Guard.IsMoyaAttribute(typeof(StressAttribute)));
+            [Fact]
+            public void StressAttributeThrowsNoException()
+            {
+                var exception = Record.Exception(() => Guard.IsMoyaAttribute(typeof(StressAttribute)));
 
-            Assert.Null(exception);
+                Assert.Null(exception);
+            }
+
+            [Fact]
+            public void InvalidAttributeThrowsException()
+            {
+                const string ExpectedExceptionMessage = "System.Object is not a Moya Attribute.";
+
+                var exception = Record.Exception(() => Guard.IsMoyaAttribute(typeof(Object)));
+
+                Assert.NotNull(exception);
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
         }
 
-        [Fact]
-        public void IsMoyaAttributeWithInvalidAttributeThrowsException()
+        public class IsMoyaTestRunner
         {
-            const string ExpectedExceptionMessage = "System.Object is not a Moya Attribute.";
+            [Fact]
+            public void StressTestRunnerThrowsNoException()
+            {
+                var exception = Record.Exception(() => Guard.IsMoyaTestRunner(typeof(StressTestRunner)));
 
-            var exception = Record.Exception(() => Guard.IsMoyaAttribute(typeof(Object)));
+                Assert.Null(exception);
+            }
 
-            Assert.NotNull(exception);
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
-        }
-        [Fact]
-        public void IsMoyaTestRunnerWithStressTestRunnerThrowsNoException()
-        {
-            var exception = Record.Exception(() => Guard.IsMoyaTestRunner(typeof(StressTestRunner)));
+            [Fact]
+            public void InvalidTestRunnerThrowsException()
+            {
+                const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
 
-            Assert.Null(exception);
-        }
+                var exception = Record.Exception(() => Guard.IsMoyaTestRunner(typeof(Object)));
 
-        [Fact]
-        public void IsMoyaTestRunnerWithInvalidTestRunnerThrowsException()
-        {
-            const string ExpectedExceptionMessage = "System.Object is not a Moya Test Runner.";
-
-            var exception = Record.Exception(() => Guard.IsMoyaTestRunner(typeof(Object)));
-
-            Assert.NotNull(exception);
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            Assert.Equal(ExpectedExceptionMessage, exception.Message);
+                Assert.NotNull(exception);
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                Assert.Equal(ExpectedExceptionMessage, exception.Message);
+            }
         }
     }
 }

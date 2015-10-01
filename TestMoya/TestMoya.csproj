@@ -68,7 +68,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Extensions\DictionaryExtensionsTests.cs" />
     <Compile Include="Extensions\StringExtensionsTests.cs" />
     <Compile Include="Factories\MoyaTestRunnerFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

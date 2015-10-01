@@ -9,73 +9,76 @@
 
     public class StressTestRunnerTests
     {
-        private readonly StressTestRunner stressTestRunner;
-        private readonly TestClass testClass = new TestClass();
-
-        public StressTestRunnerTests()
+        public class Execute
         {
-            stressTestRunner = new StressTestRunner();
-            testClass.ResetState();
-        }
+            private readonly StressTestRunner stressTestRunner;
+            private readonly TestClass testClass = new TestClass();
 
-        [Fact]
-        public void ExecuteRunsMethod()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithTwoTimes).Method;
+            public Execute()
+            {
+                stressTestRunner = new StressTestRunner();
+                testClass.ResetState();
+            }
 
-            stressTestRunner.Execute(method);
+            [Fact]
+            public void RunsMethod()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithTwoTimes).Method;
 
-            Assert.True(TestClass.MethodWithTwoTimesRun > 0);
-        }
+                stressTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteStressWithTwoUsersRunsMethodTwice()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithTwoUsers).Method;
+                Assert.True(TestClass.MethodWithTwoTimesRun > 0);
+            }
 
-            stressTestRunner.Execute(method);
+            [Fact]
+            public void WithTwoUsersRunsMethodTwice()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithTwoUsers).Method;
 
-            Assert.Equal(2, TestClass.MethodWithTwoUsersRun);
-        }
+                stressTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteStressWithTwoTimesRunsMethodTwice()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithTwoTimes).Method;
+                Assert.Equal(2, TestClass.MethodWithTwoUsersRun);
+            }
 
-            stressTestRunner.Execute(method);
+            [Fact]
+            public void WithTwoTimesRunsMethodTwice()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithTwoTimes).Method;
 
-            Assert.Equal(2, TestClass.MethodWithTwoTimesRun);
-        }
+                stressTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteStressWithTwoTimesAndTwoUsersRunsMethodFourTimes()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithTwoTimesAndTwoUsers).Method;
+                Assert.Equal(2, TestClass.MethodWithTwoTimesRun);
+            }
 
-            stressTestRunner.Execute(method);
+            [Fact]
+            public void WithTwoTimesAndTwoUsersRunsMethodFourTimes()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithTwoTimesAndTwoUsers).Method;
 
-            Assert.Equal(4, TestClass.MethodWithTwoTimesAndTwoUsersRun);
-        }
+                stressTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteMethodWithNoAttributeShouldThrowMoyaAttributeNotFoundException()
-        {
-            MethodInfo method = ((Action)testClass.ResetState).Method;
+                Assert.Equal(4, TestClass.MethodWithTwoTimesAndTwoUsersRun);
+            }
 
-            var result = stressTestRunner.Execute(method);
+            [Fact]
+            public void WithNoAttributeShouldThrowMoyaAttributeNotFoundException()
+            {
+                MethodInfo method = ((Action)testClass.ResetState).Method;
 
-            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
-        }
+                var result = stressTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteMethodWithWarmupAttributeShouldThrowMoyaAttributeNotFoundException()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
+                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+            }
 
-            var result = stressTestRunner.Execute(method);
+            [Fact]
+            public void WarmupAttributeShouldThrowMoyaAttributeNotFoundException()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
 
-            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                var result = stressTestRunner.Execute(method);
+
+                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+            }
         }
 
         class TestClass

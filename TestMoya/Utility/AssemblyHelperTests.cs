@@ -9,66 +9,85 @@
 
     public class AssemblyHelperTests
     {
-        private AssemblyHelper assemblyHelper;
-
-        [Fact]
-        public void InvalidAssemblyPathThrowsFileNotFoundException()
+        public class Ctor
         {
-            var exception = Record.Exception(() => assemblyHelper = new AssemblyHelper("C:/invalid/path/to/a.dll"));
+            [Fact]
+            public void InvalidAssemblyPathThrowsFileNotFoundException()
+            {
+                var exception = Record.Exception(() => new AssemblyHelper("C:/invalid/path/to/a.dll"));
 
-            Assert.Equal(typeof(FileNotFoundException), exception.GetType());
-            exception.Message.ShouldStartWith("The system cannot find the file specified.");
+                Assert.Equal(typeof(FileNotFoundException), exception.GetType());
+                exception.Message.ShouldStartWith("The system cannot find the file specified.");
+            }
+
+            [Fact]
+            public void ValidAssemblyPathDoesNotThrowException()
+            {
+                var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+
+                var exception = Record.Exception(() => new AssemblyHelper(pathToDummyDll));
+
+                Assert.Null(exception);
+            }
         }
 
-        [Fact]
-        public void ValidAssemblyPathDoesNotThrowException()
+        public class GetMethodFromAssembly
         {
-            var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+            private AssemblyHelper assemblyHelper;
 
-            var exception = Record.Exception(() => assemblyHelper = new AssemblyHelper(pathToDummyDll));
+            [Fact]
+            public void ValidMethodReturnsMethodInfo()
+            {
+                var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+                assemblyHelper = new AssemblyHelper(pathToDummyDll);
+                const string MethodName = "AMethod";
+                const string FullClassName = "Moya.Dummy.Test.Project.TestClass";
 
-            Assert.Null(exception);
-        }
+                var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
 
-        [Fact]
-        public void GetMethodFromAssemblyWithValidMethodReturnsMethodInfo()
-        {
-            var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
-            assemblyHelper = new AssemblyHelper(pathToDummyDll);
-            const string MethodName = "AMethod";
-            const string FullClassName = "Moya.Dummy.Test.Project.TestClass";
+                Assert.Equal(MethodName, method.Name);
+                // ReSharper disable once PossibleNullReferenceException
+                Assert.Equal(FullClassName, method.DeclaringType.FullName);
+            }
 
-            var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
+            [Fact]
+            public void InvalidClassNameReturnsNull()
+            {
+                var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+                assemblyHelper = new AssemblyHelper(pathToDummyDll);
+                const string MethodName = "AMethod";
+                const string FullClassName = "Moya.Dummy.Test.Project.FakeTestClass";
 
-            Assert.Equal(MethodName, method.Name);
-            // ReSharper disable once PossibleNullReferenceException
-            Assert.Equal(FullClassName, method.DeclaringType.FullName);
-        }
+                var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
 
-        [Fact]
-        public void GetMethodFromAssemblyWithInvalidClassNameReturnsNull()
-        {
-            var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
-            assemblyHelper = new AssemblyHelper(pathToDummyDll);
-            const string MethodName = "AMethod";
-            const string FullClassName = "Moya.Dummy.Test.Project.FakeTestClass";
+                Assert.Null(method);
+            }
 
-            var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
+            [Fact]
+            public void ValidClassNameAndInvalidMethodNameReturnsNull()
+            {
+                var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+                assemblyHelper = new AssemblyHelper(pathToDummyDll);
+                const string MethodName = "AFakeMethod";
+                const string FullClassName = "Moya.Dummy.Test.Project.TestClass";
 
-            Assert.Null(method);
-        }
+                var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
 
-        [Fact]
-        public void GetMethodFromAssemblyWithValidClassNameAndInvalidMethodNameReturnsNull()
-        {
-            var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
-            assemblyHelper = new AssemblyHelper(pathToDummyDll);
-            const string MethodName = "AFakeMethod";
-            const string FullClassName = "Moya.Dummy.Test.Project.TestClass";
+                Assert.Null(method);
+            }
 
-            var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
+            [Fact]
+            public void InvalidClassNameAndInvalidMethodNameReturnsNull()
+            {
+                var pathToDummyDll = GetMoyaDummyTestProjectDllPath();
+                assemblyHelper = new AssemblyHelper(pathToDummyDll);
+                const string MethodName = "AFakeMethod";
+                const string FullClassName = "Moya.Dummy.Test.Project.FakeTestClass";
 
-            Assert.Null(method);
+                var method = assemblyHelper.GetMethodFromAssembly(FullClassName, MethodName);
+
+                Assert.Null(method);
+            }
         }
 
         private static string GetCurrentAssemblyDirectory()

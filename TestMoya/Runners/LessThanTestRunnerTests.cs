@@ -10,133 +10,149 @@
 
     public class LessThanTestRunnerTests
     {
-        private readonly ILessThanTestRunner lessThanTestRunner;
-        private readonly TestClass testClass;
-
-        public LessThanTestRunnerTests()
+        public class Seconds
         {
-            lessThanTestRunner = new LessThanTestRunner();
-            testClass = new TestClass();
-            TestClass.ResetState();
-        }
+            private readonly ILessThanTestRunner lessThanTestRunner;
+            private readonly TestClass testClass;
 
-        [Fact]
-        public void ExecuteMethodWithOnlyLessThanAttributeDoesNotRunMethod()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
-
-            lessThanTestRunner.Execute(method);
-
-            Assert.True(TestClass.MethodWithLessThanTenSecondsAttributeRun == 0);
-        }
-
-        [Fact]
-        public void ExecuteMethodWithLessThanAttributeWithSecondsDefinedInAttributeAddsSecondsToTestRunner()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsConstructorAttribute).Method;
-
-            lessThanTestRunner.Execute(method);
-
-            Assert.Equal(10, lessThanTestRunner.Seconds);
-        }
-
-        [Fact]
-        public void ExecuteMethodWithNoLessThanAttributeReturnsNotFound()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
-
-            var result = lessThanTestRunner.Execute(method);
-
-            Assert.Equal(result.TestOutcome, TestOutcome.NotFound);
-        }
-
-        [Fact]
-        public void ExecuteMethodWithOnlyLessThanAttributeReturnsFailure()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
-
-            var result = lessThanTestRunner.Execute(method);
-
-            Assert.Equal(result.TestOutcome, TestOutcome.Failure);
-        }
-
-        [Fact]
-        public void ExecuteAfterOtherTestWhichRanOnTimeShouldReturnSuccess()
-        {
-            lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+            public Seconds()
             {
-                new TestResult{Duration = 10, TestType = TestType.Test}
-            };
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+                lessThanTestRunner = new LessThanTestRunner();
+                testClass = new TestClass();
+                TestClass.ResetState();
+            }
 
-            var result = lessThanTestRunner.Execute(method);
+            [Fact]
+            public void LessThanAttributeWithSecondsDefinedAddsSecondsToTestRunner()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsConstructorAttribute).Method;
 
-            Assert.Equal(result.TestOutcome, TestOutcome.Success);
+                lessThanTestRunner.Execute(method);
+
+                Assert.Equal(10, lessThanTestRunner.Seconds);
+            }
         }
 
-        [Fact]
-        public void ExecuteAfterOtherTestWhichRanOnLessTimeShouldReturnSuccess()
+        public class Execute
         {
-            lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+            private readonly ILessThanTestRunner lessThanTestRunner;
+            private readonly TestClass testClass;
+
+            public Execute()
             {
-                new TestResult{Duration = 8, TestType = TestType.Test}
-            };
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+                lessThanTestRunner = new LessThanTestRunner();
+                testClass = new TestClass();
+                TestClass.ResetState();
+            }
 
-            var result = lessThanTestRunner.Execute(method);
-
-            Assert.Equal(result.TestOutcome, TestOutcome.Success);
-        }
-
-        [Fact]
-        public void TestResultsWhichAreNotTestTypeTestShouldBeIgnored()
-        {
-            lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+            [Fact]
+            public void OnlyLessThanAttributeDoesNotRunMethod()
             {
-                new TestResult{Duration = 8, TestType = TestType.Test},
-                new TestResult{Duration = 8, TestType = TestType.PostTest},
-                new TestResult{Duration = 8, TestType = TestType.PreTest},
-                new TestResult{Duration = 8, TestType = TestType.PostTest},
-                new TestResult{Duration = 8, TestType = TestType.PreTest},
-            };
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
 
-            var result = lessThanTestRunner.Execute(method);
+                lessThanTestRunner.Execute(method);
 
-            Assert.Equal(result.TestOutcome, TestOutcome.Success);
-        }
+                Assert.True(TestClass.MethodWithLessThanTenSecondsAttributeRun == 0);
+            }
 
-        [Fact]
-        public void ExecuteAfterMultipleTestsWhichHasRunForTooLongShouldReturnFailure()
-        {
-            lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+            [Fact]
+            public void NoLessThanAttributeReturnsNotFound()
             {
-                new TestResult{Duration = 2, TestType = TestType.Test},
-                new TestResult{Duration = 3, TestType = TestType.Test},
-                new TestResult{Duration = 4, TestType = TestType.Test},
-                new TestResult{Duration = 5, TestType = TestType.Test},
-            };
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+                MethodInfo method = ((Action)testClass.MethodWithWarmupAttribute).Method;
 
-            var result = lessThanTestRunner.Execute(method);
+                var result = lessThanTestRunner.Execute(method);
 
-            Assert.Equal(result.TestOutcome, TestOutcome.Failure);
-        }
+                Assert.Equal(result.TestOutcome, TestOutcome.NotFound);
+            }
 
-        [Fact]
-        public void ExecuteAfterMultipleTestsWhichHasRunForLessThanMaxShouldReturnSuccess()
-        {
-            lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+            [Fact]
+            public void OnlyLessThanAttributeReturnsFailure()
             {
-                new TestResult{Duration = 2, TestType = TestType.Test},
-                new TestResult{Duration = 3, TestType = TestType.Test},
-                new TestResult{Duration = 4, TestType = TestType.Test},
-            };
-            MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
 
-            var result = lessThanTestRunner.Execute(method);
+                var result = lessThanTestRunner.Execute(method);
 
-            Assert.Equal(result.TestOutcome, TestOutcome.Success);
+                Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+            }
+
+            [Fact]
+            public void AfterOtherTestWhichRanOnTimeShouldReturnSuccess()
+            {
+                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                {
+                    new TestResult{Duration = 10, TestType = TestType.Test}
+                };
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+
+                var result = lessThanTestRunner.Execute(method);
+
+                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+            }
+
+            [Fact]
+            public void AfterOtherTestWhichRanOnLessTimeShouldReturnSuccess()
+            {
+                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                {
+                    new TestResult{Duration = 8, TestType = TestType.Test}
+                };
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+
+                var result = lessThanTestRunner.Execute(method);
+
+                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+            }
+
+            [Fact]
+            public void TestResultsWhichAreNotTestTypeTestShouldBeIgnored()
+            {
+                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                {
+                    new TestResult{Duration = 8, TestType = TestType.Test},
+                    new TestResult{Duration = 8, TestType = TestType.PostTest},
+                    new TestResult{Duration = 8, TestType = TestType.PreTest},
+                    new TestResult{Duration = 8, TestType = TestType.PostTest},
+                    new TestResult{Duration = 8, TestType = TestType.PreTest},
+                };
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+
+                var result = lessThanTestRunner.Execute(method);
+
+                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+            }
+
+            [Fact]
+            public void AfterMultipleTestsWhichHasRunForTooLongShouldReturnFailure()
+            {
+                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                {
+                    new TestResult{Duration = 2, TestType = TestType.Test},
+                    new TestResult{Duration = 3, TestType = TestType.Test},
+                    new TestResult{Duration = 4, TestType = TestType.Test},
+                    new TestResult{Duration = 5, TestType = TestType.Test},
+                };
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+
+                var result = lessThanTestRunner.Execute(method);
+
+                Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+            }
+
+            [Fact]
+            public void AfterMultipleTestsWhichHasRunForLessThanMaxShouldReturnSuccess()
+            {
+                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                {
+                    new TestResult{Duration = 2, TestType = TestType.Test},
+                    new TestResult{Duration = 3, TestType = TestType.Test},
+                    new TestResult{Duration = 4, TestType = TestType.Test},
+                };
+                MethodInfo method = ((Action)testClass.MethodWithLessThanTenSecondsAttribute).Method;
+
+                var result = lessThanTestRunner.Execute(method);
+
+                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+            }
         }
 
         class TestClass

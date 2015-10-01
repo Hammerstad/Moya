@@ -10,64 +10,67 @@
 
     public class WarmupTestRunnerTests
     {
-        private readonly WarmupTestRunner warmupTestRunner;
-        private readonly TestClass testClass = new TestClass();
-
-        public WarmupTestRunnerTests()
+        public class Execute
         {
-            warmupTestRunner = new WarmupTestRunner();
-            testClass.ResetState();
-        }
+            private readonly WarmupTestRunner warmupTestRunner;
+            private readonly TestClass testClass = new TestClass();
 
-        [Fact]
-        public void ExecuteRunsMethod()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
+            public Execute()
+            {
+                warmupTestRunner = new WarmupTestRunner();
+                testClass.ResetState();
+            }
 
-            warmupTestRunner.Execute(method);
+            [Fact]
+            public void RunsMethod()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
 
-            Assert.True(TestClass.MethodWithDurationWarmupAttributeRun > 0);
-        }
+                warmupTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteTimerDecoratedWarmupWithDurationAttributeRunsForAtLeastDuration()
-        {
-            IMoyaTestRunner testRunner = new TimerDecorator(warmupTestRunner);
-            MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
+                Assert.True(TestClass.MethodWithDurationWarmupAttributeRun > 0);
+            }
 
-            var testResult = testRunner.Execute(method);
+            [Fact]
+            public void TimerDecoratedWarmupWithDurationRunsForAtLeastDuration()
+            {
+                IMoyaTestRunner testRunner = new TimerDecorator(warmupTestRunner);
+                MethodInfo method = ((Action)testClass.MethodWithDurationWarmupAttribute).Method;
 
-            testResult.Duration.ShouldBeGreaterThanOrEqualTo(1000);
-        }
+                var testResult = testRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteMethodWithWarmupAttributeSetToZeroRunsMethod()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithZeroWarmupAttribute).Method;
+                testResult.Duration.ShouldBeGreaterThanOrEqualTo(1000);
+            }
 
-            var testResult = warmupTestRunner.Execute(method);
+            [Fact]
+            public void WarmupAttributeSetToZeroRunsMethod()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithZeroWarmupAttribute).Method;
 
-            Assert.True(TestClass.MethodWithZeroWarmupAttributeRun > 0);
-        }
+                warmupTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteMethodWithNoAttributeShouldReturnTestResultNotFound()
-        {
-            MethodInfo method = ((Action)testClass.ResetState).Method;
+                Assert.True(TestClass.MethodWithZeroWarmupAttributeRun > 0);
+            }
 
-            var result = warmupTestRunner.Execute(method);
+            [Fact]
+            public void NoAttributeShouldReturnTestResultNotFound()
+            {
+                MethodInfo method = ((Action)testClass.ResetState).Method;
 
-            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
-        }
+                var result = warmupTestRunner.Execute(method);
 
-        [Fact]
-        public void ExecuteMethodWithStressAttributeShouldReturnTestResultNotFound()
-        {
-            MethodInfo method = ((Action)testClass.MethodWithStressAttribute).Method;
+                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+            }
 
-            var result = warmupTestRunner.Execute(method);
+            [Fact]
+            public void StressAttributeShouldReturnTestResultNotFound()
+            {
+                MethodInfo method = ((Action)testClass.MethodWithStressAttribute).Method;
 
-            Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                var result = warmupTestRunner.Execute(method);
+
+                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+            }
         }
 
         class TestClass

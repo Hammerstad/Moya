@@ -7,38 +7,68 @@
 
     public class ReflectionTests
     {
-        [Fact]
-        public void StressAttributeIsMoyaAttribute()
+        public class TypeIsMoyaAttribute
         {
-            var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(StressAttribute));
+            [Fact]
+            public void StressAttributeIsMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(StressAttribute));
 
-            Assert.True(isMoyaAttribute);
+                Assert.True(isMoyaAttribute);
+            }
+
+            [Fact]
+            public void WarmupAttributeIsMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(WarmupAttribute));
+
+                Assert.True(isMoyaAttribute);
+            }
+
+            [Fact]
+            public void MoyaConfigurationAttributeIsMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(MoyaConfigurationAttribute));
+
+                Assert.True(isMoyaAttribute);
+            }
+
+            [Fact]
+            public void LessThanAttributeIsMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(LessThanAttribute));
+
+                Assert.True(isMoyaAttribute);
+            }
+
+            [Fact]
+            public void LongerThanAttributeIsMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(LongerThanAttribute));
+
+                Assert.True(isMoyaAttribute);
+            }
+
+            [Fact]
+            public void MoyaAttributeIsNotMoyaAttribute()
+            {
+                var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(MoyaAttribute));
+
+                Assert.False(isMoyaAttribute);
+            }
         }
 
-        [Fact]
-        public void WarmupAttributeIsMoyaAttribute()
+        public class MethodInfoHasMoyaAttribute
         {
-            var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(WarmupAttribute));
+            [Fact]
+            public void TestClassHasMembersWithMoyaAttribute()
+            {
+                var MethodWithMoyaAttribute = ((Action)TestClass.MethodWithMoyaAttribute).Method;
 
-            Assert.True(isMoyaAttribute);
-        }
+                var hasMoyaAttributes = Reflection.MethodInfoHasMoyaAttribute(MethodWithMoyaAttribute);
 
-        [Fact]
-        public void MoyaAttributeIsNotMoyaAttribute()
-        {
-            var isMoyaAttribute = Reflection.TypeIsMoyaAttribute(typeof(MoyaAttribute));
-
-            Assert.False(isMoyaAttribute);
-        }
-
-        [Fact]
-        public void TestClassHasMembersWithMoyaAttribute()
-        {
-            var MethodWithMoyaAttribute = ((Action)TestClass.MethodWithMoyaAttribute).Method;
-
-            var hasMoyaAttributes = Reflection.MethodInfoHasMoyaAttribute(MethodWithMoyaAttribute);
-
-            Assert.True(hasMoyaAttributes);
+                Assert.True(hasMoyaAttributes);
+            }
         }
 
         static class TestClass

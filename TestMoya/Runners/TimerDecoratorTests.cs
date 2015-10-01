@@ -11,39 +11,42 @@
 
     public class TimerDecoratorTests
     {
-        private readonly Mock<IMoyaTestRunner> testRunnerMock;
-        private TimerDecorator timerDecorator;
-
-        public TimerDecoratorTests()
+        public class Execute
         {
-            testRunnerMock = new Mock<IMoyaTestRunner>();
-        }
+            private readonly Mock<IMoyaTestRunner> testRunnerMock;
+            private ITimerDecorator timerDecorator;
 
-        [Fact]
-        public void TimerDecoratorExecuteRunsMethod()
-        {
-            timerDecorator = new TimerDecorator(testRunnerMock.Object);
-            bool methodRun = false;
-            MethodInfo method = ((Action)(() => methodRun = true)).Method;
-            testRunnerMock
-                .Setup(x => x.Execute(method))
-                .Callback(() => methodRun = true)
-                .Returns(new TestResult());
+            public Execute()
+            {
+                testRunnerMock = new Mock<IMoyaTestRunner>();
+            }
 
-            timerDecorator.Execute(method);
+            [Fact]
+            public void DecoratedTestRunnerRunsMethod()
+            {
+                timerDecorator = new TimerDecorator(testRunnerMock.Object);
+                bool methodRun = false;
+                MethodInfo method = ((Action)(() => methodRun = true)).Method;
+                testRunnerMock
+                    .Setup(x => x.Execute(method))
+                    .Callback(() => methodRun = true)
+                    .Returns(new TestResult());
 
-            Assert.True(methodRun);
-        }
+                timerDecorator.Execute(method);
 
-        [Fact]
-        public void TimerDecoratorExecuteAddsDurationToResult()
-        {
-            MethodInfo method = ((Action)TestClass.MethodWithMoyaAttribute).Method;
-            timerDecorator = new TimerDecorator(new StressTestRunner());
+                Assert.True(methodRun);
+            }
 
-            var result = timerDecorator.Execute(method);
+            [Fact]
+            public void ExecuteAddsDurationToResult()
+            {
+                MethodInfo method = ((Action)TestClass.MethodWithMoyaAttribute).Method;
+                timerDecorator = new TimerDecorator(new StressTestRunner());
 
-            Assert.True(result.Duration > 0);
+                var result = timerDecorator.Execute(method);
+
+                Assert.True(result.Duration > 0);
+            }
         }
 
         public class TestClass

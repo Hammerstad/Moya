@@ -1,5 +1,6 @@
 ﻿namespace TestMoya.Runners
 {
+    using System;
     using System.Reflection;
     using Moya.Attributes;
     using Moya.Factories;
@@ -9,50 +10,60 @@
 
     public class MoyaConfigurationTestRunnerTests
     {
-        private IMoyaConfigurationTestRunner Runner;
-
-        public MoyaConfigurationTestRunnerTests()
+        public class Execute
         {
-            Runner = new MoyaConfigurationTestRunner();
-        }
+            private readonly IMoyaConfigurationTestRunner Runner;
 
-        [Fact]
-        public void UseConfigurationToAddTestRunnerShouldWork()
-        {
-            MethodInfo method = typeof(TestClass).GetMethod("MyConfiguration");
+            public Execute()
+            {
+                Runner = new MoyaConfigurationTestRunner();
+            }
 
-            Runner.Execute(method);
+            [Fact]
+            public void UseConfigurationToAddTestRunnerShouldWork()
+            {
+                MethodInfo method = typeof(TestClass).GetMethod("MyGoodConfiguration");
 
-            Assert.NotNull(MoyaTestRunnerFactory.DefaultInstance.GetTestRunnerForAttribute(typeof(TestAttribute)));
-        }
+                var result = Runner.Execute(method);
 
-        [Fact]
-        public void UseConfigurationToAddTestRunnerWithBadSetupShouldNotWork()
-        {
-            MethodInfo method = typeof(TestClass).GetMethod("MyConfiguration");
+                Assert.Equal(TestOutcome.Success, result.TestOutcome);
+                Assert.NotNull(MoyaTestRunnerFactory.DefaultInstance.GetTestRunnerForAttribute(typeof(TestAttribute)));
+            }
 
-            var result = Runner.Execute(method);
+            [Fact]
+            public void UseConfigurationToAddTestRunnerWithBadSetupShouldNotWork()
+            {
+                MethodInfo method = typeof(TestClass).GetMethod("MyBadConfiguration");
 
-            Assert.Equal(TestOutcome.Failure, result.TestOutcome);
-        }
+                var result = Runner.Execute(method);
 
-        [Fact]
-        public void MoyaConfigurationTestsArePreTests()
-        {
+                Assert.Equal(TestOutcome.Failure, result.TestOutcome);
+            }
 
-            MethodInfo method = typeof(TestClass).GetMethod("MyConfiguration");
+            [Fact]
+            public void MoyaConfigurationTestsArePreTests()
+            {
 
-            var result = Runner.Execute(method);
+                MethodInfo method = typeof(TestClass).GetMethod("MyBadConfiguration");
 
-            Assert.Equal(TestType.PreTest, result.TestType);
+                var result = Runner.Execute(method);
+
+                Assert.Equal(TestType.PreTest, result.TestType);
+            }
         }
 
         public class TestClass
         {
             [MoyaConfiguration]
-            public void MyConfiguration(IMoyaTestRunnerFactory factory)
+            public void MyGoodConfiguration(IMoyaTestRunnerFactory factory)
             {
                 factory.AddTestRunnerForAttribute(typeof(TestRunner), typeof(TestAttribute));
+            }
+
+            [MoyaConfiguration]
+            public void MyBadConfiguration(IMoyaTestRunnerFactory factory)
+            {
+                factory.AddTestRunnerForAttribute(typeof(TestRunner), typeof(Object));
             }
         }
 
@@ -63,9 +74,9 @@
 
         public class TestRunner : ITestRunner
         {
-            public ITestResult Execute(MethodInfo methodInfo)
+            ITestResult IMoyaTestRunner.Execute(MethodInfo methodInfo)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
     }

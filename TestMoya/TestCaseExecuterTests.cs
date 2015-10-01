@@ -12,101 +12,106 @@
 
     public class TestCaseExecuterTests
     {
-        private readonly ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
-
-        [Fact]
-        public void RunTestWithDummyClassShouldReturnCollectionWithOneSuccessfullResult()
+        public class RunTest
         {
-            TestCase testCase = new TestCase
+            private readonly ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
+            [Fact]
+            public void RunTestWithDummyClassShouldReturnCollectionWithOneSuccessfullResult()
             {
-                ClassName = "Moya.Dummy.Test.Project.TestClass",
-                Id = Guid.NewGuid(),
-                MethodName = "OnlyWarmupMethod",
-                FilePath = GetMoyaDummyTestProjectDllPath()
-            };
 
-            var testResult = testCaseExecuter.RunTest(testCase);
+                TestCase testCase = new TestCase
+                {
+                    ClassName = "Moya.Dummy.Test.Project.TestClass",
+                    Id = Guid.NewGuid(),
+                    MethodName = "OnlyWarmupMethod",
+                    FilePath = GetMoyaDummyTestProjectDllPath()
+                };
 
-            Assert.Equal(1, testResult.Count(x => x.TestOutcome == TestOutcome.Success));
-            Assert.Equal(TestOutcome.Success, testResult.First().TestOutcome);
+                var testResult = testCaseExecuter.RunTest(testCase);
+
+                Assert.Equal(1, testResult.Count(x => x.TestOutcome == TestOutcome.Success));
+                Assert.Equal(TestOutcome.Success, testResult.First().TestOutcome);
+            }
+
+            [Fact]
+            public void RunTestWithInvalidClassShouldThrowMoyaException()
+            {
+                TestCase testCase = new TestCase
+                {
+                    ClassName = "Moya.Dummy.Test.Project.NotATestClass",
+                    Id = Guid.NewGuid(),
+                    MethodName = "AMethod",
+                    FilePath = GetMoyaDummyTestProjectDllPath()
+                };
+                const string ExpectedExceptionMessageStart = "Unable to find method from assembly.Assembly file path: ";
+                const string ExpectedExceptionMessageEnd = "\nClass name: Moya.Dummy.Test.Project.NotATestClass\nMethod name: AMethod";
+
+                var exception = Record.Exception(() => testCaseExecuter.RunTest(testCase));
+
+                Assert.Equal(typeof(MoyaException), exception.GetType());
+                exception.Message.ShouldStartWith(ExpectedExceptionMessageStart);
+                exception.Message.ShouldEndWith(ExpectedExceptionMessageEnd);
+            }
+
+            [Fact]
+            public void RunTestWithCustomPreTestRunnerShouldRunTestRunner()
+            {
+                ConfigureTestProject(testCaseExecuter);
+                TestCase testCase = new TestCase
+                {
+                    ClassName = "Moya.Dummy.Test.Project.CustomPreTestExample",
+                    Id = Guid.NewGuid(),
+                    MethodName = "MyTestMethod",
+                    FilePath = GetMoyaDummyTestProjectDllPath()
+                };
+
+                var result = testCaseExecuter.RunTest(testCase);
+
+                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().TestType.ShouldBe(TestType.PreTest);
+                result.Count.ShouldBe(1);
+            }
+
+            [Fact]
+            public void RunTestWithCustomTestRunnerShouldRunTestRunner()
+            {
+                ConfigureTestProject(testCaseExecuter);
+                TestCase testCase = new TestCase
+                {
+                    ClassName = "Moya.Dummy.Test.Project.CustomTestExample",
+                    Id = Guid.NewGuid(),
+                    MethodName = "MyTestMethod",
+                    FilePath = GetMoyaDummyTestProjectDllPath()
+                };
+
+                var result = testCaseExecuter.RunTest(testCase);
+
+                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().TestType.ShouldBe(TestType.Test);
+                result.Count.ShouldBe(1);
+            }
+
+            [Fact]
+            public void RunTestWithCustomPostTestRunnerShouldRunTestRunner()
+            {
+                ConfigureTestProject(testCaseExecuter);
+                TestCase testCase = new TestCase
+                {
+                    ClassName = "Moya.Dummy.Test.Project.CustomPostTestExample",
+                    Id = Guid.NewGuid(),
+                    MethodName = "MyTestMethod",
+                    FilePath = GetMoyaDummyTestProjectDllPath()
+                };
+
+                var result = testCaseExecuter.RunTest(testCase);
+
+                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().TestType.ShouldBe(TestType.PostTest);
+                result.Count.ShouldBe(1);
+            }
         }
 
-        [Fact]
-        public void RunTestWithInvalidClassShouldThrowMoyaException()
-        {
-            TestCase testCase = new TestCase
-            {
-                ClassName = "Moya.Dummy.Test.Project.NotATestClass",
-                Id = Guid.NewGuid(),
-                MethodName = "AMethod",
-                FilePath = GetMoyaDummyTestProjectDllPath()
-            };
-            const string ExpectedExceptionMessageStart = "Unable to find method from assembly.Assembly file path: ";
-            const string ExpectedExceptionMessageEnd = "\nClass name: Moya.Dummy.Test.Project.NotATestClass\nMethod name: AMethod";
-
-            var exception = Record.Exception(() => testCaseExecuter.RunTest(testCase));
-
-            Assert.Equal(typeof(MoyaException), exception.GetType());
-            exception.Message.ShouldStartWith(ExpectedExceptionMessageStart);
-            exception.Message.ShouldEndWith(ExpectedExceptionMessageEnd);
-        }
-
-        [Fact]
-        public void RunTestWithCustomPreTestRunnerShouldRunTestRunner()
-        {
-            ConfigureTestProject();
-            TestCase testCase = new TestCase
-            {
-                ClassName = "Moya.Dummy.Test.Project.CustomPreTestExample",
-                Id = Guid.NewGuid(),
-                MethodName = "MyTestMethod",
-                FilePath = GetMoyaDummyTestProjectDllPath()
-            };
-
-            var result = testCaseExecuter.RunTest(testCase);
-
-            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
-            result.First().TestType.ShouldBe(TestType.PreTest);
-            result.Count.ShouldBe(1);
-        }
-
-        [Fact]
-        public void RunTestWithCustomTestRunnerShouldRunTestRunner()
-        {
-            ConfigureTestProject();
-            TestCase testCase = new TestCase
-            {
-                ClassName = "Moya.Dummy.Test.Project.CustomTestExample",
-                Id = Guid.NewGuid(),
-                MethodName = "MyTestMethod",
-                FilePath = GetMoyaDummyTestProjectDllPath()
-            };
-
-            var result = testCaseExecuter.RunTest(testCase);
-
-            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
-            result.First().TestType.ShouldBe(TestType.Test);
-            result.Count.ShouldBe(1);
-        }
-
-        [Fact]
-        public void RunTestWithCustomPostTestRunnerShouldRunTestRunner()
-        {
-            ConfigureTestProject();
-            TestCase testCase = new TestCase
-            {
-                ClassName = "Moya.Dummy.Test.Project.CustomPostTestExample",
-                Id = Guid.NewGuid(),
-                MethodName = "MyTestMethod",
-                FilePath = GetMoyaDummyTestProjectDllPath()
-            };
-
-            var result = testCaseExecuter.RunTest(testCase);
-
-            result.First().TestOutcome.ShouldBe(TestOutcome.Success);
-            result.First().TestType.ShouldBe(TestType.PostTest);
-            result.Count.ShouldBe(1);
-        }
+        
 
         private static string GetCurrentAssemblyDirectory()
         {
@@ -116,7 +121,7 @@
             return Path.GetDirectoryName(path);
         }
 
-        private void ConfigureTestProject()
+        private static void ConfigureTestProject(ITestCaseExecuter testCaseExecuter)
         {
             TestCase testCase = new TestCase
             {
