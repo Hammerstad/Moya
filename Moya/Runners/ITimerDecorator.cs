@@ -6,6 +6,10 @@
     /// </summary>
     public interface ITimerDecorator : IMoyaTestRunner
     {
+        /// <summary>
+        /// Another <see cref="IMoyaTestRunner"/> which will be measured by 
+        /// this <see cref="ITimerDecorator"/>.
+        /// </summary>
         IMoyaTestRunner DecoratedTestRunner { get; set; }
     }
 }

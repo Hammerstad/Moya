@@ -2,13 +2,29 @@
 {
     using System;
     using System.Reflection;
+    using Attributes;
     using Factories;
     using Models;
 
-    public class MoyaConfigurationTestRunner : IMoyaConfigurationTestRunner
+    /// <summary>
+    /// The test runner responsible for running methods marked with
+    /// the <see cref="MoyaConfigurationAttribute"/> attribute.
+    /// </summary>
+    public sealed class MoyaConfigurationTestRunner : IMoyaConfigurationTestRunner
     {
+        /// <summary>
+        /// A <see cref="IMoyaTestRunnerFactory"/> used to 
+        /// </summary>
         private readonly IMoyaTestRunnerFactory testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
 
+        /// <summary>
+        /// Runs a user made method attributed with a <see cref="MoyaConfigurationAttribute"/> attribute.
+        /// This method needs to have one argument, a <see cref="IMoyaTestRunnerFactory"/>, which can
+        /// be populated with test-testrunner pairs.
+        /// </summary>
+        /// <param name="methodInfo">A method attributed with a <see cref="MoyaConfigurationAttribute"/> attribute.</param>
+        /// <returns>A <see cref="ITestResult"/> object containing information 
+        /// about the test run.</returns>
         public ITestResult Execute(MethodInfo methodInfo)
         {
             try

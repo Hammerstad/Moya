@@ -8,8 +8,15 @@
     using Attributes;
     using Models;
 
+    /// <summary>
+    /// A test runner which runs a method decorated with a <see cref="WarmupAttribute"/>
+    /// attribute for a given time without recording any statistics.
+    /// </summary>
     internal class WarmupTestRunner : IWarmupTestRunner
     {
+        /// <summary>
+        /// How long the attributed method will be run. Measured in seconds.
+        /// </summary>
         public int Duration { get; set; }
 
         public ITestResult Execute(MethodInfo methodInfo)
@@ -45,6 +52,12 @@
             };
         }
 
+        /// <summary>
+        /// Utility method which checks if a method is attributed with a <see cref="WarmupAttribute"/> attribute.
+        /// </summary>
+        /// <param name="methodInfo">A method we want to investigate.</param>
+        /// <returns>Returns <see cref="c:true"/> if the method is attributed with 
+        /// a <see cref="WarmupAttribute"/> attribute.</returns>
         private static bool MethodHasWarmupAttribute(MethodInfo methodInfo)
         {
             object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(WarmupAttribute), true);
@@ -52,6 +65,12 @@
             return moyaAttributes.Length != 0;
         }
 
+        /// <summary>
+        /// Utility method which checks if a method has a <see cref="WarmupAttribute"/> surrounding it,
+        /// and how long the duration of the warmup phase is set to.
+        /// The value is stored in this object's <see cref="Duration"/> property.
+        /// </summary>
+        /// <param name="methodInfo">A method attributed with <see cref="WarmupAttribute"/>.</param>
         private void DetectDurationFromMethod(MethodInfo methodInfo)
         {
             object[] moyaAttributes = methodInfo.GetCustomAttributes(typeof(WarmupAttribute), true);
@@ -62,6 +81,12 @@
             Duration = warmupAttribute.Duration;
         }
 
+        /// <summary>
+        /// Executes an action. If the <see cref="Duration"/> is set to 0,
+        /// the codeblock is executed once. Else, it will be executed for the
+        /// defined <see cref="Duration"/>.
+        /// </summary>
+        /// <param name="codeBlock">An <see cref="Action"/> which will be executed.</param>
         private void ExecuteWarmup(Action codeBlock)
         {
             if (Duration == 0)
@@ -70,11 +95,17 @@
             }
             else
             {
-                ExecuteWithTimeLimit(Duration, codeBlock);
+                ExecuteWithTimeLimit(codeBlock, Duration);
             }
         }
 
-        private static void ExecuteWithTimeLimit(int seconds, Action codeBlock)
+        /// <summary>
+        /// Executes an <see cref="Action"/>, and stops execution after a specified amount of seconds.
+        /// If the <see cref="Action"/> takes less than the specified duration, it will be run again.
+        /// </summary>
+        /// <param name="codeBlock">An <see cref="Action"/> which will be executed.</param>
+        /// <param name="seconds">How long the specified <see cref="Action"/> should be run. Defined in seconds.</param>
+        private static void ExecuteWithTimeLimit(Action codeBlock, int seconds)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             int milliseconds = seconds * 1000;
