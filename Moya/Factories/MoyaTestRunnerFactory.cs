@@ -53,10 +53,7 @@
         /// <returns>An implementation of <see cref="IMoyaTestRunner"/> for <paramref name="attribute"/>.</returns>
         public IMoyaTestRunner GetTestRunnerForAttribute(Type attribute)
         {
-            if (!Reflection.TypeIsMoyaAttribute(attribute))
-            {
-                throw new MoyaException("Unable to provide moya test runner for type {0}".FormatWith(attribute));
-            }
+            Guard.IsMoyaAttribute(attribute, "Unable to provide moya test runner for type {0}".FormatWith(attribute));
 
             Type typeOfTestRunner = attributeTestRunnerMapping[attribute];
             IMoyaTestRunner instance = (IMoyaTestRunner)Activator.CreateInstance(typeOfTestRunner);
