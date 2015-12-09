@@ -5,11 +5,11 @@
 
     /// <summary>
     /// Utility class used to get <see cref="MethodInfo"/> from external
-    /// assembly files.
+    /// _assembly files.
     /// </summary>
     internal class AssemblyHelper
     {
-        private readonly Assembly assembly;
+        private readonly Assembly _assembly;
 
         /// <summary>
         /// Creates an <see cref="AssemblyHelper"/> for a dll.
@@ -17,7 +17,7 @@
         /// <param name="assemblyPath">The path to the dll.</param>
         internal AssemblyHelper(string assemblyPath)
         {
-            assembly = Assembly.LoadFile(assemblyPath);
+            _assembly = Assembly.LoadFile(assemblyPath);
         }
 
         /// <summary>
@@ -37,12 +37,8 @@
         /// <returns></returns>
         public MethodInfo GetMethodFromAssembly(string fullClassName, string methodName)
         {
-            Type type = assembly.GetType(fullClassName);
-            if (type != null)
-            {
-                return type.GetMethod(methodName);
-            }
-            return null;
+            Type type = _assembly.GetType(fullClassName);
+            return type?.GetMethod(methodName);
         }
     }
 }

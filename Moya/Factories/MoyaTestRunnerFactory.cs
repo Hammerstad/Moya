@@ -5,7 +5,6 @@
     using System.Linq;
     using Attributes;
     using Exceptions;
-    using Extensions;
     using Runners;
     using Utility;
 
@@ -19,24 +18,24 @@
         /// The default MoyaTestRunnerFactory. Simplifies registring of custom test runners, as
         /// well as fetching them.
         /// </summary>
-        private static readonly Lazy<IMoyaTestRunnerFactory> defaultInstance;
+        private static readonly Lazy<IMoyaTestRunnerFactory> _defaultInstance;
 
         /// <summary>
         /// The default MoyaTestRunnerFactory. Simplifies registring of custom test runners, as
         /// well as fetching them.
         /// </summary>
-        internal static IMoyaTestRunnerFactory DefaultInstance { get { return defaultInstance.Value; } }
+        internal static IMoyaTestRunnerFactory DefaultInstance => _defaultInstance.Value;
 
         static MoyaTestRunnerFactory()
         {
-            defaultInstance = new Lazy<IMoyaTestRunnerFactory>(() => new MoyaTestRunnerFactory());
+            _defaultInstance = new Lazy<IMoyaTestRunnerFactory>(() => new MoyaTestRunnerFactory());
         }
 
         /// <summary>
         /// A mapping between attributes and test runner for that attribute. There is a one-to-one relationship
         /// between them. The key of the dictionary is the attribute, the value is the test runner.
         /// </summary>
-        private readonly IDictionary<Type, Type> attributeTestRunnerMapping = new Dictionary<Type, Type>
+        private readonly IDictionary<Type, Type> _attributeTestRunnerMapping = new Dictionary<Type, Type>
         {
             { typeof(StressAttribute), typeof(StressTestRunner) },
             { typeof(WarmupAttribute), typeof(WarmupTestRunner) },
@@ -53,9 +52,9 @@
         /// <returns>An implementation of <see cref="IMoyaTestRunner"/> for <paramref name="attribute"/>.</returns>
         public IMoyaTestRunner GetTestRunnerForAttribute(Type attribute)
         {
-            Guard.IsMoyaAttribute(attribute, "Unable to provide moya test runner for type {0}".FormatWith(attribute));
+            Guard.IsMoyaAttribute(attribute, $"Unable to provide moya test runner for type {attribute}");
 
-            Type typeOfTestRunner = attributeTestRunnerMapping[attribute];
+            Type typeOfTestRunner = _attributeTestRunnerMapping[attribute];
             IMoyaTestRunner instance = (IMoyaTestRunner)Activator.CreateInstance(typeOfTestRunner);
             IMoyaTestRunner timerDecoratedInstance = new TimerDecorator(instance);
             return timerDecoratedInstance;
@@ -71,7 +70,7 @@
         {
             Guard.IsMoyaTestRunner(testRunner);
             
-            Type attributeType = attributeTestRunnerMapping.FirstOrDefault(x => x.Value == testRunner).Key;
+            Type attributeType = _attributeTestRunnerMapping.FirstOrDefault(x => x.Value == testRunner).Key;
             return (MoyaAttribute)Activator.CreateInstance(attributeType);
         }
 
@@ -89,7 +88,7 @@
 
             EnsureMappingDoesNotExist(testRunner, attribute);
 
-            attributeTestRunnerMapping.Add(attribute, testRunner);
+            _attributeTestRunnerMapping.Add(attribute, testRunner);
         }
 
         /// <summary>
@@ -99,7 +98,7 @@
         /// <returns>An <see cref="IEnumerable{T}"/> with custom pre test runners which are made by the user.</returns>
         public IEnumerable<ICustomPreTestRunner> GetCustomPreTestRunners()
         {
-            return attributeTestRunnerMapping.Values
+            return _attributeTestRunnerMapping.Values
                 .Where(x => x.GetInterfaces()
                     .Contains(typeof(ICustomPreTestRunner)))
                 .Select(x => (ICustomPreTestRunner)Activator.CreateInstance(x));
@@ -112,7 +111,7 @@
         /// <returns>An <see cref="IEnumerable{T}"/> with custom test runners which are made by the user.</returns>
         public IEnumerable<ICustomTestRunner> GetCustomTestRunners()
         {
-            return attributeTestRunnerMapping.Values
+            return _attributeTestRunnerMapping.Values
                 .Where(x => x.GetInterfaces()
                     .Contains(typeof(ICustomTestRunner)))
                 .Select(x => (ICustomTestRunner)Activator.CreateInstance(x));
@@ -125,7 +124,7 @@
         /// <returns>An <see cref="IEnumerable{T}"/> with custom post test runners which are made by the user.</returns>
         public IEnumerable<ICustomPostTestRunner> GetCustomPostTestRunners()
         {
-            return attributeTestRunnerMapping.Values
+            return _attributeTestRunnerMapping.Values
                 .Where(x => x.GetInterfaces()
                     .Contains(typeof(ICustomPostTestRunner)))
                 .Select(x => (ICustomPostTestRunner)Activator.CreateInstance(x));
@@ -140,9 +139,9 @@
         private void EnsureMappingDoesNotExist(Type testRunner, Type attribute)
         {
             Type existingTestRunner;
-            if (attributeTestRunnerMapping.TryGetValue(attribute, out existingTestRunner) && existingTestRunner == testRunner)
+            if (_attributeTestRunnerMapping.TryGetValue(attribute, out existingTestRunner) && existingTestRunner == testRunner)
             {
-                throw new MoyaException("There already exists an entry for {0} - {1}.".FormatWith(testRunner, attribute));
+                throw new MoyaException($"There already exists an entry for {testRunner} - {attribute}.");
             }
         }
     }

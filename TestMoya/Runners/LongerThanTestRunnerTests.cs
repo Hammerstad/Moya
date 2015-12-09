@@ -78,7 +78,7 @@
             [Fact]
             public void AfterOtherTestWhichRanOnTimeShouldReturnSuccess()
             {
-                longerThanTestRunner.previousTestResults = new Collection<ITestResult> { new TestResult { Duration = 10, TestType = TestType.Test } };
+                longerThanTestRunner.PreviousTestResults = new Collection<ITestResult> { new TestResult { Duration = 10, TestType = TestType.Test } };
                 MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
 
                 var result = longerThanTestRunner.Execute(method);
@@ -89,7 +89,7 @@
             [Fact]
             public void AfterOtherTestWhichRanOnLessTimeShouldReturnFailure()
             {
-                longerThanTestRunner.previousTestResults = new Collection<ITestResult> { new TestResult { Duration = 8, TestType = TestType.Test } };
+                longerThanTestRunner.PreviousTestResults = new Collection<ITestResult> { new TestResult { Duration = 8, TestType = TestType.Test } };
                 MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
 
                 var result = longerThanTestRunner.Execute(method);
@@ -100,7 +100,7 @@
             [Fact]
             public void AfterOtherTestWhichRanOnLongerTimeShouldReturnSuccess()
             {
-                longerThanTestRunner.previousTestResults = new Collection<ITestResult> { new TestResult { Duration = 12, TestType = TestType.Test } };
+                longerThanTestRunner.PreviousTestResults = new Collection<ITestResult> { new TestResult { Duration = 12, TestType = TestType.Test } };
                 MethodInfo method = ((Action)testClass.MethodWithLongerThanTenSecondsAttribute).Method;
 
                 var result = longerThanTestRunner.Execute(method);
@@ -111,7 +111,7 @@
             [Fact]
             public void TestResultsWhichAreNotTestTypeTestShouldBeIgnored()
             {
-                longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+                longerThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult { Duration = 8, TestType = TestType.Test },
                     new TestResult { Duration = 8, TestType = TestType.PostTest },
@@ -129,7 +129,7 @@
             [Fact]
             public void AfterMultipleTestsWhichHasRunForTooLongShouldReturnSuccess()
             {
-                longerThanTestRunner.previousTestResults = new Collection<ITestResult>
+                longerThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult { Duration = 2, TestType = TestType.Test },
                     new TestResult { Duration = 3, TestType = TestType.Test },

@@ -7,7 +7,7 @@
     /// check if execution took longer time than a specified value.
     /// This check is applied after the main test phase.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class LongerThanAttribute : MoyaAttribute
     {
         /// <summary>

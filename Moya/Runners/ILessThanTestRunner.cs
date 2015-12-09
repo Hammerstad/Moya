@@ -14,7 +14,7 @@
         /// Contains a list of previous test results. Used to determine if the tests
         /// in fact took less than a given time.
         /// </summary>
-        ICollection<ITestResult> previousTestResults { get; set; }
+        ICollection<ITestResult> PreviousTestResults { get; set; }
 
         /// <summary>
         /// How many seconds the tests are supposed to take less than.

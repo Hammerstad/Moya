@@ -21,7 +21,7 @@
         /// Contains a list of previous test results. Used to determine if the tests
         /// in fact took longer than a given time.
         /// </summary>
-        public ICollection<ITestResult> previousTestResults { get; set; }
+        public ICollection<ITestResult> PreviousTestResults { get; set; }
 
         /// <summary>
         /// Checks that a given method takes longer than a designated period of time to execute.
@@ -54,19 +54,19 @@
         /// <summary>
         /// Utility method which checks whether or not the executed method executed
         /// within time. The result is calculated by adding the durations of each <see cref="ITestResult"/>
-        /// in <see cref="previousTestResults"/>, and comparing it to this objects <see cref="Seconds"/>
+        /// in <see cref="PreviousTestResults"/>, and comparing it to this objects <see cref="Seconds"/>
         /// property. The sum is executed within time if it takes longer than or equal to the value
         /// of <see cref="Seconds"/>.
         /// </summary>
         /// <returns>Returns <see cref="c:true"/> if the method executes within time.</returns>
         private bool ExecutedWithinTime()
         {
-            if (previousTestResults == null)
+            if (PreviousTestResults == null)
             {
                 return false;
             }
 
-            var usedTime = previousTestResults.Where(x => x.TestType == TestType.Test).Sum(x => x.Duration);
+            var usedTime = PreviousTestResults.Where(x => x.TestType == TestType.Test).Sum(x => x.Duration);
 
             return usedTime >= Seconds;
         }

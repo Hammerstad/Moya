@@ -19,28 +19,17 @@
         /// A list of threads, each running the same method, potentially multiple times. 
         /// The amount of threads will equal the value of the <see cref="Users"/> property.
         /// </summary>
-        private readonly IList<Thread> threadPool = new List<Thread>(); 
-
-        private int m_times = 1;
-        private int m_users = 1;
+        private readonly IList<Thread> _threadPool = new List<Thread>();
 
         /// <summary>
         /// Represents the amount of sequential executions.
         /// </summary>
-        public int Times
-        {
-            get { return m_times; }
-            private set { m_times = value; }
-        }
+        public int Times { get; private set; } = 1;
 
         /// <summary>
         /// Represents the amount of parallel executions.
         /// </summary>
-        public int Users
-        {
-            get { return m_users; }
-            private set { m_users = value; }
-        }
+        public int Users { get; private set; } = 1;
 
         /// <summary>
         /// Executes a method several times in sequence or parallel, or both.
@@ -76,7 +65,7 @@
                     countdownEvent.Signal();
                 });
                 thread.Start();
-                threadPool.Add(thread);
+                _threadPool.Add(thread);
             }
 
             countdownEvent.Wait();
@@ -90,11 +79,11 @@
         }
 
         /// <summary>
-        /// Waits for all the threads in the <see cref="threadPool"/> to end.
+        /// Waits for all the threads in the <see cref="_threadPool"/> to end.
         /// </summary>
         private void WaitForThreadsToEnd()
         {
-            foreach (var thread in threadPool)
+            foreach (var thread in _threadPool)
             {
                 thread.Join();
             }

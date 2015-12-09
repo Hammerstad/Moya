@@ -3,7 +3,6 @@
     using System;
     using Attributes;
     using Exceptions;
-    using Extensions;
     using Runners;
 
     /// <summary>
@@ -19,7 +18,7 @@
         /// <param name="type">A <see cref="Type"/> which should be a <see cref="MoyaAttribute"/>.</param>
         public static void IsMoyaAttribute(Type type)
         {
-            IsMoyaAttribute(type, "{0} is not a Moya Attribute.".FormatWith(type));
+            IsMoyaAttribute(type, $"{type} is not a Moya Attribute.");
         }
 
 
@@ -49,7 +48,7 @@
         {
             if (!typeof(IMoyaTestRunner).IsAssignableFrom(type))
             {
-                throw new MoyaException("{0} is not a Moya Test Runner.".FormatWith(type));
+                throw new MoyaException($"{type} is not a Moya Test Runner.");
             }
         } 
     }

@@ -15,7 +15,7 @@
         /// <summary>
         /// A <see cref="IMoyaTestRunnerFactory"/> used to 
         /// </summary>
-        private readonly IMoyaTestRunnerFactory testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
+        private readonly IMoyaTestRunnerFactory _testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
 
         /// <summary>
         /// Runs a user made method attributed with a <see cref="MoyaConfigurationAttribute"/> attribute.
@@ -31,7 +31,7 @@
             {
                 // ReSharper disable once AssignNullToNotNullAttribute
                 var instance = Activator.CreateInstance(methodInfo.DeclaringType);
-                methodInfo.Invoke(instance, new object[] { testRunnerFactory });
+                methodInfo.Invoke(instance, new object[] { _testRunnerFactory });
                 return new TestResult
                 {
                     TestOutcome = TestOutcome.Success,

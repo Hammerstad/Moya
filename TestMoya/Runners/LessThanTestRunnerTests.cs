@@ -78,7 +78,7 @@
             [Fact]
             public void AfterOtherTestWhichRanOnTimeShouldReturnSuccess()
             {
-                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                lessThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult{Duration = 10, TestType = TestType.Test}
                 };
@@ -92,7 +92,7 @@
             [Fact]
             public void AfterOtherTestWhichRanOnLessTimeShouldReturnSuccess()
             {
-                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                lessThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult{Duration = 8, TestType = TestType.Test}
                 };
@@ -106,7 +106,7 @@
             [Fact]
             public void TestResultsWhichAreNotTestTypeTestShouldBeIgnored()
             {
-                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                lessThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult{Duration = 8, TestType = TestType.Test},
                     new TestResult{Duration = 8, TestType = TestType.PostTest},
@@ -124,7 +124,7 @@
             [Fact]
             public void AfterMultipleTestsWhichHasRunForTooLongShouldReturnFailure()
             {
-                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                lessThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult{Duration = 2, TestType = TestType.Test},
                     new TestResult{Duration = 3, TestType = TestType.Test},
@@ -141,7 +141,7 @@
             [Fact]
             public void AfterMultipleTestsWhichHasRunForLessThanMaxShouldReturnSuccess()
             {
-                lessThanTestRunner.previousTestResults = new Collection<ITestResult>
+                lessThanTestRunner.PreviousTestResults = new Collection<ITestResult>
                 {
                     new TestResult{Duration = 2, TestType = TestType.Test},
                     new TestResult{Duration = 3, TestType = TestType.Test},

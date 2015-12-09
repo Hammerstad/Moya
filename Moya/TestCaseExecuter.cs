@@ -5,7 +5,6 @@
     using System.Reflection;
     using Attributes;
     using Exceptions;
-    using Extensions;
     using Factories;
     using Models;
     using Runners;
@@ -16,8 +15,8 @@
     /// </summary>
     public class TestCaseExecuter : ITestCaseExecuter
     {
-        private readonly IMoyaTestRunnerFactory testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
-        private ICollection<ITestResult> testResults;
+        private readonly IMoyaTestRunnerFactory _testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
+        private ICollection<ITestResult> _testResults;
 
         /// <summary>
         /// Runs a <see cref="TestCase"/> for a specific method.
@@ -29,14 +28,14 @@
         /// <returns>A collection of <see cref="ITestResult"/> from the test run.</returns>
         public ICollection<ITestResult> RunTest(TestCase testCase)
         {
-            testResults = new List<ITestResult>();
+            _testResults = new List<ITestResult>();
             MethodInfo methodInfo = ConvertTestCaseToMethodInfo(testCase);
 
             if (methodInfo == null)
             {
                 throw new MoyaException(
-                    "Unable to find method from assembly.Assembly file path: {0}\nClass name: {1}\nMethod name: {2}"
-                     .FormatWith(testCase.FilePath, testCase.ClassName, testCase.MethodName)
+                    $"Unable to find method from assembly.Assembly file path: {testCase.FilePath}" +
+                    $"\nClass name: {testCase.ClassName}\nMethod name: {testCase.MethodName}"
                 );
             }
 
@@ -51,7 +50,7 @@
             RunTest(methodInfo, typeof(LessThanAttribute));
             RunTest(methodInfo, typeof(LongerThanAttribute));
             RunCustomPostTests(methodInfo);
-            return testResults;
+            return _testResults;
         }
 
         /// <summary>
@@ -64,10 +63,10 @@
         /// <param name="attributeType">A </param>
         private void RunTest(MethodInfo methodInfo, Type attributeType)
         {
-            IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
+            IMoyaTestRunner testRunner = _testRunnerFactory.GetTestRunnerForAttribute(attributeType);
             if (MethodHasAttribute(methodInfo, attributeType))
             {
-                testResults.Add(testRunner.Execute(methodInfo));
+                _testResults.Add(testRunner.Execute(methodInfo));
             }
         }
 
@@ -102,7 +101,7 @@
         /// <param name="methodInfo">The method to be run.</param>
         private void RunCustomPreTests(MethodInfo methodInfo)
         {
-            var customTestRunners = testRunnerFactory.GetCustomPreTestRunners();
+            var customTestRunners = _testRunnerFactory.GetCustomPreTestRunners();
             RunCustomTestRunners(customTestRunners, methodInfo);
         }
 
@@ -112,7 +111,7 @@
         /// <param name="methodInfo">The method to be run.</param>
         private void RunCustomTests(MethodInfo methodInfo)
         {
-            var customTestRunners = testRunnerFactory.GetCustomTestRunners();
+            var customTestRunners = _testRunnerFactory.GetCustomTestRunners();
             RunCustomTestRunners(customTestRunners, methodInfo);
         }
 
@@ -122,7 +121,7 @@
         /// <param name="methodInfo">The method to be run.</param>
         private void RunCustomPostTests(MethodInfo methodInfo)
         {
-            var customTestRunners = testRunnerFactory.GetCustomPostTestRunners();
+            var customTestRunners = _testRunnerFactory.GetCustomPostTestRunners();
             RunCustomTestRunners(customTestRunners, methodInfo);
         }
 
@@ -135,10 +134,10 @@
         {
             foreach (var testRunner in testRunners)
             {
-                var attributeType = testRunnerFactory.GetAttributeForTestRunner(testRunner.GetType());
+                var attributeType = _testRunnerFactory.GetAttributeForTestRunner(testRunner.GetType());
                 if (MethodHasAttribute(methodInfo, attributeType.GetType()))
                 {
-                    testResults.Add(testRunner.Execute(methodInfo));
+                    _testResults.Add(testRunner.Execute(methodInfo));
                 }
             }
         }

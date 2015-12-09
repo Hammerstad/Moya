@@ -4,7 +4,7 @@
     /// A test runner used to wrap other test runners in order to time
     /// their duration.
     /// </summary>
-    public interface ITimerDecorator : IMoyaTestRunner
+    internal interface ITimerDecorator : IMoyaTestRunner
     {
         /// <summary>
         /// Another <see cref="IMoyaTestRunner"/> which will be measured by 

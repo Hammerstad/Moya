@@ -8,16 +8,16 @@
 
     public class AssemblyScanner
     {
-        private readonly Assembly assembly;
+        private readonly Assembly _assembly;
 
         public AssemblyScanner(string assemblyFilePath)
         {
-            assembly = Assembly.LoadFile(assemblyFilePath);
+            _assembly = Assembly.LoadFile(assemblyFilePath);
         }
 
         public IEnumerable<Type> GetTypes()
         {
-            return assembly.GetTypes();
+            return _assembly.GetTypes();
         }
 
         public IEnumerable<MemberInfo> GetMembersWithMoyaAttribute(Type type)

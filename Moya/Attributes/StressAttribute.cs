@@ -7,19 +7,9 @@
     /// have a stress phase, which executes the given method multiple times.
     /// The attributed method can also be executed in parallel.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class StressAttribute : MoyaAttribute
     {
-        /// <summary>
-        /// The amount of times the attributed method will be run in parrallel.
-        /// </summary>
-        private int users = 1;
-
-        /// <summary>
-        /// The amount of times the attributed method will be run in sequence.
-        /// </summary>
-        private int times = 1;
-
         /// <summary>
         /// Indicates how many times the attributed method will be run in parallel.
         /// This can also be enhanced with sequential execution by specifying the 
@@ -39,11 +29,7 @@
         /// } 
         /// </code>
         /// </example>
-        public int Users
-        {
-            get { return users; }
-            set { users = value; }
-        }
+        public int Users { get; set; } = 1;
 
         /// <summary>
         /// Indicates how many times the attributed method will be run in sequence.
@@ -64,10 +50,6 @@
         /// } 
         /// </code>
         /// </example>
-        public int Times
-        {
-            get { return times; }
-            set { times = value; }
-        }
+        public int Times { get; set; } = 1;
     }
 }

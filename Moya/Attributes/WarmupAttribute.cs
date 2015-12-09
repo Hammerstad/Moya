@@ -6,7 +6,7 @@
     /// Attribute that is applied to a method indicating that it should 
     /// have a warmup phase before other tests are run.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class WarmupAttribute : MoyaAttribute
     {
         /// <summary>

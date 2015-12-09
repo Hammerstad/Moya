@@ -6,18 +6,16 @@
 
     public class ArgumentParser
     {
-        private readonly Stack<string> arguments = new Stack<string>();
-        private readonly List<string> assemblyFiles = new List<string>();
-        private readonly CommandLineOptions commandLineOptions = new CommandLineOptions();
+        private readonly Stack<string> _arguments = new Stack<string>();
 
-        internal CommandLineOptions CommandLineOptions { get { return commandLineOptions; } }
-        internal List<string> AssemblyFiles { get { return assemblyFiles; } } 
+        internal CommandLineOptions CommandLineOptions { get; } = new CommandLineOptions();
+        internal List<string> AssemblyFiles { get; } = new List<string>();
 
         public ArgumentParser(string[] args)
         {
             for (int i = args.Length - 1; i >= 0; i--)
             {
-                arguments.Push(args[i]);
+                _arguments.Push(args[i]);
             }
         }
 
@@ -32,36 +30,36 @@
         private void PrintDebug()
         {
             Console.WriteLine("Assembly files:");
-            foreach (var assemblyFile in assemblyFiles)
+            foreach (var assemblyFile in AssemblyFiles)
             {
                 Console.WriteLine("\t"+assemblyFile);
             }
-            Console.WriteLine("Help   : " + (commandLineOptions.Help ? "true" : "false"));
-            Console.WriteLine("Verbose: " + (commandLineOptions.Verbose ? "true" : "false"));
+            Console.WriteLine("Help   : " + (CommandLineOptions.Help ? "true" : "false"));
+            Console.WriteLine("Verbose: " + (CommandLineOptions.Verbose ? "true" : "false"));
         }
 
         private void ParseAssemblyFilesFromArguments()
         {
-            while (arguments.Count > 0)
+            while (_arguments.Count > 0)
             {
-                if (arguments.Peek().StartsWith("-"))
+                if (_arguments.Peek().StartsWith("-"))
                 {
                     break;
                 }
 
-                var assemblyFile = arguments.Pop();
+                var assemblyFile = _arguments.Pop();
 
                 if (!File.Exists(assemblyFile))
                 {
-                    throw new ArgumentException(String.Format("File not found: {0}", assemblyFile));
+                    throw new ArgumentException($"File not found: {assemblyFile}");
                 }
-                assemblyFiles.Add(assemblyFile);
+                AssemblyFiles.Add(assemblyFile);
             }
         }
 
         private void EnsureThereIsAtLeastOneAssembly()
         {
-            if (assemblyFiles.Count == 0)
+            if (AssemblyFiles.Count == 0)
             {
                 throw new ArgumentException("You must specify at least one assembly");
             }
@@ -69,7 +67,7 @@
 
         private void ParseCommandLineOptions()
         {
-            while (arguments.Count > 0)
+            while (_arguments.Count > 0)
             {
                 var option = PopOption();
                 var optionName = GetOptionName(option);
@@ -78,11 +76,11 @@
                 {
                     case "help":
                         EnsureNoOptionValue(option);
-                        commandLineOptions.Help = true;
+                        CommandLineOptions.Help = true;
                         break;
                     case "verbose":
                         EnsureNoOptionValue(option);
-                        commandLineOptions.Verbose = true;
+                        CommandLineOptions.Verbose = true;
                         break;
                 }
             }
@@ -92,18 +90,18 @@
         {
             if (option.Value != null)
             {
-                throw new ArgumentException(String.Format("Unknown command line option: {0}", option.Value));
+                throw new ArgumentException($"Unknown command line option: {option.Value}");
             }
         }
 
         private KeyValuePair<string, string> PopOption()
         {
-            string option = arguments.Pop();
+            string option = _arguments.Pop();
             string value = null;
 
-            if(arguments.Count > 0 && !arguments.Peek().StartsWith("-"))
+            if(_arguments.Count > 0 && !_arguments.Peek().StartsWith("-"))
             {
-                value = arguments.Pop();
+                value = _arguments.Pop();
             }
 
             return new KeyValuePair<string, string>(option, value);
@@ -115,7 +113,7 @@
 
             if (!optionName.StartsWith("-"))
             {
-                throw new ArgumentException(String.Format("Unknown command line option: {0}", option.Key));
+                throw new ArgumentException($"Unknown command line option: {option.Key}");
             }
 
             return optionName.Substring(2);
