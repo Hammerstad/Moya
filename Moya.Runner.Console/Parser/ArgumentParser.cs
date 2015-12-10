@@ -9,8 +9,7 @@
         private readonly Stack<string> _arguments = new Stack<string>();
 
         internal CommandLineOptions CommandLineOptions { get; } = new CommandLineOptions();
-        internal List<string> AssemblyFiles { get; } = new List<string>();
-
+        
         public ArgumentParser(string[] args)
         {
             for (int i = args.Length - 1; i >= 0; i--)
@@ -30,7 +29,7 @@
         private void PrintDebug()
         {
             Console.WriteLine("Assembly files:");
-            foreach (var assemblyFile in AssemblyFiles)
+            foreach (var assemblyFile in CommandLineOptions.AssemblyFiles)
             {
                 Console.WriteLine("\t"+assemblyFile);
             }
@@ -53,13 +52,13 @@
                 {
                     throw new ArgumentException($"File not found: {assemblyFile}");
                 }
-                AssemblyFiles.Add(assemblyFile);
+                CommandLineOptions.AssemblyFiles.Add(assemblyFile);
             }
         }
 
         private void EnsureThereIsAtLeastOneAssembly()
         {
-            if (AssemblyFiles.Count == 0)
+            if (CommandLineOptions.AssemblyFiles.Count == 0)
             {
                 throw new ArgumentException("You must specify at least one assembly");
             }
