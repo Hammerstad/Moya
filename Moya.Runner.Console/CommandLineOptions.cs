@@ -1,4 +1,4 @@
-﻿namespace Moya.Runner.Console.Parser
+﻿namespace Moya.Runner.Console
 {
     using System.Collections.Generic;
 

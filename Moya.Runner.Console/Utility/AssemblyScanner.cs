@@ -6,7 +6,7 @@
     using System.Reflection;
     using Attributes;
 
-    public class AssemblyScanner
+    internal class AssemblyScanner
     {
         private readonly Assembly _assembly;
 

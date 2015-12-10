@@ -1,9 +1,9 @@
-﻿namespace TestMoya.Runner.Console.Parser
+﻿namespace TestMoya.Runner.Console
 {
     using System;
     using System.IO;
     using System.Reflection;
-    using Moya.Runner.Console.Parser;
+    using Moya.Runner.Console;
     using Xunit;
 
     public class ArgumentParserTests

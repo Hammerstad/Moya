@@ -6,15 +6,16 @@
     {
         private static void Main(string[] args)
         {
-            //try
-            //{
-            //    new Startup.Startup().Run(args);
-            //}
-            //catch(Exception e)
-            //{
-            //    Console.Error.WriteLine("Error: {0}", e.Message);
-            //    Environment.Exit(1);
-            //}
+            try
+            {
+                Startup startup = new Startup(args);
+                startup.Run();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error: {0}", e.Message);
+                Environment.Exit(1);
+            }
         }
     }
 }
