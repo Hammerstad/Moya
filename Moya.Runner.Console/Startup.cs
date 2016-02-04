@@ -56,7 +56,7 @@
             Console.WriteLine("Usage: Moya.Runner.Console.exe ([options] <argument>) <path-to-dll>[;<path-to-other-dll>...]");
             Console.WriteLine("\nOptional options:");
             Console.WriteLine("\t-h\t--help\t\tPrints this message.");
-            Console.WriteLine("\t-h\t--verbose\t\tPrints more information.");
+            Console.WriteLine("\t-v\t--verbose\t\tPrints more information.");
         }
     }
 }

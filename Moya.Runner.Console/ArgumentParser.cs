@@ -10,7 +10,7 @@
 
         internal CommandLineOptions CommandLineOptions { get; } = new CommandLineOptions();
         
-        public ArgumentParser(string[] args)
+        public ArgumentParser(params string[] args)
         {
             for (int i = args.Length - 1; i >= 0; i--)
             {
@@ -21,20 +21,8 @@
         public void ParseArguments()
         {
             ParseAssemblyFilesFromArguments();
-            EnsureThereIsAtLeastOneAssembly();
             ParseCommandLineOptions();
-            PrintDebug();
-        }
-
-        private void PrintDebug()
-        {
-            Console.WriteLine("Assembly files:");
-            foreach (var assemblyFile in CommandLineOptions.AssemblyFiles)
-            {
-                Console.WriteLine("\t"+assemblyFile);
-            }
-            Console.WriteLine("Help   : " + (CommandLineOptions.Help ? "true" : "false"));
-            Console.WriteLine("Verbose: " + (CommandLineOptions.Verbose ? "true" : "false"));
+            EnsureThereIsAtLeastOneAssemblyOrHelpSpecified();
         }
 
         private void ParseAssemblyFilesFromArguments()
@@ -56,11 +44,11 @@
             }
         }
 
-        private void EnsureThereIsAtLeastOneAssembly()
+        private void EnsureThereIsAtLeastOneAssemblyOrHelpSpecified()
         {
-            if (CommandLineOptions.AssemblyFiles.Count == 0)
+            if (CommandLineOptions.AssemblyFiles.Count == 0 && !CommandLineOptions.Help)
             {
-                throw new ArgumentException("You must specify at least one assembly");
+                throw new ArgumentException("You must specify at least one assembly.\nType --help for more information.");
             }
         }
 

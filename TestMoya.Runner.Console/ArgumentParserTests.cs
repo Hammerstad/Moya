@@ -15,7 +15,7 @@
             [Fact]
             public void VerboseIsFalseWhenNotSpecified()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath() });
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath());
 
                 argumentParser.ParseArguments();
 
@@ -25,7 +25,7 @@
             [Fact]
             public void HelpIsFalseWhenNotSpecified()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath() });
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath());
 
                 argumentParser.ParseArguments();
 
@@ -35,7 +35,7 @@
             [Fact]
             public void VerboseIsTrueWhenSpecified()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath(), "--verbose"});
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath(), "--verbose");
 
                 argumentParser.ParseArguments();
 
@@ -45,7 +45,7 @@
             [Fact]
             public void HelpIsTrueWhenSpecified()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath(), "--help" });
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath(), "--help");
 
                 argumentParser.ParseArguments();
 
@@ -55,7 +55,7 @@
             [Fact]
             public void HelpWithOptionValueThrowsException()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath(), "--help", "invalid help option" });
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath(), "--help", "invalid help option");
 
                 var exception = Record.Exception(() => argumentParser.ParseArguments());
 
@@ -67,7 +67,7 @@
             [Fact]
             public void VerboseWithOptionValueThrowsException()
             {
-                argumentParser = new ArgumentParser(new[] { GetMoyaDummyTestProjectDllPath(), "--verbose", "invalid verbose option" });
+                argumentParser = new ArgumentParser(GetMoyaDummyTestProjectDllPath(), "--verbose", "invalid verbose option");
 
                 var exception = Record.Exception(() => argumentParser.ParseArguments());
 
@@ -79,7 +79,7 @@
             [Fact]
             public void FirstArgumentNotAssemblyShouldThrowException()
             {
-                argumentParser = new ArgumentParser(new[] { "--verbose", GetMoyaDummyTestProjectDllPath() });
+                argumentParser = new ArgumentParser("--verbose", GetMoyaDummyTestProjectDllPath());
 
                 var exception = Record.Exception(() => argumentParser.ParseArguments());
 
@@ -92,7 +92,7 @@
             public void AssemblyFileDoesNotExistThrowsException()
             {
                 const string fakeAssemblyPath = "/path/to/fake.dll";
-                argumentParser = new ArgumentParser(new[] { fakeAssemblyPath });
+                argumentParser = new ArgumentParser(fakeAssemblyPath);
 
                 var exception = Record.Exception(() => argumentParser.ParseArguments());
 
