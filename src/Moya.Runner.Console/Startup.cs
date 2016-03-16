@@ -39,7 +39,7 @@
                 Console.WriteLine("TestResult: ");
                 Console.WriteLine("\tDuration:\t" + testResult.Duration);
                 Console.WriteLine("\tErrormessage:\t" + testResult.Exception.Message);
-                Console.WriteLine("\tOutcome:\t" + testResult.TestOutcome);
+                Console.WriteLine("\tOutcome:\t" + testResult.Outcome);
                 Console.WriteLine("\tType:\t\t" + testResult.TestType);
             }
         }

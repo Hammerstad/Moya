@@ -60,7 +60,7 @@
 
                 var result = warmupTestRunner.Execute(method);
 
-                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                Assert.Equal(TestOutcome.NotFound, result.Outcome);
             }
 
             [Fact]
@@ -70,7 +70,7 @@
 
                 var result = warmupTestRunner.Execute(method);
 
-                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                Assert.Equal(TestOutcome.NotFound, result.Outcome);
             }
         }
 

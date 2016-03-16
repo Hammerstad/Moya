@@ -29,8 +29,8 @@
 
                 var testResult = testCaseExecuter.RunTest(testCase);
 
-                Assert.Equal(1, testResult.Count(x => x.TestOutcome == TestOutcome.Success));
-                Assert.Equal(TestOutcome.Success, testResult.First().TestOutcome);
+                Assert.Equal(1, testResult.Count(x => x.Outcome == TestOutcome.Success));
+                Assert.Equal(TestOutcome.Success, testResult.First().Outcome);
             }
 
             [Fact]
@@ -67,7 +67,7 @@
 
                 var result = testCaseExecuter.RunTest(testCase);
 
-                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().Outcome.ShouldBe(TestOutcome.Success);
                 result.First().TestType.ShouldBe(TestType.PreTest);
                 result.Count.ShouldBe(1);
             }
@@ -86,7 +86,7 @@
 
                 var result = testCaseExecuter.RunTest(testCase);
 
-                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().Outcome.ShouldBe(TestOutcome.Success);
                 result.First().TestType.ShouldBe(TestType.Test);
                 result.Count.ShouldBe(1);
             }
@@ -105,7 +105,7 @@
 
                 var result = testCaseExecuter.RunTest(testCase);
 
-                result.First().TestOutcome.ShouldBe(TestOutcome.Success);
+                result.First().Outcome.ShouldBe(TestOutcome.Success);
                 result.First().TestType.ShouldBe(TestType.PostTest);
                 result.Count.ShouldBe(1);
             }

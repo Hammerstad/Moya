@@ -11,7 +11,7 @@
             return new TestResult
             {
                 TestType = TestType.PostTest,
-                TestOutcome = TestOutcome.Success
+                Outcome = TestOutcome.Success
             };
         }
     }

@@ -34,7 +34,7 @@
                 methodInfo.Invoke(instance, new object[] { _testRunnerFactory });
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.Success,
+                    Outcome = TestOutcome.Success,
                     TestType = TestType.PreTest
                 };
             }
@@ -43,7 +43,7 @@
                 return new TestResult
                 {
                     Exception = e,
-                    TestOutcome = TestOutcome.Failure,
+                    Outcome = TestOutcome.Failure,
                     TestType = TestType.PreTest
                 };
             }

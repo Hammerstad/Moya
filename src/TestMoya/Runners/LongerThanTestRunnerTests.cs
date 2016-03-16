@@ -62,7 +62,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.NotFound);
+                Assert.Equal(result.Outcome, TestOutcome.NotFound);
             }
 
             [Fact]
@@ -72,7 +72,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+                Assert.Equal(result.Outcome, TestOutcome.Failure);
             }
 
             [Fact]
@@ -83,7 +83,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+                Assert.Equal(result.Outcome, TestOutcome.Success);
             }
 
             [Fact]
@@ -94,7 +94,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+                Assert.Equal(result.Outcome, TestOutcome.Failure);
             }
 
             [Fact]
@@ -105,7 +105,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+                Assert.Equal(result.Outcome, TestOutcome.Success);
             }
 
             [Fact]
@@ -123,7 +123,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Failure);
+                Assert.Equal(result.Outcome, TestOutcome.Failure);
             }
 
             [Fact]
@@ -140,7 +140,7 @@
 
                 var result = longerThanTestRunner.Execute(method);
 
-                Assert.Equal(result.TestOutcome, TestOutcome.Success);
+                Assert.Equal(result.Outcome, TestOutcome.Success);
             }
         }
         

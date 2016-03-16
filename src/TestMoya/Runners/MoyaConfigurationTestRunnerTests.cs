@@ -26,7 +26,7 @@
 
                 var result = Runner.Execute(method);
 
-                Assert.Equal(TestOutcome.Success, result.TestOutcome);
+                Assert.Equal(TestOutcome.Success, result.Outcome);
                 Assert.NotNull(MoyaTestRunnerFactory.DefaultInstance.GetTestRunnerForAttribute(typeof(TestAttribute)));
             }
 
@@ -37,7 +37,7 @@
 
                 var result = Runner.Execute(method);
 
-                Assert.Equal(TestOutcome.Failure, result.TestOutcome);
+                Assert.Equal(TestOutcome.Failure, result.Outcome);
             }
 
             [Fact]

@@ -49,7 +49,7 @@
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.NotFound,
+                    Outcome = TestOutcome.NotFound,
                     TestType = TestType.Test
                 };
             }
@@ -79,7 +79,7 @@
 
             return new TestResult
             {
-                TestOutcome = (exceptions.Count == 0) ? TestOutcome.Success : TestOutcome.Failure,
+                Outcome = (exceptions.Count == 0) ? TestOutcome.Success : TestOutcome.Failure,
                 TestType = TestType.Test, 
                 Exception = (exceptions.Count == 0) ? null : exceptions.First()
             };

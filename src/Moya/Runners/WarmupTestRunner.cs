@@ -27,7 +27,7 @@
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.NotFound,
+                    Outcome = TestOutcome.NotFound,
                     TestType = TestType.PreTest
                 };
             }
@@ -47,7 +47,7 @@
 
             return new TestResult
             {
-                TestOutcome = TestOutcome.Success,
+                Outcome = TestOutcome.Success,
                 TestType = TestType.PreTest
             };
         }

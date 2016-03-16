@@ -35,19 +35,11 @@
             {
                 return DecoratedTestRunner.Execute(methodInfo);
             }
-            catch (TargetInvocationException e)
-            {
-                return new TestResult
-                {
-                    TestOutcome = TestOutcome.Failure,
-                    Exception = e
-                };
-            }
             catch (Exception e)
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.Failure,
+                    Outcome = TestOutcome.Failure,
                     Exception = e
                 };
             }

@@ -35,7 +35,7 @@
             {
                 return new TestResult
                 {
-                    TestOutcome = TestOutcome.NotFound,
+                    Outcome = TestOutcome.NotFound,
                     TestType = TestType.PostTest
                 };
             }
@@ -46,7 +46,7 @@
 
             return new TestResult
             {
-                TestOutcome = executedWithinTime ? TestOutcome.Success : TestOutcome.Failure,
+                Outcome = executedWithinTime ? TestOutcome.Success : TestOutcome.Failure,
                 TestType = TestType.PostTest
             };
         }

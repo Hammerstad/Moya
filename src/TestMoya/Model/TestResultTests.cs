@@ -26,7 +26,7 @@
             ITestResult testResult = _testRunner.Execute(method);
 
             Assert.NotNull(testResult.Exception);
-            Assert.Equal(TestOutcome.Failure, testResult.TestOutcome);
+            Assert.Equal(TestOutcome.Failure, testResult.Outcome);
         }
 
         class TestClass

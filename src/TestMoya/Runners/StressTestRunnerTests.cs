@@ -67,7 +67,7 @@
 
                 var result = stressTestRunner.Execute(method);
 
-                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                Assert.Equal(TestOutcome.NotFound, result.Outcome);
             }
 
             [Fact]
@@ -77,7 +77,7 @@
 
                 var result = stressTestRunner.Execute(method);
 
-                Assert.Equal(TestOutcome.NotFound, result.TestOutcome);
+                Assert.Equal(TestOutcome.NotFound, result.Outcome);
             }
         }
 

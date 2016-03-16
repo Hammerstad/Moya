@@ -6,6 +6,11 @@
     public enum TestType
     {
         /// <summary>
+        /// The test phase of the test is not specified
+        /// </summary>
+        Unspecified,
+
+        /// <summary>
         /// Represents a test run in the pre-test phase
         /// </summary>
         PreTest,
