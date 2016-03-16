@@ -41,7 +41,6 @@
                 testResults.AddRange(testCaseExecuter.RunTest(new TestCase
                 {
                     ClassName = type.FullName,
-                    Id = Guid.NewGuid(),
                     FilePath = assemblyFilePath,
                     MethodName = memberInfo.Name
                 }));

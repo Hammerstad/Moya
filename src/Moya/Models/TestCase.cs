@@ -1,17 +1,10 @@
 ﻿namespace Moya.Models
 {
-    using System;
-
     /// <summary>
     /// Represents a Moya test case
     /// </summary>
     public class TestCase
     {
-        /// <summary>
-        /// A unique Id for this test case.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// The path of the file containing the test case.
         /// </summary>

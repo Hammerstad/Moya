@@ -18,11 +18,9 @@
             [Fact]
             public void RunTestWithDummyClassShouldReturnCollectionWithOneSuccessfullResult()
             {
-
                 TestCase testCase = new TestCase
                 {
                     ClassName = "Moya.Dummy.Test.Project.TestClass",
-                    Id = Guid.NewGuid(),
                     MethodName = "OnlyWarmupMethod",
                     FilePath = GetMoyaDummyTestProjectDllPath()
                 };
@@ -39,7 +37,6 @@
                 TestCase testCase = new TestCase
                 {
                     ClassName = "Moya.Dummy.Test.Project.NotATestClass",
-                    Id = Guid.NewGuid(),
                     MethodName = "AMethod",
                     FilePath = GetMoyaDummyTestProjectDllPath()
                 };
@@ -60,7 +57,6 @@
                 TestCase testCase = new TestCase
                 {
                     ClassName = "Moya.Dummy.Test.Project.CustomPreTestExample",
-                    Id = Guid.NewGuid(),
                     MethodName = "MyTestMethod",
                     FilePath = GetMoyaDummyTestProjectDllPath()
                 };
@@ -79,7 +75,6 @@
                 TestCase testCase = new TestCase
                 {
                     ClassName = "Moya.Dummy.Test.Project.CustomTestExample",
-                    Id = Guid.NewGuid(),
                     MethodName = "MyTestMethod",
                     FilePath = GetMoyaDummyTestProjectDllPath()
                 };
@@ -98,7 +93,6 @@
                 TestCase testCase = new TestCase
                 {
                     ClassName = "Moya.Dummy.Test.Project.CustomPostTestExample",
-                    Id = Guid.NewGuid(),
                     MethodName = "MyTestMethod",
                     FilePath = GetMoyaDummyTestProjectDllPath()
                 };
@@ -110,8 +104,6 @@
                 result.Count.ShouldBe(1);
             }
         }
-
-        
 
         private static string GetCurrentAssemblyDirectory()
         {
@@ -126,7 +118,6 @@
             TestCase testCase = new TestCase
             {
                 ClassName = "Moya.Dummy.Test.Project.Configuration",
-                Id = Guid.NewGuid(),
                 MethodName = "Configure",
                 FilePath = GetMoyaDummyTestProjectDllPath()
             };
