@@ -85,7 +85,7 @@
 
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentException>(exception);
-                Assert.Equal("You must specify at least one assembly", exception.Message);
+                Assert.Equal("You must specify at least one assembly.\nType --help for more information.", exception.Message);
             }
 
             [Fact]
@@ -109,6 +109,7 @@
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
+
         private static string GetMoyaDummyTestProjectDllPath()
         {
 #if DEBUG

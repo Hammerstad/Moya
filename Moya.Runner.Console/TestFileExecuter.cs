@@ -8,9 +8,7 @@
 
     public class TestFileExecuter
     {
-        public List<ITestResult> TestResults { get; } = new List<ITestResult>();
-
-        private ITestCaseExecuter testCaseExecuter;
+        private readonly List<ITestResult> testResults = new List<ITestResult>();
         private readonly AssemblyScanner assemblyScanner;
         private readonly string assemblyFilePath;
         private readonly TextWriter consoleOut = Console.Out;
@@ -21,7 +19,7 @@
             assemblyScanner = new AssemblyScanner(this.assemblyFilePath);
         }
 
-        public void RunAllTests()
+        public List<ITestResult> RunAllTests()
         {
             DisableOutput();
 
@@ -32,18 +30,15 @@
 
             EnableOutput();
 
-            foreach (var testResult in TestResults)
-            {
-                Console.WriteLine("{0}", (testResult.Duration));
-            }
+            return testResults;
         }
 
         private void RunTestsForType(Type type)
         {
             foreach (var memberInfo in assemblyScanner.GetMembersWithMoyaAttribute(type))
             {
-                testCaseExecuter = new TestCaseExecuter();
-                TestResults.AddRange(testCaseExecuter.RunTest(new TestCase
+                ITestCaseExecuter testCaseExecuter = new TestCaseExecuter();
+                testResults.AddRange(testCaseExecuter.RunTest(new TestCase
                 {
                     ClassName = type.FullName,
                     Id = Guid.NewGuid(),

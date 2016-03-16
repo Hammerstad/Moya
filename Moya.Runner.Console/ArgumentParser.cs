@@ -21,8 +21,8 @@
         public void ParseArguments()
         {
             ParseAssemblyFilesFromArguments();
-            ParseCommandLineOptions();
             EnsureThereIsAtLeastOneAssemblyOrHelpSpecified();
+            ParseCommandLineOptions();
         }
 
         private void ParseAssemblyFilesFromArguments()
@@ -46,10 +46,20 @@
 
         private void EnsureThereIsAtLeastOneAssemblyOrHelpSpecified()
         {
-            if (CommandLineOptions.AssemblyFiles.Count == 0 && !CommandLineOptions.Help)
+            if (HelpSpecified())
+            {
+                return;
+            }
+
+            if (CommandLineOptions.AssemblyFiles.Count == 0)
             {
                 throw new ArgumentException("You must specify at least one assembly.\nType --help for more information.");
             }
+        }
+
+        private bool HelpSpecified()
+        {
+            return _arguments.Contains("--help") || _arguments.Contains("-h");
         }
 
         private void ParseCommandLineOptions()

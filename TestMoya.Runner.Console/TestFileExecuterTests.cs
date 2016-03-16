@@ -1,8 +1,10 @@
 ﻿namespace TestMoya.Runner.Console
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using Moya.Models;
     using Moya.Runner.Console;
     using Xunit;
 
@@ -40,9 +42,9 @@
                 string validAssemblyPath = GetMoyaDummyTestProjectDllPath();
                 TestFileExecuter testFileExecuter = new TestFileExecuter(validAssemblyPath);
 
-                testFileExecuter.RunAllTests();
+                List<ITestResult> testResults = testFileExecuter.RunAllTests();
 
-                Assert.NotEmpty(testFileExecuter.TestResults);
+                Assert.NotEmpty(testResults);
             }
         }
 

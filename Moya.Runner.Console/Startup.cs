@@ -25,8 +25,8 @@
             foreach (var assemblyFile in _argumentParser.CommandLineOptions.AssemblyFiles)
             {
                 TestFileExecuter testFileExecuter = new TestFileExecuter(assemblyFile);
-                testFileExecuter.RunAllTests();
-                PrintTestResults(testFileExecuter.TestResults);
+                List<ITestResult> testResults = testFileExecuter.RunAllTests();
+                PrintTestResults(testResults);
             }
         }
 
