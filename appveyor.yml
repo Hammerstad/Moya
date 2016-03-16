@@ -5,18 +5,18 @@ environment:
   COVERALLS_REPO_TOKEN:
     secure: T0CN6Rhd2CAhg368vxiH+RHgJgRzce4xmPu9lH6huFVq3/B58CG1Jl6bOxxk6CI6
 before_build:
-  - nuget restore ".\Moya.sln"
-  - nuget install ".\.nuget\packages.config" -OutputDirectory packages
+  - nuget restore ".\src\Moya.sln"
+  - nuget install ".\src\.nuget\packages.config" -OutputDirectory src\packages
 build:
-  project: .\Moya.sln
+  project: .\src\Moya.sln
   verbosity: minimal
 test_script:
 - ps: >-
     $testFiles = @(
-        "TestMoya/bin/Release/TestMoya.dll"
+        "src/TestMoya/bin/Release/TestMoya.dll"
     )
 
-    $xUnitAdapterPath = ".\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
+    $xUnitAdapterPath = ".\src\packages\xunit.runner.visualstudio.2.0.1\build\_common\"
 
     $VsTestExecutable = "${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
 
@@ -24,9 +24,9 @@ test_script:
 
     & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
 
-    $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
+    $coverageFilePath = Resolve-Path -path "src\TestResults\*\*.coverage"
 
-    Remove-Item .\MoyaCoverage.coveragexml -ErrorAction SilentlyContinue
+    Remove-Item .\src\MoyaCoverage.coveragexml -ErrorAction SilentlyContinue
 
     $CodeCoverageExecutable ="${Env:ProgramFiles(x86)}\Microsoft Visual Studio 12.0\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe"
 
@@ -34,7 +34,7 @@ test_script:
     
     Push-AppveyorArtifact MoyaCoverage.coveragexml
 
-    $coverallsPath = Resolve-Path "packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
+    $coverallsPath = Resolve-Path "src\packages\coveralls.net.*\tools\csmacnz.coveralls.exe"
 
     $coveralls = $coverallsPath.ToString()
 

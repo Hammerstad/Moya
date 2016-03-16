@@ -1,6 +1,6 @@
 language: csharp
 solution: Moya.sln
 install:
-          - nuget restore Moya.sln
+          - nuget restore src/Moya.sln
 script:
-          - xbuild /p:Configuration=Release Moya.sln
+          - xbuild /p:Configuration=Release src/Moya.sln
