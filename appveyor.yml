@@ -22,7 +22,7 @@ test_script:
 
     Remove-Item -Force -Recurse .\TestResults -ErrorAction SilentlyContinue
 
-    & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:CodeCoverage.runsettings
+    & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:src\CodeCoverage.runsettings
 
     $coverageFilePath = Resolve-Path -path "src\TestResults\*\*.coverage"
 
