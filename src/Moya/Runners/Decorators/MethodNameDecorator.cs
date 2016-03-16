@@ -27,17 +27,19 @@
         }
 
         /// <summary>
-        /// Executes a method and adds the duration that method took to the returned <see cref="ITestResult"/>.
+        /// Executes a method and adds the namespace and method name of the calling method to
+        /// the <see cref="ITestResult"/> being returned.
         /// </summary>
         /// <param name="methodInfo">A method attributed with a derivative of the 
         /// <see cref="MoyaAttribute"/> attribute.</param>
-        /// <returns>A <see cref="ITestResult"/> object containing information about the test run.</returns>
+        /// <returns>An <see cref="ITestResult"/> object containing information about the test run.</returns>
         public ITestResult Execute(MethodInfo methodInfo)
         {
             var result = DecoratedTestRunner.Execute(methodInfo);
 
             ((TestResult)result).MethodName = methodInfo.Name;
-            ((TestResult)result).Namespace = methodInfo.DeclaringType?.FullName + "." + result.MethodName;
+            // ReSharper disable once PossibleNullReferenceException
+            ((TestResult)result).Namespace = methodInfo.DeclaringType.FullName + "." + result.MethodName;
             return result;
         }
     }

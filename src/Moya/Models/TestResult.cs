@@ -1,5 +1,7 @@
 ﻿namespace Moya.Models
 {
+    using System;
+
     /// <summary>
     /// Represents a test result from a Moya test
     /// </summary>
@@ -14,11 +16,11 @@
         /// Represents the outcome of a Moya test, e.g. <see cref="F:TestOutcome.Success"/>.
         /// </summary>
         public TestOutcome TestOutcome { get; set; }
-
+        
         /// <summary>
-        /// Contains an error message if the test execution failed.
+        /// Contains an <see cref="Exception"/> if the test execution failed.
         /// </summary>
-        public string ErrorMessage { get; set; }
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// Represents the duration a Moya test took. Measured in milliseconds.

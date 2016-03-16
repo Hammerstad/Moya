@@ -42,7 +42,7 @@
             {
                 return new TestResult
                 {
-                    ErrorMessage = e.Message,
+                    Exception = e,
                     TestOutcome = TestOutcome.Failure,
                     TestType = TestType.PreTest
                 };

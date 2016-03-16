@@ -52,6 +52,7 @@
             DetectUsersAndTimesFromMethod(methodInfo);
             var countdownEvent = new CountdownEvent(Users);
 
+            Exception latestException = null;
             for (var i = 0; i < Users; i++)
             {
                 var thread = new Thread(delegate()
@@ -60,7 +61,7 @@
                     var instance = Activator.CreateInstance(type);
                     for (var j = 0; j < Times; j++)
                     {
-                        methodInfo.Invoke(instance, null);
+                        SafeExecute(() => methodInfo.Invoke(instance, null), out latestException);
                     }
                     countdownEvent.Signal();
                 });
@@ -73,8 +74,9 @@
 
             return new TestResult
             {
-                TestOutcome = TestOutcome.Success,
-                TestType = TestType.Test
+                TestOutcome = (latestException == null) ? TestOutcome.Success : TestOutcome.Failure,
+                TestType = TestType.Test, 
+                Exception = latestException
             };
         }
 
@@ -117,6 +119,25 @@
             // ReSharper disable once PossibleNullReferenceException
             Users = stressAttribute.Users;
             Times = stressAttribute.Times;
+        }
+
+        /// <summary>
+        /// Ensures that exceptions thrown by an action is caught and passed out.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="exception"></param>
+        private static void SafeExecute(Action action, out Exception exception)
+        {
+            exception = null;
+
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
         }
     }
 }
