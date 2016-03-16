@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using Models;
 
     internal class Startup
@@ -22,9 +23,10 @@
 
         private void RunTestsForSpecifiedAssemblies()
         {
-            foreach (var assemblyFile in _argumentParser.CommandLineOptions.AssemblyFiles)
+            foreach (var assemblyFilePath in _argumentParser.CommandLineOptions.AssemblyFilePaths)
             {
-                TestFileExecuter testFileExecuter = new TestFileExecuter(assemblyFile);
+                string normalizedPath = NormalizePath(assemblyFilePath);
+                TestFileExecuter testFileExecuter = new TestFileExecuter(normalizedPath);
                 List<ITestResult> testResults = testFileExecuter.RunAllTests();
                 PrintTestResults(testResults);
             }
@@ -57,6 +59,18 @@
             Console.WriteLine("\nOptional options:");
             Console.WriteLine("\t-h\t--help\t\tPrints this message.");
             Console.WriteLine("\t-v\t--verbose\t\tPrints more information.");
+        }
+
+        private static string NormalizePath(string assemblyFilePath)
+        {
+            if (Path.IsPathRooted(assemblyFilePath))
+            {
+                return Path.GetFullPath(assemblyFilePath);
+            }
+
+            var currentDir = Directory.GetCurrentDirectory();
+            var combinedPath = Path.Combine(currentDir, assemblyFilePath);
+            return Path.GetFullPath(combinedPath);
         }
     }
 }

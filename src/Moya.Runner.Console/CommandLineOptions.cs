@@ -8,6 +8,6 @@
 
         internal bool Help { get; set; }
 
-        internal List<string> AssemblyFiles { get; } = new List<string>();
+        internal List<string> AssemblyFilePaths { get; } = new List<string>();
     }
 }

@@ -40,7 +40,7 @@
                 {
                     throw new ArgumentException($"File not found: {assemblyFile}");
                 }
-                CommandLineOptions.AssemblyFiles.Add(assemblyFile);
+                CommandLineOptions.AssemblyFilePaths.Add(assemblyFile);
             }
         }
 
@@ -51,7 +51,7 @@
                 return;
             }
 
-            if (CommandLineOptions.AssemblyFiles.Count == 0)
+            if (CommandLineOptions.AssemblyFilePaths.Count == 0)
             {
                 throw new ArgumentException("You must specify at least one assembly.\nType --help for more information.");
             }
