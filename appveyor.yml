@@ -24,7 +24,7 @@ test_script:
 
     & $VsTestExecutable /inIsolation /Enablecodecoverage /TestAdapterPath:"$xUnitAdapterPath" $testFiles /Settings:src\CodeCoverage.runsettings
 
-    $coverageFilePath = Resolve-Path -path "src\TestResults\*\*.coverage"
+    $coverageFilePath = Resolve-Path -path "TestResults\*\*.coverage"
 
     Remove-Item .\src\MoyaCoverage.coveragexml -ErrorAction SilentlyContinue
 
