@@ -57,7 +57,7 @@
             DetectUsersAndTimesFromMethod(methodInfo);
             var countdownEvent = new CountdownEvent(Users);
 
-            Exception latestException = null;
+            ICollection<Exception> exceptions = new List<Exception>();
             for (var i = 0; i < Users; i++)
             {
                 var thread = new Thread(delegate()
@@ -66,7 +66,7 @@
                     var instance = Activator.CreateInstance(type);
                     for (var j = 0; j < Times; j++)
                     {
-                        SafeExecute(() => methodInfo.Invoke(instance, null), out latestException);
+                        SafeExecute(() => methodInfo.Invoke(instance, null), exceptions);
                     }
                     countdownEvent.Signal();
                 });
@@ -79,9 +79,9 @@
 
             return new TestResult
             {
-                TestOutcome = (latestException == null) ? TestOutcome.Success : TestOutcome.Failure,
+                TestOutcome = (exceptions.Count == 0) ? TestOutcome.Success : TestOutcome.Failure,
                 TestType = TestType.Test, 
-                Exception = latestException
+                Exception = (exceptions.Count == 0) ? null : exceptions.First()
             };
         }
 
@@ -129,12 +129,10 @@
         /// <summary>
         /// Ensures that exceptions thrown by an action is caught and passed out.
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="exception"></param>
-        private void SafeExecute(Action action, out Exception exception)
+        /// <param name="action">The action to be executed.</param>
+        /// <param name="exceptions">Collection which potential exceptions are added to.</param>
+        private void SafeExecute(Action action, ICollection<Exception> exceptions)
         {
-            exception = null;
-
             try
             {
                 action.Invoke();
@@ -143,7 +141,7 @@
             {
                 lock (_lock)
                 {
-                    exception = ex;
+                    exceptions.Add(ex);
                 }
             }
         }

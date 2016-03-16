@@ -16,9 +16,10 @@
         /// Represents the outcome of a Moya test, e.g. <see cref="F:TestOutcome.Success"/>.
         /// </summary>
         public TestOutcome TestOutcome { get; set; }
-        
+
         /// <summary>
         /// Contains an <see cref="Exception"/> if the test execution failed.
+        /// The first <see cref="Exception"/> which occured is recorded.
         /// </summary>
         public Exception Exception { get; set; }
 

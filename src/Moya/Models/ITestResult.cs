@@ -19,6 +19,7 @@
 
         /// <summary>
         /// Contains an <see cref="Exception"/> if the test execution failed.
+        /// The first <see cref="Exception"/> which occured is recorded.
         /// </summary>
         Exception Exception { get; set; }
 
