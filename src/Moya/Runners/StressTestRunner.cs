@@ -16,6 +16,11 @@
     internal class StressTestRunner : IStressTestRunner
     {
         /// <summary>
+        /// Lock used when setting exception from potentially many threads.
+        /// </summary>
+        private readonly object _lock = new object();
+
+        /// <summary>
         /// A list of threads, each running the same method, potentially multiple times. 
         /// The amount of threads will equal the value of the <see cref="Users"/> property.
         /// </summary>
@@ -126,7 +131,7 @@
         /// </summary>
         /// <param name="action"></param>
         /// <param name="exception"></param>
-        private static void SafeExecute(Action action, out Exception exception)
+        private void SafeExecute(Action action, out Exception exception)
         {
             exception = null;
 
@@ -136,7 +141,10 @@
             }
             catch (Exception ex)
             {
-                exception = ex;
+                lock (_lock)
+                {
+                    exception = ex;
+                }
             }
         }
     }
