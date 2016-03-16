@@ -1,4 +1,4 @@
-﻿namespace Moya.Runners
+﻿namespace Moya.Runners.Decorators
 {
     using System.Diagnostics;
     using System.Reflection;
@@ -9,7 +9,7 @@
     /// A test runner used to wrap other test runners in order to time
     /// their duration.
     /// </summary>
-    public class TimerDecorator : ITimerDecorator
+    internal class TimerDecorator : ITimerDecorator
     {
         /// <summary>
         /// Another <see cref="IMoyaTestRunner"/> which will be measured by 
@@ -41,7 +41,7 @@
             var result = DecoratedTestRunner.Execute(methodInfo);
             stopwatch.Stop();
 
-            result.Duration = stopwatch.ElapsedMilliseconds;
+            ((TestResult)result).Duration = stopwatch.ElapsedMilliseconds;
             return result;
         }
     }

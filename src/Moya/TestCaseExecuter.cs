@@ -16,6 +16,7 @@
     public class TestCaseExecuter : ITestCaseExecuter
     {
         private readonly IMoyaTestRunnerFactory _testRunnerFactory = MoyaTestRunnerFactory.DefaultInstance;
+        private readonly IMoyaTestRunnerDecorator _testRunnerDecorator = new MoyaTestRunnerDecorator();
         private ICollection<ITestResult> _testResults;
 
         /// <summary>
@@ -63,11 +64,14 @@
         /// <param name="attributeType">A </param>
         private void RunTest(MethodInfo methodInfo, Type attributeType)
         {
-            IMoyaTestRunner testRunner = _testRunnerFactory.GetTestRunnerForAttribute(attributeType);
-            if (MethodHasAttribute(methodInfo, attributeType))
+            if (!MethodHasAttribute(methodInfo, attributeType))
             {
-                _testResults.Add(testRunner.Execute(methodInfo));
+                return;
             }
+
+            IMoyaTestRunner testRunner = _testRunnerFactory.GetTestRunnerForAttribute(attributeType);
+            IMoyaTestRunner decoratedTestRunner = _testRunnerDecorator.DecorateTestRunner(testRunner);
+            _testResults.Add(decoratedTestRunner.Execute(methodInfo));
         }
 
         /// <summary>
@@ -137,7 +141,8 @@
                 var attributeType = _testRunnerFactory.GetAttributeForTestRunner(testRunner.GetType());
                 if (MethodHasAttribute(methodInfo, attributeType.GetType()))
                 {
-                    _testResults.Add(testRunner.Execute(methodInfo));
+                    IMoyaTestRunner decoratedTestRunner = _testRunnerDecorator.DecorateTestRunner(testRunner);
+                    _testResults.Add(decoratedTestRunner.Execute(methodInfo));
                 }
             }
         }

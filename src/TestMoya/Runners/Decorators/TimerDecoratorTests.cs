@@ -1,4 +1,4 @@
-﻿namespace TestMoya.Runners
+﻿namespace TestMoya.Runners.Decorators
 {
     using System;
     using System.Reflection;
@@ -7,6 +7,7 @@
     using Moya.Attributes;
     using Moya.Models;
     using Moya.Runners;
+    using Moya.Runners.Decorators;
     using Xunit;
 
     public class TimerDecoratorTests

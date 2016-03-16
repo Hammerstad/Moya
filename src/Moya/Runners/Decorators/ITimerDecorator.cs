@@ -1,4 +1,4 @@
-﻿namespace Moya.Runners
+﻿namespace Moya.Runners.Decorators
 {
     /// <summary>
     /// A test runner used to wrap other test runners in order to time

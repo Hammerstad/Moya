@@ -5,6 +5,7 @@
     using Moya.Attributes;
     using Moya.Models;
     using Moya.Runners;
+    using Moya.Runners.Decorators;
     using Shouldly;
     using Xunit;
 

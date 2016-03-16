@@ -56,8 +56,7 @@
 
             Type typeOfTestRunner = _attributeTestRunnerMapping[attribute];
             IMoyaTestRunner instance = (IMoyaTestRunner)Activator.CreateInstance(typeOfTestRunner);
-            IMoyaTestRunner timerDecoratedInstance = new TimerDecorator(instance);
-            return timerDecoratedInstance;
+            return instance;
         }
 
         /// <summary>

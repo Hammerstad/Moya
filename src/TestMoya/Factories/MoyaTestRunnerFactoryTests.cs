@@ -16,23 +16,7 @@
         public class GetTestRunnerForAttribute
         {
             private readonly IMoyaTestRunnerFactory testRunnerFactory = new MoyaTestRunnerFactory();
-
-            [Fact]
-            public void ForStressAttributeReturnsTimerDecorator()
-            {
-                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
-
-                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-            }
-
-            [Fact]
-            public void ReturnedTimerDecoratorContainsExpectedTestRunner()
-            {
-                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(StressAttribute));
-
-                Assert.Equal(typeof(StressTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
-            }
-
+            
             [Fact]
             public void InvalidAttributeThrowsMoyaException()
             {
@@ -40,33 +24,6 @@
 
                 Assert.Equal(typeof(MoyaException), exception.GetType());
                 Assert.Equal("Unable to provide moya test runner for type Moya.Attributes.MoyaAttribute", exception.Message);
-            }
-
-            [Fact]
-            public void WarmupAttributeReturnsTimerDecoratedWarmupTestRunner()
-            {
-                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(WarmupAttribute));
-
-                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-                Assert.Equal(typeof(WarmupTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
-            }
-
-            [Fact]
-            public void LongerThanAttributeReturnsTimerDecoratedLongerThanTestRunner()
-            {
-                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LongerThanAttribute));
-
-                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-                Assert.Equal(typeof(LongerThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
-            }
-
-            [Fact]
-            public void LessThanAttributeReturnsTimerDecoratedLessThanTestRunner()
-            {
-                IMoyaTestRunner testRunner = testRunnerFactory.GetTestRunnerForAttribute(typeof(LessThanAttribute));
-
-                Assert.Equal(typeof(TimerDecorator), testRunner.GetType());
-                Assert.Equal(typeof(LessThanTestRunner), ((TimerDecorator)testRunner).DecoratedTestRunner.GetType());
             }
         }
 
@@ -88,18 +45,6 @@
             }
 
             [Fact]
-            public void NewTestRunnerShouldAddTimerDecoratedTestRunner()
-            {
-                Type attributeType = typeof(DummyAttribute);
-                Type testRunnerType = typeof(DummyTestRunner);
-
-                testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
-                var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
-
-                Assert.Equal(typeof(TimerDecorator), actualTestRunner.GetType());
-            }
-
-            [Fact]
             public void NewTestRunnerShouldAddMapping()
             {
                 Type attributeType = typeof(DummyAttribute);
@@ -108,7 +53,7 @@
                 testRunnerFactory.AddTestRunnerForAttribute(testRunnerType, attributeType);
                 var actualTestRunner = testRunnerFactory.GetTestRunnerForAttribute(attributeType);
 
-                Assert.Equal(testRunnerType, ((ITimerDecorator)actualTestRunner).DecoratedTestRunner.GetType());
+                Assert.Equal(testRunnerType, actualTestRunner.GetType());
             }
 
             [Fact]

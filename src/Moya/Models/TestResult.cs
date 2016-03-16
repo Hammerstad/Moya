@@ -23,6 +23,16 @@
         /// <summary>
         /// Represents the duration a Moya test took. Measured in milliseconds.
         /// </summary>
-        public long Duration { get; set; }
+        public long Duration { get; internal set; }
+
+        /// <summary>
+        /// Represents the name of the method called.
+        /// </summary>
+        public string MethodName { get; internal set; }
+
+        /// <summary>
+        /// Represents the full namespace of the method run.
+        /// </summary>
+        public string Namespace { get; internal set; }
     }
 }
